@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component } from 'react';
-import find from '../find.png';
+import find from '../assets/find.png';
 
 class SearchBar extends Component<object, { search: string | null }> {
   constructor(props: object) {
@@ -23,7 +23,7 @@ class SearchBar extends Component<object, { search: string | null }> {
             onChange={(e) => this.setState({ search: e.target.value })}
           />
         </div>
-        <button className="search-btn">Search</button>
+        <button className="btn">Search</button>
       </div>
     );
   }

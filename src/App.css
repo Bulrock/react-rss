@@ -55,7 +55,7 @@ a:hover,
   height: 20px;
 }
 
-.search-btn {
+.btn {
   font-size: 18px;
   color:rgb(255, 255, 255);
   border: 1px solid gray;
@@ -64,14 +64,94 @@ a:hover,
   transition: all .3s ease-in-out;
 }
 
-.search-btn:hover {
+.btn:hover,
+.card .btn:hover {
   color:rgb(56, 72, 252);
   cursor: pointer;
   border: 1px solid rgb(56, 72, 252);
+}
+
+.card .btn {
+  color:black;
 }
 
 .not-found-link {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
   color:rgb(173, 82, 243);
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 288px;
+  min-height: 566px;
+  height: min-content;
+  border: 1px solid gray;
+  border-radius: 10px;
+}
+
+.book-img {
+  width: 288px;
+}
+
+.book-title {
+  font-weight: 700;
+  color: rgb(56, 72, 252)
+}
+
+.book-subtitle {
+  color: rgb(60, 60, 60);
+}
+
+.book-price,
+.book-title,
+.book-subtitle,
+.book-details {
+  margin: 0 20px 10px 20px;
+}
+
+.hr {
+  margin: 0;
+  height:1px;
+  width:100%;
+  border-width:0;
+  color:rgb(145, 145, 145);
+  background-color:rgb(145, 145, 145)
+}
+
+.card-header-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-footer-wrapper {
+  display: flex;
+  justify-content: space-around;
+  margin: 5px 0;
+}
+
+.likes-block,
+.views-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.like-img {
+  transition: all .3s ease-in-out;
+}
+
+.like-img:hover {
+  transform:scale(0.8);
+  color:rgb(56, 72, 252);
+  cursor: pointer;
 }

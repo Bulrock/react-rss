@@ -1,13 +1,17 @@
 import * as React from 'react';
 import { Component } from 'react';
+import Header from 'components/Header';
 
 class AboutPage extends Component {
   render() {
     return (
-      <div>
-        <h1>About us</h1>
-        <p>This is a RSS website</p>
-      </div>
+      <>
+        <Header hideSearch={true} />
+        <div>
+          <h1>About us</h1>
+          <p>This is a RSS website</p>
+        </div>
+      </>
     );
   }
 }

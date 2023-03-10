@@ -1,6 +1,7 @@
-export type HeaderProps = {
+export interface IProps {
+  onBooksFetched?: (books: IBook[]) => void;
   hideSearch?: boolean;
-};
+}
 
 export interface IBook {
   title: string;
@@ -10,3 +11,5 @@ export interface IBook {
   image: string;
   url: string;
 }
+
+export type SearchBarProps = IProps;

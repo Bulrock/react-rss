@@ -9,7 +9,7 @@ class AboutPage extends Component {
         <Header hideSearch={true} />
         <div>
           <h1>About us</h1>
-          <p>This is a RSS website</p>
+          <p>This is a RSS React task website</p>
         </div>
       </>
     );

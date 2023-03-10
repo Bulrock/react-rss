@@ -2,9 +2,12 @@ import React from 'react';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import SearchBar from './SearchBar';
-import { HeaderProps } from 'models/types';
+import { IBook } from 'models/types';
 
-class Header extends Component<HeaderProps, object> {
+class Header extends Component<
+  { onBooksFetched?: (books: IBook[]) => void; hideSearch: boolean },
+  object
+> {
   render() {
     return (
       <>
@@ -13,7 +16,7 @@ class Header extends Component<HeaderProps, object> {
             <Link to="/">Home</Link>
             <Link to="/about">About</Link>
           </div>
-          {!this.props.hideSearch && <SearchBar />}
+          {!this.props.hideSearch && <SearchBar onBooksFetched={this.props.onBooksFetched} />}
         </header>
       </>
     );

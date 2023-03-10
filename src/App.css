@@ -6,6 +6,7 @@
 
 .header-main {
   display: flex;
+  flex-wrap: wrap;
   height: 60px;
   background-color: rgba(130, 128, 128, 0.597);
   align-items: center;
@@ -84,7 +85,9 @@ a:hover,
 .cards {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 10px;
+  margin-bottom: 30px;
 }
 
 .card {

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import Header from 'components/Header';
+import Header from '../components/Header';
 
 class AboutPage extends Component {
   render() {
@@ -8,8 +8,8 @@ class AboutPage extends Component {
       <>
         <Header hideSearch={true} />
         <div>
-          <h1>About us</h1>
-          <p>This is a RSS React task website</p>
+          <h1 data-testid="about-h1">About us</h1>
+          <p data-testid="about-p">This is a RSS React task website</p>
         </div>
       </>
     );

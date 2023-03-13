@@ -1,7 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
 import find from '../assets/find.png';
-import BooksService from 'components/BooksService';
+import BooksService from './BooksService';
 import { IBook, SearchBarProps } from 'models/types';
 
 class SearchBar extends Component<SearchBarProps, { search: string | null }> {
@@ -33,7 +33,7 @@ class SearchBar extends Component<SearchBarProps, { search: string | null }> {
 
   render() {
     return (
-      <div className="wrapper-search">
+      <div className="wrapper-search" data-testid="search-test">
         <div className="search-bar">
           <img className="search-img" src={find} alt="find" />
           <input

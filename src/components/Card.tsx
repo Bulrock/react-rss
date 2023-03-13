@@ -62,7 +62,9 @@ class Card extends Component<
               <strong>{book.price}</strong>
             </p>
             <p className="book-title">{book.title}</p>
-            <p className="book-subtitle">{this.state.show && book.subtitle}</p>
+            <p className="book-subtitle" data-testid="book-subt">
+              {this.state.show && book.subtitle}
+            </p>
           </div>
           <div className="buttons-wrapper">
             <button className="btn book-details" onClick={this.handleDetailsClick}>

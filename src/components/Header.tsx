@@ -11,10 +11,14 @@ class Header extends Component<
   render() {
     return (
       <>
-        <header className="header-main">
-          <div className="header-links">
-            <Link to="/">Home</Link>
-            <Link to="/about">About</Link>
+        <header className="header-main" data-testid="header-test">
+          <div className="header-links" data-testid="header-links-test">
+            <Link to="/" data-testid="home-link">
+              Home
+            </Link>
+            <Link to="/about" data-testid="about-link">
+              About
+            </Link>
           </div>
           {!this.props.hideSearch && <SearchBar onBooksFetched={this.props.onBooksFetched} />}
         </header>

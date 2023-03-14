@@ -54,7 +54,7 @@ class Card extends Component<
   render() {
     const book = this.props.book;
     return (
-      <div className="card">
+      <div className="card" data-testid="card">
         <div className="card-header-wrapper">
           <div>
             <img className="book-img" src={book.image} alt="book image" />

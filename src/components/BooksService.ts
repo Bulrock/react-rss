@@ -1,3 +1,5 @@
+import fetch from 'node-fetch';
+
 export default class BooksService {
   apiUrl = 'https://api.itbook.store/1.0/';
 
@@ -12,6 +14,6 @@ export default class BooksService {
     const searchIsbn13Book = this.apiUrl + 'books/' + query;
     const response = await fetch(searchIsbn13Book);
     const data = await response.json();
-    return data.book;
+    return data;
   }
 }

@@ -27,7 +27,6 @@ class SearchBar extends Component<SearchBarProps, { search: string | null }> {
   };
 
   handleBooksFetched(books: IBook[]) {
-    console.log(books);
     if (this.props.onBooksFetched) this.props.onBooksFetched(books);
   }
 
@@ -39,10 +38,11 @@ class SearchBar extends Component<SearchBarProps, { search: string | null }> {
           <input
             type="search"
             value={this.state.search || ''}
+            data-testid="search-input"
             onChange={(e) => this.setState({ search: e.target.value })}
           />
         </div>
-        <button className="btn" onClick={this.handleSearchClick}>
+        <button className="btn" data-testid="search-btn" onClick={this.handleSearchClick}>
           Search
         </button>
       </div>

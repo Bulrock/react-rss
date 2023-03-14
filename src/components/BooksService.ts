@@ -7,6 +7,7 @@ export default class BooksService {
     const searchBooksRequest = this.apiUrl + 'search/' + query;
     const response = await fetch(searchBooksRequest);
     const data = await response.json();
+    console.log(data.books);
     return data.books;
   }
 

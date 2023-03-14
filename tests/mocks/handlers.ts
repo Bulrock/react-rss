@@ -4,22 +4,59 @@ export const handlers = [
     return res(
       ctx.status(200),
       ctx.json({
-        authors: 'Penaz',
-        desc: 'This is a small project that aims to gather some knowledge about game development and make it available to everyone.As well as being a source of knowledge this project aims to be a learning experience for everyone involved too, by gathering contributions from the community, teaching others how to ma...',
         error: '0',
-        image: 'https://itbook.store/img/books/1001591780142.png',
-        isbn10: '1591780144',
-        isbn13: '1001591780142',
+        title: 'Snowflake: The Definitive Guide',
+        subtitle: 'Architecting, Designing, and Deploying on the Snowflake Data Cloud',
+        authors: 'Joyce Kay Avila',
+        publisher: "O'Reilly Media",
         language: 'English',
-        pages: '260',
-        pdf: { 'Free eBook': 'https://www.dbooks.org/d/5591524177-1591780138-d3bc2cc71fbbd84f/' },
-        price: '$0.00',
-        publisher: 'Self-publishing',
-        rating: '0',
-        subtitle: 'A compendium of the community knowledge on game design and development',
-        title: '2D Game Development: From Zero to Hero',
-        url: 'https://itbook.store/books/1001591780142',
-        year: '2020',
+        isbn10: '1098103823',
+        isbn13: '9781098103828',
+        pages: '465',
+        year: '2022',
+        rating: '4',
+        desc: 'Snowflake&#039;s ability to eliminate data silos and run workloads from a single platform creates opportunities to democratize data analytics, allowing users at all levels within an organization to make data-driven decisions. Whether you&#039;re an IT professional working in data warehousing or data...',
+        price: '$58.90',
+        image: 'https://itbook.store/img/books/9781098103828.png',
+        url: 'https://itbook.store/books/9781098103828',
+      })
+    );
+  }),
+
+  rest.get('https://api.itbook.store/1.0/search/qwert', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        error: '0',
+        total: '0',
+        page: '1',
+        books: [],
+      })
+    );
+  }),
+
+  rest.get('https://api.itbook.store/1.0/search/DOME', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        books: [
+          {
+            image: 'https://itbook.store/img/books/9780735660120.png',
+            isbn13: '9780735660120',
+            price: '$19.95',
+            subtitle: 'Add Interactivity and Motion to Your Web Applications',
+            title: 'Building Web Applications with SVG',
+            url: 'https://itbook.store/books/9780735660120',
+          },
+          {
+            image: 'https://itbook.store/img/books/9781937785574.png',
+            isbn13: '9781937785574',
+            price: '$45.11',
+            subtitle: 'Build with Lua on iOS and Android',
+            title: 'Create Mobile Games with Corona',
+            url: 'https://itbook.store/books/9781937785574',
+          },
+        ],
       })
     );
   }),

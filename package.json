@@ -21,7 +21,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest --detectOpenHandles --forceExit",
-    "coverage": "npm test -- --coverage --collectCoverageFrom='src/components**/*.{ts,tsx}' --collectCoverageFrom='src/pages/**/*.{ts,tsx}'",
+    "coverage": "npm test -- --coverage --collectCoverageFrom='src/components**/*.{ts,tsx}' --collectCoverageFrom='src/pages/**/*.{ts,tsx} --collectCoverageFrom='src/**/*.tsx'",
     "eject": "react-scripts eject"
   },
   "browserslist": {

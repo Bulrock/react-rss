@@ -1,11 +1,11 @@
 import React from 'react';
 import { Component } from 'react';
 import find from '../assets/find.png';
-import BooksService from './BooksService';
-import { IBook, SearchBarProps } from 'models/types';
+import BooksService from './RickAndMortyService';
+import { IPerson, SearchBarProps } from 'models/types';
 
 class SearchBar extends Component<SearchBarProps, { search: string | null }> {
-  booksService = new BooksService();
+  rickAndMortyService = new BooksService();
 
   constructor(props: SearchBarProps) {
     super(props);
@@ -19,15 +19,15 @@ class SearchBar extends Component<SearchBarProps, { search: string | null }> {
   handleSearchClick = () => {
     if (!this.state.search) return;
 
-    if (typeof Number(this.state.search) === 'number' && this.state.search.length === 13) {
-      this.booksService.getBook(this.state.search).then((book) => this.handleBooksFetched([book]));
-    } else {
-      this.booksService.getBooks(this.state.search).then((books) => this.handleBooksFetched(books));
+    if (this.state.search) {
+      this.rickAndMortyService
+        .getPersons(this.state.search)
+        .then((persons: IPerson[]) => this.handlePersonsFetched(persons));
     }
   };
 
-  handleBooksFetched(books: IBook[]) {
-    if (this.props.onBooksFetched) this.props.onBooksFetched(books);
+  handlePersonsFetched(persons: IPerson[]) {
+    if (this.props.onPersonsFetched) this.props.onPersonsFetched(persons);
   }
 
   render() {

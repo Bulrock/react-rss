@@ -4,7 +4,7 @@ import { server } from '../mocks/server';
 import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
 import 'jest';
-import BooksService from '../../src/components/BooksService';
+import RickAndMortyService from '../../src/components/RickAndMortyService';
 // import { IBook } from '../../src/models/types';
 
 let container: HTMLDivElement | null = null;
@@ -27,14 +27,14 @@ afterEach(() => {
 
 describe('Books Service', () => {
   it('handleBooksFetched with provided wrong search value return empty value', async () => {
-    const booksService = new BooksService();
-    const books = await booksService.getBooks('qwert');
+    const booksService = new RickAndMortyService();
+    const books = await booksService.getPersons('qwert');
     expect(books).toHaveLength(0);
   });
 
   it('handleBooksFetched with provided valid search value return not empty value', async () => {
-    const booksService = new BooksService();
-    const books = await booksService.getBooks('DOME');
+    const booksService = new RickAndMortyService();
+    const books = await booksService.getPersons('DOME');
     expect(books).toHaveLength(2);
   });
 });

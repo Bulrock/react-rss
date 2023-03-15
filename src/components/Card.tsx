@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { IBook } from 'models/types';
+import { IPerson } from 'models/types';
 import views from '../assets/eye.png';
 import like from '../assets/like.png';
 
 class Card extends Component<
-  { book: IBook; key: string },
+  { person: IPerson; key: string },
   {
     likes: number;
     views: number;
@@ -15,7 +15,7 @@ class Card extends Component<
     isViewed: boolean;
   }
 > {
-  constructor(props: { book: IBook; key: string }) {
+  constructor(props: { person: IPerson; key: string }) {
     super(props);
     this.state = {
       likes: 0,
@@ -52,25 +52,40 @@ class Card extends Component<
   };
 
   render() {
-    const book = this.props.book;
+    const person = this.props.person;
     return (
       <div className="card" data-testid="card">
         <div className="card-header-wrapper">
           <div>
-            <img className="book-img" src={book.image} alt="book image" />
-            <p className="book-price">
-              <strong>{book.price}</strong>
-            </p>
-            <p className="book-title">{book.title}</p>
-            <p className="book-subtitle" data-testid="book-subt">
-              {this.state.show && book.subtitle}
+            <img className="person-img" src={person.image} alt="person image" />
+            <h2 className="person-name">{person.name}</h2>
+            <span className="person-status">
+              <span
+                className={person.status === 'Alive' ? 'status-icon-green' : 'status-icon-red'}
+              ></span>
+              <strong>
+                {person.status} - {person.species}
+              </strong>
+            </span>
+            <p className="person-loc" data-testid="person-loc">
+              {this.state.show && (
+                <span className="person-location-title">Last known location:</span>
+              )}
+              <br></br>
+              {this.state.show && (
+                <strong className="person-location-name">{person.location.name}</strong>
+              )}
+              <br></br>
+              {this.state.show && <span className="person-gender-title">Gender:</span>}
+              <br></br>
+              {this.state.show && <strong className="person-gender">{person.gender}</strong>}
             </p>
           </div>
           <div className="buttons-wrapper">
-            <button className="btn book-details" onClick={this.handleDetailsClick}>
+            <button className="btn person-details" onClick={this.handleDetailsClick}>
               {this.state.show ? 'Hide details' : 'Show details'}
             </button>
-            <button className="btn book-info" onClick={this.handleInfoClick}>
+            <button className="btn person-info" onClick={this.handleInfoClick}>
               {this.state.info ? 'Hide info' : 'Show info'}
             </button>
           </div>
@@ -89,7 +104,9 @@ class Card extends Component<
             </div>
             <div className="views-block">
               <img className="views-img" src={views} alt="views image" />
-              <strong className="card-footer-text">{this.state.views}</strong>
+              <strong className="card-footer-text" data-testid="views">
+                {this.state.views}
+              </strong>
             </div>
           </div>
         </div>

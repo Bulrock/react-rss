@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import Card from './Card';
-import { IBook } from 'models/types';
+import { IPerson } from 'models/types';
 
-class Cards extends Component<{ books: IBook[] }> {
+class Cards extends Component<{ persons: IPerson[] }> {
   render() {
     return (
       <div className="cards">
-        {this.props.books.map((book) => {
-          return <Card book={book} key={book.isbn13} />;
+        {this.props.persons.map((person) => {
+          return <Card person={person} key={String(person.id)} />;
         })}
       </div>
     );

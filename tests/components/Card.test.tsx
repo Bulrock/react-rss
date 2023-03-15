@@ -21,31 +21,45 @@ afterEach(() => {
   }
 });
 
-const mockBook = {
-  id: 1,
-  title: 'Test Book',
-  subtitle: 'Test Subtitle',
-  price: '$10.00',
-  image: 'test-image.jpg',
-  isbn13: '9781098103828',
-  url: 'https://itbook.store/books/9781098103828',
+const mockPerson = {
+  id: 283,
+  name: 'Rick D. Sanchez III',
+  status: 'Dead',
+  species: 'Human',
+  type: '',
+  gender: 'Male',
+  origin: {
+    name: 'unknown',
+    url: '',
+  },
+  location: {
+    name: 'Citadel of Ricks',
+    url: 'https://rickandmortyapi.com/api/location/3',
+  },
+  image: 'https://rickandmortyapi.com/api/character/avatar/283.jpeg',
+  episode: ['https://rickandmortyapi.com/api/episode/28'],
+  url: 'https://rickandmortyapi.com/api/character/283',
+  created: '2017-12-31T19:23:53.188Z',
 };
 
 describe('Card component', () => {
-  it('renders book information and buttons', () => {
-    const { getByText, getByAltText } = render(<Card book={mockBook} key="1" />);
-    const bookSubtitle = screen.getByTestId('book-subt');
+  it('renders person information and buttons', () => {
+    const { getByText, getByAltText } = render(
+      <Card person={mockPerson} key={String(mockPerson.id)} />
+    );
+    const personLocation = screen.getByTestId('person-loc');
 
-    expect(getByText(mockBook.title)).toBeInTheDocument();
-    expect(bookSubtitle).toBeEmpty;
-    expect(getByText(mockBook.price)).toBeInTheDocument();
-    expect(getByAltText('book image')).toHaveAttribute('src', mockBook.image);
+    expect(getByText(mockPerson.name)).toBeInTheDocument();
+    expect(getByText(mockPerson.status)).toBeInTheDocument();
+    expect(getByText(mockPerson.species)).toBeInTheDocument();
+    expect(personLocation).toBeEmpty;
+    expect(getByAltText('person image')).toHaveAttribute('src', mockPerson.image);
     expect(getByText('Show details')).toBeInTheDocument();
     expect(getByText('Show info')).toBeInTheDocument();
   });
 
-  it('toggles book subtitle on details button click', () => {
-    const { getByText } = render(<Card book={mockBook} key="1" />);
+  it('toggles person subtitle on details button click', () => {
+    const { getByText } = render(<Card person={mockPerson} key="1" />);
     const detailsButton = getByText('Show details');
     const bookSubtitle = screen.getByTestId('book-subt');
 
@@ -58,25 +72,21 @@ describe('Card component', () => {
     expect(bookSubtitle).toBeEmpty;
   });
 
-  // it('toggles book information on info button click', () => {
-  //   const { queryByText } = render(<Card book={mockBook} key="1" />);
-  //   const infoButton = queryByText('Show info');
+  it('increase number of views on person info button click', () => {
+    const { queryByText } = render(<Card person={mockPerson} key="1" />);
+    const infoButton = queryByText('Show info');
+    const views = screen.getByTestId('views');
 
-  //   if (infoButton) {
-  //     fireEvent.click(infoButton);
-  //     expect(queryByText(/Views: \d+/)).toBeInTheDocument();
-  //   } else {
-  //     console.warn('Info button not found');
-  //   }
-
-  //   if (infoButton) {
-  //     fireEvent.click(infoButton);
-  //     expect(queryByText(`Views: 0`)).toBeVisible();
-  //   }
-  // });
+    if (infoButton) {
+      const prevValue = views.textContent;
+      fireEvent.click(infoButton);
+      const currValue = views.textContent;
+      expect(Number(currValue) - Number(prevValue)).toBe(1);
+    }
+  });
 
   it('increases likes on like button click', () => {
-    const { getByAltText, getByText } = render(<Card book={mockBook} key="1" />);
+    const { getByAltText, getByText } = render(<Card person={mockPerson} key="1" />);
     const likeButton = getByAltText('like image');
 
     fireEvent.click(likeButton);

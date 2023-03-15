@@ -47,29 +47,28 @@ describe('Card component', () => {
     const { getByText, getByAltText } = render(
       <Card person={mockPerson} key={String(mockPerson.id)} />
     );
-    const personLocation = screen.getByTestId('person-loc');
+    const personDetails = screen.getByTestId('person-loc');
 
     expect(getByText(mockPerson.name)).toBeInTheDocument();
-    expect(getByText(mockPerson.status)).toBeInTheDocument();
-    expect(getByText(mockPerson.species)).toBeInTheDocument();
-    expect(personLocation).toBeEmpty;
+    expect(getByText(`${mockPerson.status} - ${mockPerson.species}`)).toBeInTheDocument();
+    expect(personDetails).toBeEmpty;
     expect(getByAltText('person image')).toHaveAttribute('src', mockPerson.image);
     expect(getByText('Show details')).toBeInTheDocument();
     expect(getByText('Show info')).toBeInTheDocument();
   });
 
-  it('toggles person subtitle on details button click', () => {
+  it('toggles person details on details button click', () => {
     const { getByText } = render(<Card person={mockPerson} key="1" />);
     const detailsButton = getByText('Show details');
-    const bookSubtitle = screen.getByTestId('book-subt');
+    const personDetails = screen.getByTestId('person-loc');
 
     fireEvent.click(detailsButton);
 
-    expect(bookSubtitle).not.toBeEmpty;
+    expect(personDetails).not.toBeEmpty;
 
     fireEvent.click(detailsButton);
 
-    expect(bookSubtitle).toBeEmpty;
+    expect(personDetails).toBeEmpty;
   });
 
   it('increase number of views on person info button click', () => {

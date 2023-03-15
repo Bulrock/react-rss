@@ -28,7 +28,7 @@ afterEach(() => {
 });
 
 describe('Home Page', () => {
-  it('renders home page with navigation and Search Bar in header and default 100 cards', () => {
+  it('renders home page with navigation and Search Bar in header and default 4 cards', () => {
     act(() => {
       render(
         <BrowserRouter>
@@ -46,7 +46,7 @@ describe('Home Page', () => {
     expect(searchBar).not.toBe(null);
   });
 
-  it('handleBooksFetched with provided search value on search button click', async () => {
+  it('handlePersonsFetched with provided search value on search button click', async () => {
     render(
       <BrowserRouter>
         <HomePage data-testid="home-page" />
@@ -56,9 +56,9 @@ describe('Home Page', () => {
     const searchInput = screen.getByTestId('search-input') as HTMLInputElement;
     const searchButton = screen.getByTestId('search-btn') as HTMLButtonElement;
 
-    fireEvent.change(searchInput, { target: { value: '9781098103828' } });
+    fireEvent.change(searchInput, { target: { value: 'kyle' } });
     fireEvent.click(searchButton);
 
-    await waitFor(() => screen.getByText('Snowflake: The Definitive Guide'));
+    await waitFor(() => screen.getByText('Kyle'));
   });
 });

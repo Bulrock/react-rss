@@ -1,11 +1,10 @@
 import { unmountComponentAtNode } from 'react-dom';
-// import { waitFor } from '@testing-library/react';
 import { server } from '../mocks/server';
 import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
 import 'jest';
 import RickAndMortyService from '../../src/components/RickAndMortyService';
-// import { IBook } from '../../src/models/types';
+import { persons as personData } from '../../src/data/data';
 
 let container: HTMLDivElement | null = null;
 beforeEach(() => {
@@ -25,16 +24,16 @@ afterEach(() => {
   server.close();
 });
 
-describe('Books Service', () => {
-  it('handleBooksFetched with provided wrong search value return empty value', async () => {
-    const booksService = new RickAndMortyService();
-    const books = await booksService.getPersons('qwert');
-    expect(books).toHaveLength(0);
+describe('RickAndMortyService Service', () => {
+  it('handlePersonsFetched with provided wrong search value return default 4 data cards', async () => {
+    const rickAndMortyService = new RickAndMortyService();
+    const persons = await rickAndMortyService.getPersons('qwert');
+    expect(persons).toEqual(personData);
   });
 
-  it('handleBooksFetched with provided valid search value return not empty value', async () => {
-    const booksService = new RickAndMortyService();
-    const books = await booksService.getPersons('DOME');
-    expect(books).toHaveLength(2);
+  it('handlePersonsFetched with provided valid search value return not empty value', async () => {
+    const rickAndMortyService = new RickAndMortyService();
+    const persons = await rickAndMortyService.getPersons('kyle');
+    expect(persons).toHaveLength(1);
   });
 });

@@ -1,10 +1,10 @@
 import { rest } from 'msw';
-import { persons } from '../../src/data/data';
+
 export const handlers = [
-  rest.get('https://rickandmortyapi.com/api/character/:name', (req, res, ctx) => {
-    const { name } = req.params;
+  rest.get('https://rickandmortyapi.com/api/character', (req, res, ctx) => {
+    const name = req.url.searchParams.get('name');
     if (name === 'qwert') {
-      return res(ctx.status(404), ctx.json({ persons }));
+      return res(ctx.status(404));
     }
     return res(
       ctx.status(200),

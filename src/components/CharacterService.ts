@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
-import { persons } from '../../src/data/data';
+import { persons } from '../data/data';
 
-export default class RickAndMortyService {
+export default class CharacterService {
   apiUrl = 'https://rickandmortyapi.com/api';
 
   async getPersons(query: string) {

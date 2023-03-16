@@ -1,7 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
 import find from '../assets/find.png';
-import BooksService from './RickAndMortyService';
+import BooksService from './CharacterService';
 import { IPerson, SearchBarProps } from 'models/types';
 
 class SearchBar extends Component<SearchBarProps, { search: string | null }> {

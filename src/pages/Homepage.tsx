@@ -11,14 +11,10 @@ class HomePage extends Component<object, { persons: IPerson[] }> {
     this.state = { persons: persons };
   }
 
-  handlePersonsFetched = (persons: IPerson[]) => {
-    this.setState({ persons: persons });
-  };
-
   render() {
     return (
       <div data-testid="home-page-component">
-        <Header onPersonsFetched={this.handlePersonsFetched} hideSearch={false} />
+        <Header hideSearch={false} />
         <div>
           <h1 data-testid="home-h1">The Rick and Morty Universe</h1>
         </div>

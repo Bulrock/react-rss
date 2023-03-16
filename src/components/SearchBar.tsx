@@ -1,12 +1,9 @@
 import React from 'react';
 import { Component } from 'react';
 import find from '../assets/find.png';
-import BooksService from './CharacterService';
-import { IPerson, SearchBarProps } from 'models/types';
+import { SearchBarProps } from 'models/types';
 
 class SearchBar extends Component<SearchBarProps, { search: string | null }> {
-  rickAndMortyService = new BooksService();
-
   constructor(props: SearchBarProps) {
     super(props);
     this.state = { search: localStorage.getItem('search') };
@@ -15,16 +12,8 @@ class SearchBar extends Component<SearchBarProps, { search: string | null }> {
   handleSearchClick = () => {
     if (!this.state.search) return;
 
-    if (this.state.search) {
-      this.rickAndMortyService
-        .getPersons(this.state.search)
-        .then((persons: IPerson[]) => this.handlePersonsFetched(persons));
-    }
+    localStorage.setItem('search', this.state.search);
   };
-
-  handlePersonsFetched(persons: IPerson[]) {
-    if (this.props.onPersonsFetched) this.props.onPersonsFetched(persons);
-  }
 
   onInputValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e) {

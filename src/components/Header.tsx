@@ -2,12 +2,8 @@ import React from 'react';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import SearchBar from './SearchBar';
-import { IPerson } from 'models/types';
 
-class Header extends Component<
-  { onPersonsFetched?: (persons: IPerson[]) => void; hideSearch: boolean },
-  object
-> {
+class Header extends Component<{ hideSearch: boolean }, object> {
   render() {
     return (
       <>
@@ -20,7 +16,7 @@ class Header extends Component<
               About
             </Link>
           </div>
-          {!this.props.hideSearch && <SearchBar onPersonsFetched={this.props.onPersonsFetched} />}
+          {!this.props.hideSearch && <SearchBar />}
         </header>
       </>
     );

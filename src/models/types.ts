@@ -1,6 +1,10 @@
-export interface IProps {
-  onPersonsFetched?: (persons: IPerson[]) => void;
-  hideSearch?: boolean;
+// export interface IProps {
+//   onPersonsFetched?: (persons: IPerson[]) => void;
+//   hideSearch?: boolean;
+// }
+
+export interface SearchBarProps {
+  handleSearchClick?: () => void;
 }
 
 export interface IPerson {
@@ -24,4 +28,4 @@ export interface IPerson {
   created: string;
 }
 
-export type SearchBarProps = IProps;
+// export type SearchBarProps = IProps;

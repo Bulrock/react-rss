@@ -72,8 +72,8 @@ describe('Card component', () => {
   });
 
   it('increase number of views on person info button click', () => {
-    const { queryByText } = render(<Card person={mockPerson} key="1" />);
-    const infoButton = queryByText('Show info');
+    render(<Card person={mockPerson} key="1" />);
+    const infoButton = screen.getByTestId('info-button');
     const views = screen.getByTestId('views');
 
     if (infoButton) {
@@ -85,12 +85,12 @@ describe('Card component', () => {
   });
 
   it('increases likes on like button click', () => {
-    const { getByAltText, getByText } = render(<Card person={mockPerson} key="1" />);
+    const { getByAltText } = render(<Card person={mockPerson} key="1" />);
     const likeButton = getByAltText('like image');
 
     fireEvent.click(likeButton);
 
-    expect(getByText('1')).toBeInTheDocument();
+    expect(screen.getByTestId('likes').textContent).toBe('1');
   });
 
   it('changes button text on info button click', () => {

@@ -5,7 +5,7 @@ import views from '../assets/eye.png';
 import like from '../assets/like.png';
 
 class Card extends Component<
-  { person: IPerson; key: string },
+  { person: IPerson },
   {
     likes: number;
     views: number;
@@ -15,7 +15,7 @@ class Card extends Component<
     isViewed: boolean;
   }
 > {
-  constructor(props: { person: IPerson; key: string }) {
+  constructor(props: { person: IPerson }) {
     super(props);
     this.state = {
       likes: 0,
@@ -27,9 +27,31 @@ class Card extends Component<
     };
   }
 
+  isLocalStorageHasValue = (value: string, key: number) => {
+    const keys = localStorage.getItem(value);
+    const keysArr: number[] = keys ? JSON.parse(keys) : [];
+    return keysArr.some((keyId) => keyId === key) ? true : false;
+  };
+
+  changeValueInLoclaStorage = (value: string, key: number, action: string) => {
+    const keys = localStorage.getItem(value);
+    const keysArr: number[] = keys ? JSON.parse(keys) : [];
+    if (action === 'add') {
+      keysArr.push(key);
+      localStorage.setItem(value, JSON.stringify(keysArr));
+    } else if (action === 'remove') {
+      const arr = keysArr.filter((element) => element !== key);
+      localStorage.setItem(value, JSON.stringify(arr));
+    }
+  };
+
   handleLikesClick = () => {
     if (!this.state.isLiked) {
       this.setState({ likes: this.state.likes + 1, isLiked: !this.state.isLiked });
+      this.changeValueInLoclaStorage('likesArr', this.props.person.id, 'add');
+    } else {
+      this.setState({ likes: this.state.likes - 1, isLiked: !this.state.isLiked });
+      this.changeValueInLoclaStorage('likesArr', this.props.person.id, 'remove');
     }
   };
 
@@ -44,6 +66,7 @@ class Card extends Component<
         info: !this.state.info,
         isViewed: !this.state.isViewed,
       });
+      this.changeValueInLoclaStorage('viewsArr', this.props.person.id, 'add');
     } else {
       this.setState({
         info: !this.state.info,
@@ -104,7 +127,9 @@ class Card extends Component<
                 alt="like image"
                 onClick={this.handleLikesClick}
               />
-              <strong className="card-footer-text">{this.state.likes}</strong>
+              <strong className="card-footer-text" data-testid="likes">
+                {this.state.likes}
+              </strong>
             </div>
             <div className="views-block">
               <img className="views-img" src={views} alt="views image" />
@@ -116,6 +141,15 @@ class Card extends Component<
         </div>
       </div>
     );
+  }
+
+  componentDidMount() {
+    const isLiked = this.isLocalStorageHasValue('likesArr', this.props.person.id);
+    this.setState({ isLiked });
+    this.setState({ likes: isLiked ? 1 : 0 });
+    const isViewed = this.isLocalStorageHasValue('viewsArr', this.props.person.id);
+    this.setState({ isViewed });
+    this.setState({ views: isViewed ? 1 : 0 });
   }
 }
 

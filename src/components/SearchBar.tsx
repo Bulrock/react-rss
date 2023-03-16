@@ -12,10 +12,6 @@ class SearchBar extends Component<SearchBarProps, { search: string | null }> {
     this.state = { search: localStorage.getItem('search') };
   }
 
-  componentWillUnmount(): void {
-    localStorage.setItem('search', String(this.state.search));
-  }
-
   handleSearchClick = () => {
     if (!this.state.search) return;
 
@@ -30,6 +26,14 @@ class SearchBar extends Component<SearchBarProps, { search: string | null }> {
     if (this.props.onPersonsFetched) this.props.onPersonsFetched(persons);
   }
 
+  onInputValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e) {
+      const newSearch = e.target.value;
+      this.setState({ search: newSearch });
+      localStorage.setItem('search', newSearch);
+    }
+  };
+
   render() {
     return (
       <div className="wrapper-search" data-testid="search-test">
@@ -39,7 +43,7 @@ class SearchBar extends Component<SearchBarProps, { search: string | null }> {
             type="search"
             value={this.state.search || ''}
             data-testid="search-input"
-            onChange={(e) => this.setState({ search: e.target.value })}
+            onChange={this.onInputValueChange}
           />
         </div>
         <button className="btn" data-testid="search-btn" onClick={this.handleSearchClick}>

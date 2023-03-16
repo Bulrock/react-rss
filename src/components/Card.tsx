@@ -85,7 +85,11 @@ class Card extends Component<
             <button className="btn person-details" onClick={this.handleDetailsClick}>
               {this.state.show ? 'Hide details' : 'Show details'}
             </button>
-            <button className="btn person-info" onClick={this.handleInfoClick}>
+            <button
+              className="btn person-info"
+              data-testid="info-button"
+              onClick={this.handleInfoClick}
+            >
               {this.state.info ? 'Hide info' : 'Show info'}
             </button>
           </div>

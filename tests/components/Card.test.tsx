@@ -92,4 +92,15 @@ describe('Card component', () => {
 
     expect(getByText('1')).toBeInTheDocument();
   });
+
+  it('changes button text on info button click', () => {
+    const { getByText } = render(<Card person={mockPerson} key="1" />);
+    const infoButton = screen.getByTestId('info-button') as HTMLButtonElement;
+    expect(getByText('Show info')).toBeInTheDocument();
+
+    fireEvent.click(infoButton);
+    expect(getByText('Hide info')).toBeInTheDocument();
+    fireEvent.click(infoButton);
+    expect(getByText('Show info')).toBeInTheDocument();
+  });
 });

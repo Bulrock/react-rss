@@ -20,7 +20,7 @@ describe('App', () => {
         <App />
       </MemoryRouter>
     );
-    expect(screen.getByText('About us')).toBeInTheDocument();
+    expect(screen.getByText('What is this?')).toBeInTheDocument();
   });
 
   test('renders not found page', () => {

@@ -1,0 +1,277 @@
+#root {
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.main {
+  min-height: calc(100vh - 120px);
+}
+
+h1 {
+  margin-top: 0;
+  padding-top: 20px;
+}
+
+.header-main,
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  height: 60px;
+  background-color: rgba(130, 128, 128, 0.597);
+  align-items: center;
+  justify-content: space-around;
+}
+
+.header-links {
+  display: flex;
+  gap: 50px;
+}
+
+a {
+  text-decoration: none;
+  color:aliceblue;
+  font-size: 20px;
+  transition: all .3s ease-in-out;
+}
+
+a:hover,
+.not-found-link:hover {
+  color:rgb(56, 72, 252);
+}
+
+.wrapper-search {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+}
+
+.search-bar input {
+  position: relative;
+  padding-left: 30px;
+  height: 27px;
+  border: 1px solid gray;
+  border-radius: 4px;
+}
+
+.search-bar input:hover {
+  border: 1px solid rgb(56, 72, 252);;
+}
+
+.search-img {
+  position: relative;
+  z-index: 1;
+  left: 25px;
+  height: 20px;
+}
+
+.btn {
+  font-size: 18px;
+  color:rgb(255, 255, 255);
+  border: 1px solid rgb(255, 152, 0);
+  border-radius: 4px;
+  background-color: transparent;
+  transition: all .3s ease-in-out;
+}
+
+.btn:hover,
+.card .btn:hover {
+  color:rgb(56, 72, 252);
+  cursor: pointer;
+  border: 1px solid rgb(56, 72, 252);
+}
+
+.card .btn {
+  color:rgb(0, 0, 0);
+}
+
+.person-info {
+  margin-left: 20px;
+}
+
+.not-found-title {
+  font-size: 50px;
+}
+
+.not-found-p {
+  font-size: 20px;
+}
+
+.not-found-link {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  color:rgb(173, 82, 243);
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 288px;
+  min-height: 550px;
+  height: min-content;
+  border: 1px solid gray;
+  border-radius: 10px;
+}
+
+.person-img {
+  width: 288px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.person-name {
+  font-weight: 800;
+  color: #000000;
+}
+
+.person-status {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.status-icon-red {
+  height: 0.5rem;
+  width: 0.5rem;
+  margin-right: 0.375rem;
+  background: rgb(214, 61, 46);
+  border-radius: 50%;
+}
+
+.status-icon-green {
+  height: 0.5rem;
+  width: 0.5rem;
+  margin-right: 0.375rem;
+  background: rgb(85, 204, 68);
+  border-radius: 50%;
+}
+
+.person-subtitle {
+  color: rgb(60, 60, 60);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.person-location-title,
+.person-gender-title {
+  color: rgb(108, 108, 108);
+}
+
+.person-status,
+.person-name,
+.person-loc,
+.person-details {
+  margin: 0 20px 10px 20px;
+}
+
+.person-location-name,
+.person-location-gender {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.hr {
+  margin: 0;
+  height:1px;
+  width:100%;
+  border-width:0;
+  color:rgb(145, 145, 145);
+  background-color:rgb(145, 145, 145)
+}
+
+.card-header-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-footer-wrapper {
+  display: flex;
+  justify-content: space-around;
+  margin: 5px 0;
+}
+
+.likes-block,
+.views-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.like-img {
+  transition: all .3s ease-in-out;
+}
+
+.like-img:hover {
+  transform:scale(0.8);
+  color:rgb(56, 72, 252);
+  cursor: pointer;
+}
+
+.not-found-img {
+  display: flex;
+  width: 50%;
+  margin: 0 auto;
+}
+
+.container.bottom {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 0 0;
+}
+
+.copyrights {
+  margin: 0;
+  padding: 0;
+  color: aliceblue;
+  font-size: 18px;
+  align-self: center;
+}
+
+.social-link img {
+  max-height: 35px;
+}
+
+.github-icon {
+  height: 35px;
+}
+
+.social-link {
+  opacity: .8;
+  cursor: pointer;
+  transition: all .5s ease-in-out;
+  background-color: unset;
+}
+
+.social-link:hover {
+  transform: scale(1.1);
+  opacity: 1;
+}
+
+
+@media screen and (max-width: 400px){
+  .wrapper-search {
+    gap: 2px;
+  }
+}

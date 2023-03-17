@@ -5,6 +5,7 @@ import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
 import 'jest';
 import Card from '../../src/components/Card';
+import LocalStorageLikeRepository from '../../src/models/LocalStorageLikeRepository';
 
 let container: HTMLDivElement | null = null;
 beforeEach(() => {
@@ -103,5 +104,23 @@ describe('Card component', () => {
     expect(getByText('Hide info')).toBeInTheDocument();
     fireEvent.click(infoButton);
     expect(getByText('Show info')).toBeInTheDocument();
+  });
+
+  it('should render likes count as 1 when person is already liked', () => {
+    const likeRepository = new LocalStorageLikeRepository();
+    likeRepository.add(mockPerson.id);
+    render(<Card person={mockPerson} />);
+
+    const likes = screen.getByTestId('likes');
+    expect(likes.textContent).toBe('1');
+  });
+
+  it('should render likes count as 0 when person is not liked', () => {
+    const likeRepository = new LocalStorageLikeRepository();
+    likeRepository.remove(mockPerson.id);
+    render(<Card person={mockPerson} />);
+
+    const likes = screen.getByTestId('likes');
+    expect(likes.textContent).toBe('0');
   });
 });

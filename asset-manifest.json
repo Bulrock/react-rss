@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/react-rss/static/css/main.d237c76f.css",
+    "main.js": "/react-rss/static/js/main.a1645ad4.js",
+    "static/media/notFound.png": "/react-rss/static/media/notFound.a67886071a86217cd040.png",
+    "static/media/school_logo.svg": "/react-rss/static/media/school_logo.b0bf6ac385986ba7d5bca77941250a46.svg",
+    "static/media/github.svg": "/react-rss/static/media/github.7c2b277031fc9aeb24c033ff9332c319.svg",
+    "index.html": "/react-rss/index.html",
+    "main.d237c76f.css.map": "/react-rss/static/css/main.d237c76f.css.map",
+    "main.a1645ad4.js.map": "/react-rss/static/js/main.a1645ad4.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d237c76f.css",
+    "static/js/main.a1645ad4.js"
+  ]
+}

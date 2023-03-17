@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/react-rss/static/css/main.42ecd88d.css",
-    "main.js": "/react-rss/static/js/main.23691fe2.js",
+    "main.js": "/react-rss/static/js/main.1803ab03.js",
     "static/media/notFound.png": "/react-rss/static/media/notFound.a67886071a86217cd040.png",
     "static/media/school_logo.svg": "/react-rss/static/media/school_logo.b0bf6ac385986ba7d5bca77941250a46.svg",
     "static/media/github.svg": "/react-rss/static/media/github.7c2b277031fc9aeb24c033ff9332c319.svg",
     "index.html": "/react-rss/index.html",
     "main.42ecd88d.css.map": "/react-rss/static/css/main.42ecd88d.css.map",
-    "main.23691fe2.js.map": "/react-rss/static/js/main.23691fe2.js.map"
+    "main.1803ab03.js.map": "/react-rss/static/js/main.1803ab03.js.map"
   },
   "entrypoints": [
     "static/css/main.42ecd88d.css",
-    "static/js/main.23691fe2.js"
+    "static/js/main.1803ab03.js"
   ]
 }

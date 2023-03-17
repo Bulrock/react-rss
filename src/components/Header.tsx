@@ -17,6 +17,13 @@ class Header extends Component<{ hideSearch: boolean }, object> {
               Home
             </NavLink>
             <NavLink
+              to="/form"
+              style={({ isActive }) => (isActive ? { textDecoration: 'none', color: 'blue' } : {})}
+              data-testid="form-link"
+            >
+              Form
+            </NavLink>
+            <NavLink
               to="/about"
               style={({ isActive }) => (isActive ? { textDecoration: 'none', color: 'blue' } : {})}
               data-testid="about-link"

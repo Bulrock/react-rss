@@ -84,13 +84,14 @@ describe('Card component', () => {
     }
   });
 
-  it('increases likes on like button click', () => {
+  it('increases and decrease likes on like button click', () => {
     const { getByAltText } = render(<Card person={mockPerson} key="1" />);
     const likeButton = getByAltText('like image');
 
     fireEvent.click(likeButton);
-
     expect(screen.getByTestId('likes').textContent).toBe('1');
+    fireEvent.click(likeButton);
+    expect(screen.getByTestId('likes').textContent).toBe('0');
   });
 
   it('changes button text on info button click', () => {

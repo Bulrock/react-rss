@@ -1,20 +1,13 @@
-import * as React from 'react';
-import { Component } from 'react';
-import { IPerson } from 'models/types';
+import React, { Component } from 'react';
+import { IPerson, ICardProps, ICardState } from 'models/types';
 import views from '../assets/eye.png';
 import like from '../assets/like.png';
+import LocalStorageLikeRepository from '../models/LocalStorageLikeRepository';
+import LocalStorageViewRepository from '../models/LocalStorageViewRepository';
 
-class Card extends Component<
-  { person: IPerson },
-  {
-    likes: number;
-    views: number;
-    show: boolean;
-    info: boolean;
-    isLiked: boolean;
-    isViewed: boolean;
-  }
-> {
+class Card extends Component<ICardProps, ICardState> {
+  private likeRepository = new LocalStorageLikeRepository();
+  private viewRepository = new LocalStorageViewRepository();
   constructor(props: { person: IPerson }) {
     super(props);
     this.state = {
@@ -27,31 +20,13 @@ class Card extends Component<
     };
   }
 
-  isLocalStorageHasValue = (value: string, key: number) => {
-    const keys = localStorage.getItem(value);
-    const keysArr: number[] = keys ? JSON.parse(keys) : [];
-    return keysArr.some((keyId) => keyId === key) ? true : false;
-  };
-
-  changeValueInLoclaStorage = (value: string, key: number, action: string) => {
-    const keys = localStorage.getItem(value);
-    const keysArr: number[] = keys ? JSON.parse(keys) : [];
-    if (action === 'add') {
-      keysArr.push(key);
-      localStorage.setItem(value, JSON.stringify(keysArr));
-    } else if (action === 'remove') {
-      const arr = keysArr.filter((element) => element !== key);
-      localStorage.setItem(value, JSON.stringify(arr));
-    }
-  };
-
   handleLikesClick = () => {
     if (!this.state.isLiked) {
       this.setState({ likes: this.state.likes + 1, isLiked: !this.state.isLiked });
-      this.changeValueInLoclaStorage('likesArr', this.props.person.id, 'add');
+      this.likeRepository.add(this.props.person.id);
     } else {
       this.setState({ likes: this.state.likes - 1, isLiked: !this.state.isLiked });
-      this.changeValueInLoclaStorage('likesArr', this.props.person.id, 'remove');
+      this.likeRepository.remove(this.props.person.id);
     }
   };
 
@@ -66,7 +41,7 @@ class Card extends Component<
         info: !this.state.info,
         isViewed: !this.state.isViewed,
       });
-      this.changeValueInLoclaStorage('viewsArr', this.props.person.id, 'add');
+      this.viewRepository.add(this.props.person.id);
     } else {
       this.setState({
         info: !this.state.info,
@@ -75,7 +50,7 @@ class Card extends Component<
   };
 
   render() {
-    const person = this.props.person;
+    const { person } = this.props;
     return (
       <div className="card" data-testid="card">
         <div className="card-header-wrapper">
@@ -144,12 +119,11 @@ class Card extends Component<
   }
 
   componentDidMount() {
-    const isLiked = this.isLocalStorageHasValue('likesArr', this.props.person.id);
-    this.setState({ isLiked });
-    this.setState({ likes: isLiked ? 1 : 0 });
-    const isViewed = this.isLocalStorageHasValue('viewsArr', this.props.person.id);
-    this.setState({ isViewed });
-    this.setState({ views: isViewed ? 1 : 0 });
+    const isLiked = this.likeRepository.findLike(this.props.person.id);
+    const likes = isLiked ? 1 : 0;
+    const isViewed = this.viewRepository.findView(this.props.person.id);
+    const views = isViewed ? 1 : 0;
+    this.setState({ isLiked, likes, isViewed, views });
   }
 }
 

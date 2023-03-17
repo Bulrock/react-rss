@@ -22,3 +22,28 @@ export interface IPerson {
   url: string;
   created: string;
 }
+
+export interface ILikeRepository {
+  add: (key: number) => void;
+  remove: (key: number) => void;
+  findLike: (key: number) => boolean;
+}
+
+export interface IViewRepository {
+  add: (key: number) => void;
+  remove: (key: number) => void;
+  findView: (key: number) => boolean;
+}
+
+export interface ICardState {
+  likes: number;
+  views: number;
+  show: boolean;
+  info: boolean;
+  isLiked: boolean;
+  isViewed: boolean;
+}
+
+export interface ICardProps {
+  person: IPerson;
+}

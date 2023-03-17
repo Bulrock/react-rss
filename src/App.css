@@ -8,7 +8,12 @@ body {
   margin: 0;
 }
 
-.header-main {
+.main {
+  min-height: calc(100vh - 141px);
+}
+
+.header-main,
+.footer {
   display: flex;
   flex-wrap: wrap;
   height: 60px;
@@ -222,6 +227,43 @@ a:hover,
   width: 53%;
   margin: 0 auto;
 }
+
+.container.bottom {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 0 0;
+}
+
+.copyrights {
+  margin: 0;
+  padding: 0;
+  color: aliceblue;
+  font-size: 18px;
+  align-self: center;
+}
+
+.social-link img {
+  max-height: 35px;
+}
+
+.github-icon {
+  height: 35px;
+}
+
+.social-link {
+  opacity: .8;
+  cursor: pointer;
+  transition: all .5s ease-in-out;
+  background-color: unset;
+}
+
+.social-link:hover {
+  transform: scale(1.1);
+  opacity: 1;
+}
+
 
 @media screen and (max-width: 400px){
   .wrapper-search {

@@ -20,7 +20,7 @@
     "fix": "eslint --ext .tsx,.ts src/ --fix",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest --detectOpenHandles --forceExit --coverage --collectCoverageFrom='src/components**/*.{ts,tsx}' --collectCoverageFrom='src/pages/**/*.{ts,tsx} --collectCoverageFrom='src/**/*.tsx'",
+    "test": "jest --detectOpenHandles --forceExit --coverage --collectCoverageFrom='src/components**/*.{ts,tsx}' --collectCoverageFrom='src/pages/**/*.{ts,tsx}' --collectCoverageFrom='src/models/**/*.ts' --collectCoverageFrom='src/**/*.tsx'",
     "eject": "react-scripts eject"
   },
   "browserslist": {

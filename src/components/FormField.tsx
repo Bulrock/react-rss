@@ -29,6 +29,23 @@ class FormField extends Component<IFormProps, IFormState> {
     );
   }
 
+  reset(): void {
+    if (this.inputRef.current) {
+      this.inputRef.current.value = '';
+      this.inputRef.current.checked = false;
+    }
+    if (this.selectRef.current) {
+      this.selectRef.current.value = '';
+    }
+    if (this.radioRefs) {
+      this.radioRefs.forEach((radioRef) => {
+        if (radioRef.current) {
+          radioRef.current.checked = false;
+        }
+      });
+    }
+  }
+
   validate(): string {
     const error = this.props.validator.validate(this.fieldValue);
     this.setState({ error: error });

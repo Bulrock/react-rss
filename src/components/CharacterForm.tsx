@@ -3,9 +3,8 @@ import FormFieldValueValidator from '../models/FormFieldValueValidator';
 import FormField from './FormField';
 import { ICharacterFormProps } from '../models/types';
 
-class CharacterForm extends Component<ICharacterFormProps> {
+class CharacterForm extends Component<ICharacterFormProps, { showSubmitMessage: boolean }> {
   private formFieldRefs = new Array<RefObject<FormField>>();
-  // private hasErrorArr = [true];
 
   constructor(props: ICharacterFormProps) {
     super(props);
@@ -14,6 +13,25 @@ class CharacterForm extends Component<ICharacterFormProps> {
       this.props.formFields?.map(() => {
         return createRef<FormField>();
       }) || [];
+    this.state = {
+      showSubmitMessage: false,
+    };
+  }
+
+  private onSubmit(success: boolean) {
+    if (success) {
+      this.setState({ showSubmitMessage: false });
+    } else {
+      this.setState({ showSubmitMessage: true });
+      setTimeout(() => {
+        this.resetFormFieldRefs();
+        this.setState({ showSubmitMessage: false });
+      }, 3000);
+    }
+  }
+
+  private resetFormFieldRefs() {
+    this.formFieldRefs.forEach((ref) => ref.current?.reset());
   }
 
   private handleSubmit(event: React.SyntheticEvent) {
@@ -25,9 +43,7 @@ class CharacterForm extends Component<ICharacterFormProps> {
         hasErrorArr.push(true);
       }
     });
-    hasErrorArr.some((elem) => elem !== false)
-      ? console.log('Incorrect data')
-      : console.log('Submited!');
+    hasErrorArr.some((elem) => elem !== false) ? this.onSubmit(true) : this.onSubmit(false);
     event.preventDefault();
   }
 
@@ -52,6 +68,9 @@ class CharacterForm extends Component<ICharacterFormProps> {
           <button type="reset">Reset form</button>
           <button type="submit">Submit form</button>
         </div>
+        <span className={this.state.showSubmitMessage ? 'submit-message' : 'notsubmit-message'}>
+          Data has been saved
+        </span>
       </form>
     );
   }

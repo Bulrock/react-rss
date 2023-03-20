@@ -48,7 +48,7 @@ export const FormFields = [
     element: 'select',
     label: 'Gender: ',
     type: 'select',
-    options: ['Male', 'Female', 'Unknown'],
+    options: ['', 'Male', 'Female', 'Unknown'],
     validationRules: [
       {
         rule: 'required',
@@ -61,6 +61,7 @@ export const FormFields = [
     label: 'Species: ',
     type: 'select',
     options: [
+      '',
       'Alien',
       'Animal',
       'Disease',

@@ -1,6 +1,6 @@
-import { IPerson } from 'models/types';
+import { ICharacter } from '../models/types';
 
-export const persons: IPerson[] = [
+export const characters: ICharacter[] = [
   {
     id: 1,
     name: 'Rick Sanchez',

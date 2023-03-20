@@ -1,8 +1,10 @@
+import FormFieldValueValidator from './FormFieldValueValidator';
+
 export interface SearchBarProps {
   handleSearchClick?: () => void;
 }
 
-export interface IPerson {
+export interface ICharacter {
   id: number;
   name: string;
   status: string;
@@ -45,5 +47,39 @@ export interface ICardState {
 }
 
 export interface ICardProps {
-  person: IPerson;
+  character: ICharacter;
+}
+
+export interface IFormProps {
+  element: string;
+  label?: string;
+  type: string;
+  name?: string;
+  value?: string;
+  validator: FormFieldValueValidator;
+  options?: string[];
+}
+
+export interface IFormState {
+  error: string;
+}
+
+export interface IValidationRule {
+  rule: string;
+  errorMessage: string;
+}
+
+export interface IFormField {
+  element: string;
+  label?: string;
+  type: string;
+  name?: string;
+  validationRules: IValidationRule[];
+}
+
+export interface ICharacterFormProps {
+  species: string[];
+  genders: string[];
+  statuses: string[];
+  formFields: IFormField[];
 }

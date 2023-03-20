@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { IPerson, ICardProps, ICardState } from 'models/types';
+import { ICharacter, ICardProps, ICardState } from '../models/types';
 import views from '../assets/eye.png';
 import like from '../assets/like.png';
 import LocalStorageLikeRepository from '../models/LocalStorageLikeRepository';
@@ -8,7 +8,7 @@ import LocalStorageViewRepository from '../models/LocalStorageViewRepository';
 class Card extends Component<ICardProps, ICardState> {
   private likeRepository = new LocalStorageLikeRepository();
   private viewRepository = new LocalStorageViewRepository();
-  constructor(props: { person: IPerson }) {
+  constructor(props: { character: ICharacter }) {
     super(props);
     this.state = {
       likes: 0,
@@ -23,10 +23,10 @@ class Card extends Component<ICardProps, ICardState> {
   handleLikesClick = () => {
     if (!this.state.isLiked) {
       this.setState({ likes: this.state.likes + 1, isLiked: !this.state.isLiked });
-      this.likeRepository.add(this.props.person.id);
+      this.likeRepository.add(this.props.character.id);
     } else {
       this.setState({ likes: this.state.likes - 1, isLiked: !this.state.isLiked });
-      this.likeRepository.remove(this.props.person.id);
+      this.likeRepository.remove(this.props.character.id);
     }
   };
 
@@ -41,7 +41,7 @@ class Card extends Component<ICardProps, ICardState> {
         info: !this.state.info,
         isViewed: !this.state.isViewed,
       });
-      this.viewRepository.add(this.props.person.id);
+      this.viewRepository.add(this.props.character.id);
     } else {
       this.setState({
         info: !this.state.info,
@@ -50,19 +50,19 @@ class Card extends Component<ICardProps, ICardState> {
   };
 
   render() {
-    const { person } = this.props;
+    const { character } = this.props;
     return (
       <div className="card" data-testid="card">
         <div className="card-header-wrapper">
           <div>
-            <img className="person-img" src={person.image} alt="person image" />
-            <h2 className="person-name">{person.name}</h2>
+            <img className="person-img" src={character.image} alt="person image" />
+            <h2 className="person-name">{character.name}</h2>
             <span className="person-status">
               <span
-                className={person.status === 'Alive' ? 'status-icon-green' : 'status-icon-red'}
+                className={character.status === 'Alive' ? 'status-icon-green' : 'status-icon-red'}
               ></span>
               <strong>
-                {person.status} - {person.species}
+                {character.status} - {character.species}
               </strong>
             </span>
             <p className="person-loc" data-testid="person-loc">
@@ -71,12 +71,12 @@ class Card extends Component<ICardProps, ICardState> {
               )}
               <br></br>
               {this.state.show && (
-                <strong className="person-location-name">{person.location.name}</strong>
+                <strong className="person-location-name">{character.location.name}</strong>
               )}
               <br></br>
               {this.state.show && <span className="person-gender-title">Gender:</span>}
               <br></br>
-              {this.state.show && <strong className="person-gender">{person.gender}</strong>}
+              {this.state.show && <strong className="person-gender">{character.gender}</strong>}
             </p>
           </div>
           <div className="buttons-wrapper">
@@ -119,9 +119,9 @@ class Card extends Component<ICardProps, ICardState> {
   }
 
   componentDidMount() {
-    const isLiked = this.likeRepository.findLike(this.props.person.id);
+    const isLiked = this.likeRepository.findLike(this.props.character.id);
     const likes = isLiked ? 1 : 0;
-    const isViewed = this.viewRepository.findView(this.props.person.id);
+    const isViewed = this.viewRepository.findView(this.props.character.id);
     const views = isViewed ? 1 : 0;
     this.setState({ isLiked, likes, isViewed, views });
   }

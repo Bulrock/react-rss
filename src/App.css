@@ -269,6 +269,39 @@ a:hover,
   opacity: 1;
 }
 
+.character-form {
+  margin: 0 auto;
+  padding: 10px;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  border: 1px solid gray;
+  border-radius: 10px;
+}
+
+.form-label{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  font-weight: 600;
+}
+
+.underline {
+  border-bottom: 1px solid gray;
+}
+
+.input-error {
+  color: crimson;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+}
 
 @media screen and (max-width: 400px){
   .wrapper-search {

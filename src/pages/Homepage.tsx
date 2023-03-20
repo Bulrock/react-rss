@@ -3,13 +3,13 @@ import { Component } from 'react';
 import Header from '../../src/components/Header';
 import Footer from '../components/Footer';
 import Cards from '../../src/components/Cards';
-import { IPerson } from '../../src/models/types';
-import { persons } from '../../src/data/data';
+import { ICharacter } from '../../src/models/types';
+import { characters } from '../data/Characters';
 
-class HomePage extends Component<object, { persons: IPerson[] }> {
+class HomePage extends Component<object, { characters: ICharacter[] }> {
   constructor(props: object) {
     super(props);
-    this.state = { persons: persons };
+    this.state = { characters: characters };
   }
 
   render() {
@@ -18,7 +18,7 @@ class HomePage extends Component<object, { persons: IPerson[] }> {
         <Header hideSearch={false} />
         <div className="main">
           <h1 data-testid="home-h1">The Rick and Morty Universe</h1>
-          <Cards persons={this.state.persons} />
+          <Cards characters={this.state.characters} />
         </div>
         <Footer />
       </div>

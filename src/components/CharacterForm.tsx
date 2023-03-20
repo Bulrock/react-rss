@@ -26,7 +26,7 @@ class CharacterForm extends Component<ICharacterFormProps, { showSubmitMessage: 
       setTimeout(() => {
         this.resetFormFieldRefs();
         this.setState({ showSubmitMessage: false });
-      }, 3000);
+      }, 2000);
     }
   }
 

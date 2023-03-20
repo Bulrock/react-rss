@@ -104,4 +104,15 @@ export const FormFields = [
       },
     ],
   },
+  {
+    element: 'input',
+    label: 'I consent to this data',
+    type: 'checkbox',
+    validationRules: [
+      {
+        rule: 'required',
+        errorMessage: 'Confirm information publishing before submitting',
+      },
+    ],
+  },
 ];

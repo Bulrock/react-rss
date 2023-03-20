@@ -5,6 +5,7 @@ import { ICharacterFormProps } from '../models/types';
 
 class CharacterForm extends Component<ICharacterFormProps> {
   private formFieldRefs = new Array<RefObject<FormField>>();
+  // private hasErrorArr = [true];
 
   constructor(props: ICharacterFormProps) {
     super(props);
@@ -16,11 +17,17 @@ class CharacterForm extends Component<ICharacterFormProps> {
   }
 
   private handleSubmit(event: React.SyntheticEvent) {
+    const hasErrorArr = [false];
     this.formFieldRefs.forEach((formField) => {
-      if (formField.current?.validate()) {
-        console.log(formField.current?.validate());
+      if (formField.current?.validate() === '') {
+        hasErrorArr.push(false);
+      } else {
+        hasErrorArr.push(true);
       }
     });
+    hasErrorArr.some((elem) => elem !== false)
+      ? console.log('Incorrect data')
+      : console.log('Submited!');
     event.preventDefault();
   }
 

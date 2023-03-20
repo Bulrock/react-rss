@@ -8,11 +8,16 @@ export default class FormFieldValueValidator {
 
   validate(value: string | undefined): string {
     this.validationRules.forEach((rul) => {
-      if (typeof rul.rule === 'number') {
-        if (!value || value.length < rul.rule) {
+      if (rul.rule === 'required') {
+        if (!value) {
           return rul.errorMessage;
         }
       }
+      // if (rul.rule === 'date') {
+      //   if (value > new Date(Date.now()).getDate()) {
+      //     return rul.errorMessage;
+      //   }
+      // }
     });
     return '';
   }

@@ -74,12 +74,10 @@ export interface IFormField {
   label?: string;
   type: string;
   name?: string;
+  options?: string[];
   validationRules: IValidationRule[];
 }
 
 export interface ICharacterFormProps {
-  species: string[];
-  genders: string[];
-  statuses: string[];
   formFields: IFormField[];
 }

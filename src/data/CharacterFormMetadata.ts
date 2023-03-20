@@ -1,21 +1,3 @@
-export const Species = [
-  'Alien',
-  'Animal',
-  'Disease',
-  'Fish',
-  'Human',
-  'Humanoid',
-  'Human with giant head',
-  'Mythological Creature',
-  'Poopybutthole',
-  'Robot',
-  'unknown',
-];
-
-export const Genders = ['Male', 'Female', 'Unknown'];
-
-export const Statuses = ['Alive', 'Dead', 'Unknown'];
-
 export const FormFields = [
   {
     element: 'input',
@@ -66,6 +48,7 @@ export const FormFields = [
     element: 'select',
     label: 'Gender: ',
     type: 'select',
+    options: ['Male', 'Female', 'Unknown'],
     validationRules: [
       {
         rule: 'required',
@@ -77,6 +60,19 @@ export const FormFields = [
     element: 'select',
     label: 'Species: ',
     type: 'select',
+    options: [
+      'Alien',
+      'Animal',
+      'Disease',
+      'Fish',
+      'Human',
+      'Humanoid',
+      'Human with giant head',
+      'Mythological Creature',
+      'Poopybutthole',
+      'Robot',
+      'unknown',
+    ],
     validationRules: [
       {
         rule: 'required',
@@ -88,6 +84,7 @@ export const FormFields = [
     element: 'radio',
     type: 'radio',
     name: 'status',
+    options: ['Alive', 'Dead', 'Unknown'],
     validationRules: [
       {
         rule: 'required',

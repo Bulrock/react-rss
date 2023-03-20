@@ -7,18 +7,26 @@ export default class FormFieldValueValidator {
   }
 
   validate(value: string | undefined): string {
-    this.validationRules.forEach((rul) => {
-      if (rul.rule === 'required') {
+    for (let i = 0; i < this.validationRules.length; i++) {
+      if (this.validationRules[i].rule === 'required') {
         if (!value) {
-          return rul.errorMessage;
+          return this.validationRules[i].errorMessage;
         }
       }
-      // if (rul.rule === 'date') {
-      //   if (value > new Date(Date.now()).getDate()) {
-      //     return rul.errorMessage;
-      //   }
-      // }
-    });
+      if (this.validationRules[i].rule === 'date') {
+        if (!value) return this.validationRules[1].errorMessage;
+        if (new Date(value) > new Date(Date.now())) {
+          return this.validationRules[i].errorMessage;
+        }
+      }
+
+      if (this.validationRules[i].rule !== 'required' && this.validationRules[i].rule !== 'date') {
+        if (!value) return this.validationRules[i].errorMessage;
+        if (!new RegExp(this.validationRules[i].rule).test(value)) {
+          return this.validationRules[i].errorMessage;
+        }
+      }
+    }
     return '';
   }
 }

@@ -272,7 +272,7 @@ a:hover,
 .character-form {
   margin: 0 auto;
   padding: 10px;
-  max-width: 300px;
+  max-width: 500px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -285,7 +285,6 @@ a:hover,
   justify-content: space-between;
   margin-top: 10px;
   margin-bottom: 10px;
-  padding-bottom: 10px;
   font-weight: 600;
 }
 

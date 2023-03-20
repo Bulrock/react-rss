@@ -33,6 +33,7 @@ class CharacterForm extends Component<ICharacterFormProps> {
               key={`${field.element}-${index}`}
               element={field.element}
               label={field.label}
+              name={field.name}
               type={field.type}
               options={field.options}
               ref={this.formFieldRefs[index]}

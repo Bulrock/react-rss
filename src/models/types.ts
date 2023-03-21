@@ -88,10 +88,9 @@ export interface IFormField {
 
 export interface ICharacterFormProps {
   formFields: IFormField[];
-  updateData: (value: ICharacter[]) => void;
+  onSubmit: (character: ICharacter) => void;
 }
 
 export interface ICharacterFormState {
   showSubmitMessage: boolean;
-  formValueArr: ICharacter[];
 }

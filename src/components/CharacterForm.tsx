@@ -2,11 +2,11 @@ import React, { createRef, Component, RefObject } from 'react';
 import FormFieldValueValidator from '../models/FormFieldValueValidator';
 import FormField from './FormField';
 import { ICharacterFormProps, ICharacterFormState } from '../models/types';
-import CharacterFormValueCardAdapter from '../models/CharacterFormValueCardAdapter';
+import CharacterFactory from '../models/CharacterFactory';
 
 class CharacterForm extends Component<ICharacterFormProps, ICharacterFormState> {
   private formFieldRefs = new Array<RefObject<FormField>>();
-  private valueCardAdapter = new CharacterFormValueCardAdapter();
+  private characterFactory = new CharacterFactory();
 
   constructor(props: ICharacterFormProps) {
     super(props);
@@ -17,7 +17,6 @@ class CharacterForm extends Component<ICharacterFormProps, ICharacterFormState> 
       }) || [];
     this.state = {
       showSubmitMessage: false,
-      formValueArr: [],
     };
   }
 
@@ -37,8 +36,7 @@ class CharacterForm extends Component<ICharacterFormProps, ICharacterFormState> 
             fieldValueArr.push(field.current.fieldValue);
           }
         });
-        this.state.formValueArr.push(this.valueCardAdapter.formCard(fieldValueArr));
-        this.props.updateData(this.state.formValueArr);
+        this.props.onSubmit(this.characterFactory.create(fieldValueArr));
         this.resetFormFieldRefs();
         this.setState({ showSubmitMessage: false });
       }, 2000);

@@ -12,8 +12,10 @@ class FormPage extends Component<object, { characters: ICharacter[] }> {
     this.state = { characters: [] };
   }
 
-  updateData = (value: ICharacter[]) => {
-    this.setState({ characters: value });
+  handleSubmitCharacterForm = (character: ICharacter) => {
+    this.setState((prevState: { characters: ICharacter[] }) => {
+      return { ...prevState, characters: [...prevState.characters, character] };
+    });
   };
 
   render() {
@@ -22,7 +24,7 @@ class FormPage extends Component<object, { characters: ICharacter[] }> {
         <Header hideSearch={true} />
         <div className="main">
           <h1 data-testid="form-h1">Create new Character with form</h1>
-          <CharacterForm formFields={FormFields} updateData={this.updateData} />
+          <CharacterForm formFields={FormFields} onSubmit={this.handleSubmitCharacterForm} />
           <Cards characters={this.state.characters} />
         </div>
         <Footer />

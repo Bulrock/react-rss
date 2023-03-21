@@ -1,10 +1,12 @@
 import React, { createRef, Component, RefObject } from 'react';
 import FormFieldValueValidator from '../models/FormFieldValueValidator';
 import FormField from './FormField';
-import { ICharacterFormProps } from '../models/types';
+import { ICharacterFormProps, ICharacterFormState } from '../models/types';
+import CharacterFormValueCardAdapter from '../models/CharacterFormValueCardAdapter';
 
-class CharacterForm extends Component<ICharacterFormProps, { showSubmitMessage: boolean }> {
+class CharacterForm extends Component<ICharacterFormProps, ICharacterFormState> {
   private formFieldRefs = new Array<RefObject<FormField>>();
+  private valueCardAdapter = new CharacterFormValueCardAdapter();
 
   constructor(props: ICharacterFormProps) {
     super(props);
@@ -15,6 +17,7 @@ class CharacterForm extends Component<ICharacterFormProps, { showSubmitMessage: 
       }) || [];
     this.state = {
       showSubmitMessage: false,
+      formValueArr: [],
     };
   }
 
@@ -24,6 +27,18 @@ class CharacterForm extends Component<ICharacterFormProps, { showSubmitMessage: 
     } else {
       this.setState({ showSubmitMessage: true });
       setTimeout(() => {
+        let fieldValueArr = [''];
+        fieldValueArr = [];
+        this.formFieldRefs.forEach((field) => {
+          if (
+            typeof field.current?.fieldValue !== 'undefined' &&
+            typeof field.current?.fieldValue !== 'boolean'
+          ) {
+            fieldValueArr.push(field.current.fieldValue);
+          }
+        });
+        this.state.formValueArr.push(this.valueCardAdapter.formCard(fieldValueArr));
+        this.props.updateData(this.state.formValueArr);
         this.resetFormFieldRefs();
         this.setState({ showSubmitMessage: false });
       }, 2000);

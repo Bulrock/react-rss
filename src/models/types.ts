@@ -4,6 +4,10 @@ export interface SearchBarProps {
   handleSearchClick?: () => void;
 }
 
+export interface UpdateFormPageDataState {
+  updateData?: (value: string | boolean) => void;
+}
+
 export interface ICharacter {
   id: number;
   name: string;
@@ -50,6 +54,10 @@ export interface ICardProps {
   character: ICharacter;
 }
 
+export interface ICardsProps {
+  characters: ICharacter[];
+}
+
 export interface IFormProps {
   element: string;
   label?: string;
@@ -80,4 +88,10 @@ export interface IFormField {
 
 export interface ICharacterFormProps {
   formFields: IFormField[];
+  updateData: (value: ICharacter[]) => void;
+}
+
+export interface ICharacterFormState {
+  showSubmitMessage: boolean;
+  formValueArr: ICharacter[];
 }

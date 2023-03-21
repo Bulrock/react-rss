@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Card from './Card';
-import { ICharacter } from '../models/types';
+import { ICardsProps } from '../models/types';
 
-class Cards extends Component<{ characters: ICharacter[] }> {
+class Cards extends Component<ICardsProps> {
   render() {
     return (
       <div className="cards" data-testid="cards">

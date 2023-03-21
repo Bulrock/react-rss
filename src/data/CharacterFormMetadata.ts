@@ -1,12 +1,23 @@
 export const FormFields = [
   {
     element: 'input',
+    label: 'Character ID: ',
+    type: 'number',
+    validationRules: [
+      {
+        rule: 'id',
+        errorMessage: 'ID greater than "0" is required',
+      },
+    ],
+  },
+  {
+    element: 'input',
     label: 'Name: ',
     type: 'text',
     validationRules: [
       {
         rule: '.{2,}',
-        errorMessage: 'Please enter a name longer than 2 characters',
+        errorMessage: 'Please enter a name longer than 1 character',
       },
       {
         rule: '^[A-Z]',
@@ -15,44 +26,14 @@ export const FormFields = [
     ],
   },
   {
-    element: 'input',
-    label: 'Last known location: ',
-    type: 'text',
-    validationRules: [
-      {
-        rule: '.{2,}',
-        errorMessage: 'Please enter a location longer than 2 characters',
-      },
-      {
-        rule: '^[A-Z]',
-        errorMessage: 'Location should start with a capital letter',
-      },
-    ],
-  },
-  {
-    element: 'input',
-    label: 'Date of birth: ',
-    type: 'date',
-    validationRules: [
-      {
-        rule: 'date',
-        errorMessage: 'It looks like you are a time traveller. Date of birth can not be in future',
-      },
-      {
-        rule: 'required',
-        errorMessage: 'Date of birth is required',
-      },
-    ],
-  },
-  {
-    element: 'select',
-    label: 'Gender: ',
-    type: 'select',
-    options: ['', 'Male', 'Female', 'Unknown'],
+    element: 'radio',
+    type: 'radio',
+    name: 'status',
+    options: ['Alive', 'Dead', 'Unknown'],
     validationRules: [
       {
         rule: 'required',
-        errorMessage: 'Select a gender from the dropdown',
+        errorMessage: 'Chose a character status',
       },
     ],
   },
@@ -82,14 +63,44 @@ export const FormFields = [
     ],
   },
   {
-    element: 'radio',
-    type: 'radio',
-    name: 'status',
-    options: ['Alive', 'Dead', 'Unknown'],
+    element: 'select',
+    label: 'Gender: ',
+    type: 'select',
+    options: ['', 'Male', 'Female', 'Unknown'],
     validationRules: [
       {
         rule: 'required',
-        errorMessage: 'Chose a character status',
+        errorMessage: 'Select a gender from the dropdown',
+      },
+    ],
+  },
+  {
+    element: 'input',
+    label: 'Origin planet of birth: ',
+    type: 'text',
+    validationRules: [
+      {
+        rule: '.{2,}',
+        errorMessage: 'Please enter a origin planet longer than 1 character',
+      },
+      {
+        rule: '^[A-Z]',
+        errorMessage: 'Origin planet should start with a capital letter',
+      },
+    ],
+  },
+  {
+    element: 'input',
+    label: 'Last known location: ',
+    type: 'text',
+    validationRules: [
+      {
+        rule: '.{2,}',
+        errorMessage: 'Please enter a location longer than 1 character',
+      },
+      {
+        rule: '^[A-Z]',
+        errorMessage: 'Location should start with a capital letter',
       },
     ],
   },
@@ -101,6 +112,22 @@ export const FormFields = [
       {
         rule: 'required',
         errorMessage: 'Image must be downloaded',
+      },
+    ],
+  },
+  {
+    element: 'input',
+    label: 'Date of character creation: ',
+    type: 'date',
+    validationRules: [
+      {
+        rule: 'date',
+        errorMessage:
+          'It looks like you are a time traveller. Date of creation can not be in future',
+      },
+      {
+        rule: 'required',
+        errorMessage: 'Date of creation is required',
       },
     ],
   },

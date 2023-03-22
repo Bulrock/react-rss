@@ -78,6 +78,19 @@ class Card extends Component<ICardProps, ICardState> {
               <br></br>
               {this.state.show && <strong className="person-gender">{character.gender}</strong>}
             </p>
+            <p className="person-loc" data-testid="person-info-block">
+              {this.state.info && <span className="person-info-title">Origin place of birth:</span>}
+              <br></br>
+              {this.state.info && (
+                <strong className="person-info-name">{character.origin.name}</strong>
+              )}
+              <br></br>
+              {this.state.info && <span className="person-birth-title">Date of birth:</span>}
+              <br></br>
+              {this.state.info && (
+                <strong className="person-date">{character.created.slice(0, 10)}</strong>
+              )}
+            </p>
           </div>
           <div className="buttons-wrapper">
             <button className="btn person-details" onClick={this.handleDetailsClick}>

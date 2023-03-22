@@ -125,7 +125,7 @@ a:hover,
   flex-direction: column;
   justify-content: space-between;
   width: 288px;
-  min-height: 550px;
+  min-height: 600px;
   height: min-content;
   border: 1px solid gray;
   border-radius: 10px;
@@ -173,7 +173,9 @@ a:hover,
 }
 
 .person-location-title,
-.person-gender-title {
+.person-gender-title,
+.person-info-title,
+.person-birth-title {
   color: rgb(108, 108, 108);
 }
 

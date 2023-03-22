@@ -6,7 +6,7 @@ export default class FormFieldValueValidator {
     this.validationRules = rules;
   }
 
-  validate(value: string | boolean | undefined): string {
+  validate(value: string | boolean | object | undefined): string {
     for (let i = 0; i < this.validationRules.length; i++) {
       if (this.validationRules[i].rule === 'id') {
         if (!value || value === '0') {
@@ -18,7 +18,11 @@ export default class FormFieldValueValidator {
           return this.validationRules[i].errorMessage;
         }
       }
-      if (this.validationRules[i].rule === 'date' && typeof value !== 'boolean') {
+      if (
+        this.validationRules[i].rule === 'date' &&
+        typeof value !== 'boolean' &&
+        typeof value !== 'object'
+      ) {
         if (!value) return this.validationRules[1].errorMessage;
         if (new Date(value) > new Date(Date.now())) {
           return this.validationRules[i].errorMessage;
@@ -32,7 +36,7 @@ export default class FormFieldValueValidator {
         typeof value !== 'boolean'
       ) {
         if (!value) return this.validationRules[i].errorMessage;
-        if (!new RegExp(this.validationRules[i].rule).test(value)) {
+        if (typeof value !== 'object' && !new RegExp(this.validationRules[i].rule).test(value)) {
           return this.validationRules[i].errorMessage;
         }
       }

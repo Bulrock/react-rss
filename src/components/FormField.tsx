@@ -19,8 +19,9 @@ class FormField extends Component<IFormProps, IFormState> {
     this.state = { error: '' };
   }
 
-  get fieldValue(): string | boolean {
+  get fieldValue(): string | boolean | object {
     return (
+      this.inputRef.current?.files ||
       this.inputRef.current?.value ||
       this.inputRef.current?.checked ||
       this.selectRef.current?.value ||

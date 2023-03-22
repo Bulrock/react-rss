@@ -26,14 +26,16 @@ class CharacterForm extends Component<ICharacterFormProps, ICharacterFormState> 
     } else {
       this.setState({ showSubmitMessage: true });
       setTimeout(() => {
-        let fieldValueArr = [''];
+        let fieldValueArr: string[] = [];
         fieldValueArr = [];
         this.formFieldRefs.forEach((field) => {
           if (
             typeof field.current?.fieldValue !== 'undefined' &&
             typeof field.current?.fieldValue !== 'boolean'
           ) {
-            fieldValueArr.push(field.current.fieldValue);
+            typeof field.current.fieldValue !== 'object'
+              ? fieldValueArr.push(field.current.fieldValue)
+              : fieldValueArr.push(URL.createObjectURL((field.current.fieldValue as FileList)[0]));
           }
         });
         this.props.onSubmit(this.characterFactory.create(fieldValueArr));

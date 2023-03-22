@@ -1,17 +1,6 @@
 export const FormFields = [
   {
     element: 'input',
-    label: 'Character ID: ',
-    type: 'number',
-    validationRules: [
-      {
-        rule: 'id',
-        errorMessage: 'ID greater than "0" is required',
-      },
-    ],
-  },
-  {
-    element: 'input',
     label: 'Name: ',
     type: 'text',
     validationRules: [

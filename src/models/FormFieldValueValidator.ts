@@ -8,11 +8,6 @@ export default class FormFieldValueValidator {
 
   validate(value: string | boolean | object | undefined): string {
     for (let i = 0; i < this.validationRules.length; i++) {
-      if (this.validationRules[i].rule === 'id') {
-        if (!value || value === '0') {
-          return this.validationRules[i].errorMessage;
-        }
-      }
       if (this.validationRules[i].rule === 'required') {
         if (!value) {
           return this.validationRules[i].errorMessage;
@@ -31,7 +26,6 @@ export default class FormFieldValueValidator {
 
       if (
         this.validationRules[i].rule !== 'required' &&
-        this.validationRules[i].rule !== 'id' &&
         this.validationRules[i].rule !== 'date' &&
         typeof value !== 'boolean'
       ) {

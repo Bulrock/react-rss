@@ -9,7 +9,7 @@ export interface UpdateFormPageDataState {
 }
 
 export interface ICharacter {
-  id: number;
+  id: number | string;
   name: string;
   status: string;
   species: string;

@@ -33,9 +33,12 @@ class CharacterForm extends Component<ICharacterFormProps, ICharacterFormState> 
             typeof field.current?.fieldValue !== 'undefined' &&
             typeof field.current?.fieldValue !== 'boolean'
           ) {
-            typeof field.current.fieldValue !== 'object'
-              ? fieldValueArr.push(field.current.fieldValue)
-              : fieldValueArr.push(URL.createObjectURL((field.current.fieldValue as FileList)[0]));
+            if (typeof field.current.fieldValue !== 'object') {
+              fieldValueArr.push(field.current.fieldValue);
+            } else {
+              const objectUrl = URL.createObjectURL((field.current.fieldValue as FileList)[0]);
+              fieldValueArr.push(objectUrl);
+            }
           }
         });
         this.props.onSubmit(this.characterFactory.create(fieldValueArr));

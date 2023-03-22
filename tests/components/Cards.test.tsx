@@ -46,7 +46,7 @@ const mockPerson = [
 
 describe('Cards component', () => {
   it('renders cards', () => {
-    render(<Cards persons={mockPerson} key={String(mockPerson[0].id)} />);
+    render(<Cards characters={mockPerson} key={String(mockPerson[0].id)} />);
 
     expect(screen.getByTestId('cards')).toBeInTheDocument();
   });

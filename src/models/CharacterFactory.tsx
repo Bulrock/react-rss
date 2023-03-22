@@ -6,7 +6,7 @@ export default class CharacterFactory {
   create(values: string[]): ICharacter {
     const uuid = this.UuidGenerator.generateUuid();
     return {
-      id: Number(uuid),
+      id: uuid,
       name: values[0],
       status: values[1],
       species: values[2],

@@ -63,6 +63,11 @@ class FormField extends Component<IFormProps, IFormState> {
           ref={this.inputRef}
           name={this.props.name}
           value={this.props.value}
+          data-testid={
+            this.props.label
+              ? this.props.label.toLocaleLowerCase().slice(2, 4)
+              : this.props.name?.toLocaleLowerCase().slice(2, 4)
+          }
         ></input>
       </label>
     );
@@ -73,10 +78,18 @@ class FormField extends Component<IFormProps, IFormState> {
       <label className="form-label">
         {this.props.label}
         {this.props.value}
-        <select ref={this.selectRef} name={this.props.name}>
+        <select
+          ref={this.selectRef}
+          name={this.props.name}
+          data-testid={this.props.label?.slice(0, -2).toLocaleLowerCase()}
+        >
           {this.props.options?.map((opt) => {
             return (
-              <option value={opt} key={`option-${opt.toLocaleLowerCase()}`}>
+              <option
+                value={opt}
+                data-testid={`${this.props.label?.toLocaleLowerCase().slice(0, 3)}`}
+                key={`option-${opt.toLocaleLowerCase()}`}
+              >
                 {opt}
               </option>
             );
@@ -96,6 +109,7 @@ class FormField extends Component<IFormProps, IFormState> {
             ref={this.radioRefs[index]}
             name={this.props.name}
             value={option}
+            data-testid={`radio-${index}`}
           ></input>
         </label>
       );

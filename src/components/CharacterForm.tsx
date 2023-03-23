@@ -83,10 +83,17 @@ class CharacterForm extends Component<ICharacterFormProps, ICharacterFormState> 
           );
         })}
         <div className="form-buttons">
-          <button type="reset">Reset form</button>
-          <button type="submit">Submit form</button>
+          <button data-testid="form-reset-btn" type="reset">
+            Reset form
+          </button>
+          <button data-testid="form-submit-btn" type="submit">
+            Submit form
+          </button>
         </div>
-        <span className={this.state.showSubmitMessage ? 'submit-message' : 'notsubmit-message'}>
+        <span
+          data-testid="submit-message"
+          className={this.state.showSubmitMessage ? 'submit-message' : 'notsubmit-message'}
+        >
           Data has been saved
         </span>
       </form>

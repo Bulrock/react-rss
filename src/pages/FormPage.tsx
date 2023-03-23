@@ -20,7 +20,7 @@ class FormPage extends Component<object, { characters: ICharacter[] }> {
 
   render() {
     return (
-      <>
+      <div data-testid="form-page">
         <Header hideSearch={true} />
         <div className="main">
           <h1 data-testid="form-h1">Create new Character with form</h1>
@@ -28,7 +28,7 @@ class FormPage extends Component<object, { characters: ICharacter[] }> {
           <Cards characters={this.state.characters} />
         </div>
         <Footer />
-      </>
+      </div>
     );
   }
 }

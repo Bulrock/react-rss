@@ -44,7 +44,7 @@ class CharacterForm extends Component<ICharacterFormProps, ICharacterFormState> 
         this.props.onSubmit(this.characterFactory.create(fieldValueArr));
         this.resetFormFieldRefs();
         this.setState({ showSubmitMessage: false });
-      }, 2000);
+      }, 1000);
     }
   }
 

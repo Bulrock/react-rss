@@ -86,7 +86,7 @@ describe('CharacterForm', () => {
       () => {
         expect(submitedICharacter).toBeUndefined();
       },
-      { timeout: 2005 }
+      { timeout: 1100 }
     );
   });
 });

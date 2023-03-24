@@ -319,6 +319,35 @@ a:hover,
   display: none;
 }
 
+#fileInput {
+  display: none;
+}
+
+.input-wrapper {
+  font-size: 13.333px;
+  font-weight: 300;
+  cursor: default;
+  box-sizing: border-box;
+  background-color: buttonface;
+  margin: 0em;
+  padding: 2px 6px;
+  border-width: 1px;
+  border-style: outset;
+  border-color: gray;
+  border-image: initial;
+  border-radius: 3px;
+}
+
+.input-wrapper:hover {
+  background-color: #e4e4e4;
+  border-color: #999;
+}
+
+.input-wrapper:active {
+  background-color: buttonface;
+  border-color: gray;
+}
+
 @media screen and (max-width: 400px){
   .wrapper-search {
     gap: 2px;

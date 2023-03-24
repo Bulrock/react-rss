@@ -58,17 +58,35 @@ class FormField extends Component<IFormProps, IFormState> {
       <label className="form-label">
         {this.props.label}
         {this.props.value}
-        <input
-          type={this.props.type}
-          ref={this.inputRef}
-          name={this.props.name}
-          value={this.props.value}
-          data-testid={
-            this.props.label
-              ? this.props.label.toLocaleLowerCase().slice(2, 4)
-              : this.props.name?.toLocaleLowerCase().slice(2, 4)
-          }
-        ></input>
+        {this.props.type === 'file' ? (
+          <label htmlFor="fileInput" className="input-wrapper">
+            Select Image
+            <input
+              type={this.props.type}
+              id="fileInput"
+              ref={this.inputRef}
+              name={this.props.name}
+              value={this.props.value}
+              data-testid={
+                this.props.label
+                  ? this.props.label.toLocaleLowerCase().slice(2, 4)
+                  : this.props.name?.toLocaleLowerCase().slice(2, 4)
+              }
+            ></input>
+          </label>
+        ) : (
+          <input
+            type={this.props.type}
+            ref={this.inputRef}
+            name={this.props.name}
+            value={this.props.value}
+            data-testid={
+              this.props.label
+                ? this.props.label.toLocaleLowerCase().slice(2, 4)
+                : this.props.name?.toLocaleLowerCase().slice(2, 4)
+            }
+          ></input>
+        )}
       </label>
     );
   }

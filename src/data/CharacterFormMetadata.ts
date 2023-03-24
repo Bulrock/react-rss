@@ -9,7 +9,7 @@ export const FormFields = [
         errorMessage: 'Please enter a name longer than 1 character',
       },
       {
-        rule: '^[A-Z]',
+        rule: '^[A-Z|А-Я]',
         errorMessage: 'Name should start with a capital letter',
       },
     ],
@@ -73,7 +73,7 @@ export const FormFields = [
         errorMessage: 'Please enter a origin planet longer than 1 character',
       },
       {
-        rule: '^[A-Z]',
+        rule: '^[A-Z|А-Я]',
         errorMessage: 'Origin planet should start with a capital letter',
       },
     ],
@@ -88,7 +88,7 @@ export const FormFields = [
         errorMessage: 'Please enter a location longer than 1 character',
       },
       {
-        rule: '^[A-Z]',
+        rule: '^[A-Z|А-Я]',
         errorMessage: 'Location should start with a capital letter',
       },
     ],

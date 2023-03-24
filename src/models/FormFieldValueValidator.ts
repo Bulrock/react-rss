@@ -9,7 +9,7 @@ export default class FormFieldValueValidator {
   validate(value: string | boolean | object | undefined): string {
     for (let i = 0; i < this.validationRules.length; i++) {
       if (this.validationRules[i].rule === 'required') {
-        if (!value) {
+        if (!value || (typeof value === 'object' && (value as FileList).length === 0)) {
           return this.validationRules[i].errorMessage;
         }
       }

@@ -34,6 +34,7 @@ class FormField extends Component<IFormProps, IFormState> {
     if (this.inputRef.current) {
       this.inputRef.current.value = '';
       this.inputRef.current.checked = false;
+      this.setState({ fileName: 'not selected' });
     }
     if (this.selectRef.current) {
       this.selectRef.current.value = '';

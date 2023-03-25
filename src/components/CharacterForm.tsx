@@ -83,9 +83,6 @@ class CharacterForm extends Component<ICharacterFormProps, ICharacterFormState> 
           );
         })}
         <div className="form-buttons">
-          <button data-testid="form-reset-btn" type="reset">
-            Reset form
-          </button>
           <button data-testid="form-submit-btn" type="submit">
             Submit form
           </button>

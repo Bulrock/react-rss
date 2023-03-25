@@ -306,6 +306,10 @@ a:hover,
   margin-bottom: 10px;
 }
 
+.form-submit-btn {
+  font-size: 16px;
+}
+
 .submit-message {
   color: mediumseagreen;
   margin: 0 auto;
@@ -324,13 +328,13 @@ a:hover,
 }
 
 .filename {
-  font-size: 13.333px;
-  font-weight: 300;
+  font-size: 15px;
+  font-weight: 400;
   margin-top: 5px;
 }
 
 .filename-selected {
-  font-size: 13.333px;
+  font-size: 15px;
   font-weight: 600;
   margin: 10px;
   margin-right: 0;
@@ -338,10 +342,10 @@ a:hover,
 }
 
 .input-wrapper {
-  font-size: 13.333px;
+  font-size: 16px;
   font-weight: 300;
-  width: 92px;
-  height: 22px;
+  width: 107px;
+  height: 24px;
   cursor: default;
   box-sizing: border-box;
   background-color: buttonface;

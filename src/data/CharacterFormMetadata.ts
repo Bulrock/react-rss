@@ -1,4 +1,4 @@
-export const FormFields = [
+export const CharacterFormMetadata = [
   {
     element: 'input',
     label: 'Name: ',

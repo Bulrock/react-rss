@@ -58,6 +58,10 @@ export interface ICardsProps {
   characters: ICharacter[];
 }
 
+export interface IFormPageState {
+  characters: ICharacter[];
+}
+
 export interface IFormProps {
   element: string;
   label?: string;

@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
 import 'jest';
-import { FormFields } from '../../src/data/CharacterFormMetadata';
+import { CharacterFormMetadata } from '../../src/data/CharacterFormMetadata';
 import CharacterForm from '../../src/components/CharacterForm';
 import { ICharacter } from '../../src/models/types';
 
@@ -37,7 +37,7 @@ describe('CharacterForm', () => {
 
     const file = new File(['(⌐□_□)'], 'Rick.png', { type: 'image/png' });
 
-    render(<CharacterForm formFields={FormFields} onSubmit={onSubmit} />);
+    render(<CharacterForm formFields={CharacterFormMetadata} onSubmit={onSubmit} />);
     act(() => {
       userEvent.type(screen.getByTestId('me'), 'Morty-Shmorty');
       userEvent.click(screen.getByTestId('radio-0'));
@@ -69,7 +69,7 @@ describe('CharacterForm', () => {
       submitedICharacter = character;
     });
 
-    render(<CharacterForm formFields={FormFields} onSubmit={onSubmit} />);
+    render(<CharacterForm formFields={CharacterFormMetadata} onSubmit={onSubmit} />);
     act(() => {
       userEvent.type(screen.getByTestId('me'), 'Morty-Shmorty');
       userEvent.click(screen.getByTestId('radio-0'));

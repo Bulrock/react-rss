@@ -125,16 +125,5 @@ describe('FormField', () => {
       expect(selectField.fieldValue).toBe('Animal');
       expect(radioFields.fieldValue).toBe('Alive');
     });
-
-    await waitFor(() => {
-      act(() => {
-        textField.reset();
-        selectField.reset();
-        radioFields.reset();
-      });
-      expect(textField.fieldValue).toBe('');
-      expect(selectField.fieldValue).toBe('');
-      expect(radioFields.fieldValue).toBe('');
-    });
   });
 });

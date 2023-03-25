@@ -100,7 +100,7 @@ export const FormFields = [
     validationRules: [
       {
         rule: 'required',
-        errorMessage: 'Image must be downloaded',
+        errorMessage: 'Image must be uploaded',
       },
     ],
   },

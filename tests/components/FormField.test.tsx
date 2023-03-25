@@ -1,5 +1,5 @@
 import { unmountComponentAtNode } from 'react-dom';
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
@@ -23,7 +23,7 @@ beforeAll(() => {
           errorMessage: 'Please enter a name longer than 1 character',
         },
         {
-          rule: '^[A-Z]',
+          rule: '^[A-Z|А-Я]',
           errorMessage: 'Name should start with a capital letter',
         },
       ]),
@@ -76,7 +76,9 @@ describe('FormField', () => {
 
     await waitFor(() => {
       render(textField.render());
-      userEvent.type(screen.getByTestId('me'), 'Morty-Shmorty');
+      act(() => {
+        userEvent.type(screen.getByTestId('me'), 'Morty-Shmorty');
+      });
     });
 
     await waitFor(() => {
@@ -90,7 +92,9 @@ describe('FormField', () => {
 
     await waitFor(() => {
       render(textField.render());
-      userEvent.type(screen.getByTestId('me'), 'Morty-Shmorty');
+      act(() => {
+        userEvent.type(screen.getByTestId('me'), 'Morty-Shmorty');
+      });
     });
 
     await waitFor(() => {
@@ -109,9 +113,11 @@ describe('FormField', () => {
       render(textField.render());
       render(selectField.render());
       render(radioFields.render());
-      userEvent.type(screen.getByTestId('me'), 'Morty-Shmorty');
-      userEvent.selectOptions(screen.getByTestId('species'), ['Animal']);
-      userEvent.click(screen.getByTestId('radio-0'));
+      act(() => {
+        userEvent.type(screen.getByTestId('me'), 'Morty-Shmorty');
+        userEvent.selectOptions(screen.getByTestId('species'), ['Animal']);
+        userEvent.click(screen.getByTestId('radio-0'));
+      });
     });
 
     await waitFor(() => {
@@ -121,9 +127,11 @@ describe('FormField', () => {
     });
 
     await waitFor(() => {
-      textField.reset();
-      selectField.reset();
-      radioFields.reset();
+      act(() => {
+        textField.reset();
+        selectField.reset();
+        radioFields.reset();
+      });
       expect(textField.fieldValue).toBe('');
       expect(selectField.fieldValue).toBe('');
       expect(radioFields.fieldValue).toBe('');

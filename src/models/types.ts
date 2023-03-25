@@ -70,6 +70,7 @@ export interface IFormProps {
 
 export interface IFormState {
   error: string;
+  fileName: string | undefined;
 }
 
 export interface IValidationRule {

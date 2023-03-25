@@ -16,7 +16,7 @@ class FormField extends Component<IFormProps, IFormState> {
           return createRef<HTMLInputElement>();
         }) || [];
     }
-    this.state = { error: '' };
+    this.state = { error: '', fileName: 'not selected' };
   }
 
   get fieldValue(): string | boolean | object {
@@ -53,27 +53,41 @@ class FormField extends Component<IFormProps, IFormState> {
     return error;
   }
 
+  onImageSelect(): void {
+    const name =
+      this.inputRef.current !== null ? this.inputRef.current.files?.item(0)?.name : 'not selected';
+    this.setState({ fileName: name });
+  }
+
   renderInput() {
     return (
       <label className="form-label">
         {this.props.label}
         {this.props.value}
         {this.props.type === 'file' ? (
-          <label htmlFor="fileInput" className="input-wrapper">
-            Select Image
-            <input
-              type={this.props.type}
-              id="fileInput"
-              ref={this.inputRef}
-              name={this.props.name}
-              value={this.props.value}
-              data-testid={
-                this.props.label
-                  ? this.props.label.toLocaleLowerCase().slice(2, 4)
-                  : this.props.name?.toLocaleLowerCase().slice(2, 4)
-              }
-            ></input>
-          </label>
+          <div className="file-wrapper">
+            <span
+              className={this.state.fileName === 'not selected' ? 'filename' : 'filename-selected'}
+            >
+              {this.state.fileName}
+            </span>
+            <label htmlFor="fileInput" className="input-wrapper">
+              Select image
+              <input
+                type={this.props.type}
+                id="fileInput"
+                ref={this.inputRef}
+                name={this.props.name}
+                value={this.props.value}
+                data-testid={
+                  this.props.label
+                    ? this.props.label.toLocaleLowerCase().slice(2, 4)
+                    : this.props.name?.toLocaleLowerCase().slice(2, 4)
+                }
+                onChange={this.onImageSelect.bind(this)}
+              ></input>
+            </label>
+          </div>
         ) : (
           <input
             type={this.props.type}

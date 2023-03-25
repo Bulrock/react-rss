@@ -1,6 +1,6 @@
 import React from 'react';
 import { unmountComponentAtNode } from 'react-dom';
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { act, render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
@@ -53,28 +53,23 @@ describe('Form Page', () => {
       </BrowserRouter>
     );
 
-    userEvent.type(screen.getByTestId('me'), 'Morty-Shmorty');
-    userEvent.click(screen.getByTestId('radio-0'));
-    userEvent.selectOptions(screen.getByTestId('species'), ['Alien']);
-    userEvent.selectOptions(screen.getByTestId('gender'), ['Male']);
-    userEvent.type(screen.getByTestId('ig'), 'Earth');
-    userEvent.type(screen.getByTestId('st'), 'Mars');
-    userEvent.upload(screen.getByTestId('ag') as HTMLInputElement, file);
-    userEvent.type(screen.getByTestId('te'), '2017-11-04');
-    userEvent.click(screen.getByTestId('co'));
+    act(() => {
+      userEvent.type(screen.getByTestId('me'), 'Morty-Shmorty');
+      userEvent.click(screen.getByTestId('radio-0'));
+      userEvent.selectOptions(screen.getByTestId('species'), ['Alien']);
+      userEvent.selectOptions(screen.getByTestId('gender'), ['Male']);
+      userEvent.type(screen.getByTestId('ig'), 'Earth');
+      userEvent.type(screen.getByTestId('st'), 'Mars');
+      userEvent.upload(screen.getByTestId('ag') as HTMLInputElement, file);
+      userEvent.type(screen.getByTestId('te'), '2017-11-04');
+      userEvent.click(screen.getByTestId('co'));
+    });
 
     await waitFor(() => {
       expect(screen.getByTestId('me')).toHaveValue('Morty-Shmorty');
       expect(screen.getByTestId('radio-0')).toBeChecked();
-      // expect((screen.getAllByTestId('spe') as HTMLSelectElement[])[1].selectedOptions.item(1)).toBe(
-      //   'Alien'
-      // );
-      // expect((screen.getAllByTestId('gen') as HTMLSelectElement[])[1].selectedOptions.item(1)).toBe(
-      //   'Male'
-      // );
       expect(screen.getByTestId('ig')).toHaveValue('Earth');
       expect(screen.getByTestId('st')).toHaveValue('Mars');
-      // expect((screen.getByTestId('ag') as HTMLInputElement)?.files[0]).toStrictEqual(file);
       expect(screen.getByTestId('te')).toHaveValue('2017-11-04');
       expect(screen.getByTestId('co')).toBeChecked();
     });
@@ -91,43 +86,4 @@ describe('Form Page', () => {
       { timeout: 1005 }
     );
   });
-
-  // it('renders Card on submit character form', async () => {
-  //   const file = new File(['(⌐□_□)'], 'Rick.png', { type: 'image/png' });
-
-  //   render(
-  //     <BrowserRouter>
-  //       <FormPage />
-  //     </BrowserRouter>
-  //   );
-
-  //   userEvent.type(screen.getByTestId('me'), 'Morty-Shmorty');
-  //   userEvent.click(screen.getByTestId('radio-0'));
-  //   userEvent.selectOptions(screen.getByTestId('species'), ['Alien']);
-  //   userEvent.selectOptions(screen.getByTestId('gender'), ['Male']);
-  //   userEvent.type(screen.getByTestId('ig'), 'Earth');
-  //   userEvent.type(screen.getByTestId('st'), 'Mars');
-  //   userEvent.upload(screen.getByTestId('ag') as HTMLInputElement, file);
-  //   userEvent.type(screen.getByTestId('te'), '2017-11-04');
-  //   userEvent.click(screen.getByTestId('co'));
-
-  //   await waitFor(() => {
-  //     expect(screen.getByTestId('me')).toHaveValue('Morty-Shmorty');
-  //     expect(screen.getByTestId('radio-0')).toBeChecked();
-  //     expect(screen.getByTestId('ig')).toHaveValue('Earth');
-  //     expect(screen.getByTestId('st')).toHaveValue('Mars');
-  //     expect(screen.getByTestId('te')).toHaveValue('2017-11-04');
-  //     expect(screen.getByTestId('co')).toBeChecked();
-  //   });
-
-  //   const submitButton = screen.getByTestId('form-submit-btn');
-  //   fireEvent.click(submitButton);
-
-  //   await waitFor(
-  //     () => {
-  //       expect(screen.getByText('Morty-Shmorty')).toBeInTheDocument();
-  //     },
-  //     { timeout: 2500 }
-  //   );
-  // });
 });

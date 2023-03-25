@@ -1,6 +1,6 @@
 import React from 'react';
 import { unmountComponentAtNode } from 'react-dom';
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
@@ -38,16 +38,17 @@ describe('CharacterForm', () => {
     const file = new File(['(⌐□_□)'], 'Rick.png', { type: 'image/png' });
 
     render(<CharacterForm formFields={FormFields} onSubmit={onSubmit} />);
-
-    userEvent.type(screen.getByTestId('me'), 'Morty-Shmorty');
-    userEvent.click(screen.getByTestId('radio-0'));
-    userEvent.selectOptions(screen.getByTestId('species'), ['Alien']);
-    userEvent.selectOptions(screen.getByTestId('gender'), ['Male']);
-    userEvent.type(screen.getByTestId('ig'), 'Earth');
-    userEvent.type(screen.getByTestId('st'), 'Mars');
-    userEvent.upload(screen.getByTestId('ag') as HTMLInputElement, file);
-    userEvent.type(screen.getByTestId('te'), '2017-11-04');
-    userEvent.click(screen.getByTestId('co'));
+    act(() => {
+      userEvent.type(screen.getByTestId('me'), 'Morty-Shmorty');
+      userEvent.click(screen.getByTestId('radio-0'));
+      userEvent.selectOptions(screen.getByTestId('species'), ['Alien']);
+      userEvent.selectOptions(screen.getByTestId('gender'), ['Male']);
+      userEvent.type(screen.getByTestId('ig'), 'Earth');
+      userEvent.type(screen.getByTestId('st'), 'Mars');
+      userEvent.upload(screen.getByTestId('ag') as HTMLInputElement, file);
+      userEvent.type(screen.getByTestId('te'), '2017-11-04');
+      userEvent.click(screen.getByTestId('co'));
+    });
 
     const submitButton = screen.getByTestId('form-submit-btn');
     fireEvent.click(submitButton);
@@ -69,15 +70,16 @@ describe('CharacterForm', () => {
     });
 
     render(<CharacterForm formFields={FormFields} onSubmit={onSubmit} />);
-
-    userEvent.type(screen.getByTestId('me'), 'Morty-Shmorty');
-    userEvent.click(screen.getByTestId('radio-0'));
-    userEvent.selectOptions(screen.getByTestId('species'), ['Alien']);
-    userEvent.selectOptions(screen.getByTestId('gender'), ['Male']);
-    userEvent.type(screen.getByTestId('ig'), 'Earth');
-    userEvent.type(screen.getByTestId('st'), 'Mars');
-    userEvent.type(screen.getByTestId('te'), '2017-11-04');
-    userEvent.click(screen.getByTestId('co'));
+    act(() => {
+      userEvent.type(screen.getByTestId('me'), 'Morty-Shmorty');
+      userEvent.click(screen.getByTestId('radio-0'));
+      userEvent.selectOptions(screen.getByTestId('species'), ['Alien']);
+      userEvent.selectOptions(screen.getByTestId('gender'), ['Male']);
+      userEvent.type(screen.getByTestId('ig'), 'Earth');
+      userEvent.type(screen.getByTestId('st'), 'Mars');
+      userEvent.type(screen.getByTestId('te'), '2017-11-04');
+      userEvent.click(screen.getByTestId('co'));
+    });
 
     const submitButton = screen.getByTestId('form-submit-btn');
     fireEvent.click(submitButton);

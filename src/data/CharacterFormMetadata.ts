@@ -1,37 +1,65 @@
-export const CharacterFormMetadata = [
+import { IFormField } from '../models/types';
+
+export const CharacterFormMetadata: IFormField[] = [
   {
-    element: 'input',
-    label: 'Name: ',
     type: 'text',
-    validationRules: [
-      {
-        rule: '.{2,}',
-        errorMessage: 'Please enter a name longer than 1 character',
-      },
-      {
-        rule: '^[A-Z|А-Я]',
-        errorMessage: 'Name should start with a capital letter',
-      },
-    ],
+    ids: ['name'],
+    register: 'name',
+    labels: ['Name:'],
+    placeholder: 'Character name',
+    required: 'Name is required',
+    patern: {
+      value: /^[A-Z|А-Я]/,
+      message: 'Name should start with a capital letter',
+    },
+    minLength: {
+      value: 2,
+      message: 'Please enter a name longer than 1 character',
+    },
   },
   {
-    element: 'radio',
     type: 'radio',
-    name: 'status',
-    options: ['Alive', 'Dead', 'Unknown'],
-    validationRules: [
-      {
-        rule: 'required',
-        errorMessage: 'Chose a character status',
-      },
-    ],
+    ids: ['status-0', 'status-1', 'status-2'],
+    register: 'status',
+    labels: ['Alive:', 'Dead:', 'Unknown:'],
+    required: 'Status is required',
+    values: ['Alive', 'Dead', 'Unknown'],
   },
   {
-    element: 'select',
-    label: 'Species: ',
     type: 'select',
-    options: [
+    ids: [
+      'select-spec-0',
+      'select-spec-1',
+      'select-spec-2',
+      'select-spec-3',
+      'select-spec-4',
+      'select-spec-5',
+      'select-spec-6',
+      'select-spec-7',
+      'select-spec-8',
+      'select-spec-9',
+      'select-spec-10',
+      'select-spec-11',
+    ],
+    register: 'species',
+    labels: ['Species:'],
+    required: 'Species is required',
+    values: [
       '',
+      'Alien',
+      'Animal',
+      'Disease',
+      'Fish',
+      'Human',
+      'Humanoid',
+      'Human with giant head',
+      'Mythological Creature',
+      'Poopybutthole',
+      'Robot',
+      'Unknown',
+    ],
+    options: [
+      'Select Species',
       'Alien',
       'Animal',
       'Disease',
@@ -44,91 +72,67 @@ export const CharacterFormMetadata = [
       'Robot',
       'unknown',
     ],
-    validationRules: [
-      {
-        rule: 'required',
-        errorMessage: 'Select a species from the dropdown',
-      },
-    ],
   },
   {
-    element: 'select',
-    label: 'Gender: ',
     type: 'select',
-    options: ['', 'Male', 'Female', 'Unknown'],
-    validationRules: [
-      {
-        rule: 'required',
-        errorMessage: 'Select a gender from the dropdown',
-      },
-    ],
+    ids: ['select-gen-0', 'select-gen-1', 'select-gen-2', 'select-gen-3'],
+    register: 'gender',
+    labels: ['Gender:'],
+    required: 'Gender is required',
+    values: ['', 'Male', 'Female', 'Unknown'],
+    options: ['Select Gender', 'Male', 'Female', 'Unknown'],
   },
   {
-    element: 'input',
-    label: 'Origin planet of birth: ',
     type: 'text',
-    validationRules: [
-      {
-        rule: '.{2,}',
-        errorMessage: 'Please enter a origin planet longer than 1 character',
-      },
-      {
-        rule: '^[A-Z|А-Я]',
-        errorMessage: 'Origin planet should start with a capital letter',
-      },
-    ],
+    ids: ['origin'],
+    register: 'origin',
+    labels: ['Origin planet of birth:'],
+    placeholder: 'Origin planet',
+    required: 'Origin planet name is required',
+    patern: {
+      value: /^[A-Z|А-Я]/,
+      message: 'Origin planet should start with a capital letter',
+    },
+    minLength: {
+      value: 2,
+      message: 'Please enter a origin planet longer than 1 character',
+    },
   },
   {
-    element: 'input',
-    label: 'Last known location: ',
     type: 'text',
-    validationRules: [
-      {
-        rule: '.{2,}',
-        errorMessage: 'Please enter a location longer than 1 character',
-      },
-      {
-        rule: '^[A-Z|А-Я]',
-        errorMessage: 'Location should start with a capital letter',
-      },
-    ],
+    ids: ['location'],
+    register: 'location',
+    labels: ['Last known location:'],
+    placeholder: 'Last location',
+    required: 'Last known location is required',
+    patern: {
+      value: /^[A-Z|А-Я]/,
+      message: 'Location planet should start with a capital letter',
+    },
+    minLength: {
+      value: 2,
+      message: 'Please enter a location planet longer than 1 character',
+    },
   },
   {
-    element: 'input',
-    label: 'Image: ',
     type: 'file',
-    validationRules: [
-      {
-        rule: 'required',
-        errorMessage: 'Image must be uploaded',
-      },
-    ],
+    ids: ['image'],
+    register: 'image',
+    labels: ['Image:'],
+    required: 'Select character image',
   },
   {
-    element: 'input',
-    label: 'Date of character creation: ',
     type: 'date',
-    validationRules: [
-      {
-        rule: 'date',
-        errorMessage:
-          'It looks like you are a time traveller. Date of creation can not be in future',
-      },
-      {
-        rule: 'required',
-        errorMessage: 'Date of creation is required',
-      },
-    ],
+    ids: ['date'],
+    register: 'date',
+    labels: ['Date of character creation:'],
+    required: 'Select date of creation',
   },
   {
-    element: 'input',
-    label: 'I consent to this data',
     type: 'checkbox',
-    validationRules: [
-      {
-        rule: 'required',
-        errorMessage: 'Confirm information publishing before submitting',
-      },
-    ],
+    ids: ['checkbox'],
+    register: 'consest',
+    labels: ['I consent to this data'],
+    required: 'Confirm information publishing before submitting',
   },
 ];

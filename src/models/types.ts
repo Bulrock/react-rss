@@ -1,4 +1,4 @@
-import FormFieldValueValidator from './FormFieldValueValidator';
+import { UseFormRegister, FieldErrors } from 'react-hook-form';
 
 export interface SearchBarProps {
   handleSearchClick?: () => void;
@@ -62,40 +62,64 @@ export interface IFormPageState {
   characters: ICharacter[];
 }
 
-export interface IFormProps {
-  element: string;
-  label?: string;
-  type: string;
-  name?: string;
-  value?: string;
-  validator: FormFieldValueValidator;
-  options?: string[];
+export interface IFormFieldProps {
+  formField: IFormField;
+  register: UseFormRegister<Inputs>;
+  errors: FieldErrors<Inputs>;
 }
 
-export interface IFormState {
-  error: string;
-  fileName: string | undefined;
-}
-
-export interface IValidationRule {
-  rule: string;
-  errorMessage: string;
+export enum RegisterOptions {
+  image = 'image',
+  name = 'name',
+  status = 'status',
+  species = 'species',
+  gender = 'gender',
+  origin = 'origin',
+  location = 'location',
+  date = 'date',
+  consest = 'consest',
 }
 
 export interface IFormField {
-  element: string;
-  label?: string;
   type: string;
-  name?: string;
+  ids: string[];
+  register:
+    | 'image'
+    | 'name'
+    | 'status'
+    | 'species'
+    | 'gender'
+    | 'origin'
+    | 'location'
+    | 'date'
+    | 'consest';
+  labels: string[];
+  placeholder?: string;
+  required: string;
+  patern?: {
+    value: RegExp;
+    message: string;
+  };
+  minLength?: {
+    value: number;
+    message: string;
+  };
+  values?: string[];
   options?: string[];
-  validationRules: IValidationRule[];
 }
 
 export interface ICharacterFormProps {
-  formFields: IFormField[];
-  onSubmit: (character: ICharacter) => void;
+  onSuccessSubmit: (character: ICharacter) => void;
 }
 
-export interface ICharacterFormState {
-  showSubmitMessage: boolean;
-}
+export type Inputs = {
+  name: string;
+  status: string;
+  species: string;
+  gender: string;
+  origin: string;
+  location: string;
+  image: FileList;
+  date: string;
+  consest: boolean;
+};

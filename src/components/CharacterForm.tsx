@@ -1,101 +1,66 @@
-import React, { createRef, Component, RefObject } from 'react';
-import FormFieldValueValidator from '../models/FormFieldValueValidator';
-import FormField from './FormField';
-import { ICharacterFormProps, ICharacterFormState } from '../models/types';
+import React, { useState } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { ICharacterFormProps, Inputs } from '../models/types';
 import CharacterFactory from '../models/CharacterFactory';
+import FormField from './FormField';
+import { CharacterFormMetadata } from '../data/CharacterFormMetadata';
 
-class CharacterForm extends Component<ICharacterFormProps, ICharacterFormState> {
-  private formFieldRefs = new Array<RefObject<FormField>>();
-  private characterFactory = new CharacterFactory();
+export default function CharacterForm(onSuccessSubmit: ICharacterFormProps) {
+  const [showSubmitMessage, setShowSubmitMessage] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+    reset,
+  } = useForm<Inputs>({ mode: 'onSubmit', reValidateMode: 'onSubmit' });
+  const characterFactory = new CharacterFactory();
 
-  constructor(props: ICharacterFormProps) {
-    super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.formFieldRefs =
-      this.props.formFields?.map(() => {
-        return createRef<FormField>();
-      }) || [];
-    this.state = {
-      showSubmitMessage: false,
-    };
-  }
+  const onSubmit: SubmitHandler<Inputs> = (_, event) => {
+    event?.preventDefault();
 
-  private onSubmit(success: boolean) {
-    if (success) {
-      this.setState({ showSubmitMessage: false });
-    } else {
-      this.setState({ showSubmitMessage: true });
-      setTimeout(() => {
-        let fieldValueArr: string[] = [];
-        fieldValueArr = [];
-        this.formFieldRefs.forEach((field) => {
-          if (
-            typeof field.current?.fieldValue !== 'undefined' &&
-            typeof field.current?.fieldValue !== 'boolean'
-          ) {
-            if (typeof field.current.fieldValue !== 'object') {
-              fieldValueArr.push(field.current.fieldValue);
-            } else {
-              const objectUrl = URL.createObjectURL((field.current.fieldValue as FileList)[0]);
-              fieldValueArr.push(objectUrl);
-            }
+    setShowSubmitMessage(true);
+    setTimeout(() => {
+      setShowSubmitMessage(false);
+      const characterData = Object.values(getValues());
+      const filteredData = characterData
+        .map((value) => {
+          if (value && typeof value === 'string') {
+            return value;
+          } else if (value && typeof value === 'boolean') {
+            return;
+          } else if (value) {
+            return URL.createObjectURL(getValues('image')[0]);
           }
-        });
-        this.props.onSubmit(this.characterFactory.create(fieldValueArr));
-        this.resetFormFieldRefs();
-        this.setState({ showSubmitMessage: false });
-      }, 1000);
-    }
-  }
+        })
+        .filter((value) => value !== undefined) as string[];
 
-  private resetFormFieldRefs() {
-    this.formFieldRefs.forEach((ref) => ref.current?.reset());
-  }
+      const newCharcter = characterFactory.create(filteredData);
+      onSuccessSubmit.onSuccessSubmit(newCharcter);
+      reset();
+    }, 1000);
+  };
 
-  private handleSubmit(event: React.SyntheticEvent) {
-    const hasErrorArr = [false];
-    this.formFieldRefs.forEach((formField) => {
-      if (formField.current?.validate() === '') {
-        hasErrorArr.push(false);
-      } else {
-        hasErrorArr.push(true);
-      }
-    });
-    hasErrorArr.some((elem) => elem !== false) ? this.onSubmit(true) : this.onSubmit(false);
-    event.preventDefault();
-  }
+  return (
+    <form className="character-form" onSubmit={handleSubmit(onSubmit)}>
+      {CharacterFormMetadata.map((_, index) => {
+        return (
+          <FormField
+            formField={CharacterFormMetadata[index]}
+            register={register}
+            errors={errors}
+            key={index}
+          />
+        );
+      })}
 
-  render() {
-    return (
-      <form className="character-form" onSubmit={this.handleSubmit}>
-        {this.props.formFields.map((field, index) => {
-          return (
-            <FormField
-              key={`${field.element}-${index}`}
-              element={field.element}
-              label={field.label}
-              name={field.name}
-              type={field.type}
-              options={field.options}
-              ref={this.formFieldRefs[index]}
-              validator={new FormFieldValueValidator(field.validationRules)}
-            />
-          );
-        })}
-        <div className="form-buttons">
-          <button data-testid="form-submit-btn" type="submit">
-            Submit form
-          </button>
-        </div>
-        <span
-          data-testid="submit-message"
-          className={this.state.showSubmitMessage ? 'submit-message' : 'notsubmit-message'}
-        >
-          Data has been saved
-        </span>
-      </form>
-    );
-  }
+      <input className="form-buttons" type="submit" />
+      <span
+        data-testid="submit-message"
+        className={showSubmitMessage ? 'submit-message' : 'notsubmit-message'}
+      >
+        Data has been saved
+      </span>
+    </form>
+  );
 }
-
-export default CharacterForm;

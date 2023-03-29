@@ -1,165 +1,129 @@
-import FormFieldValueValidator from '../models/FormFieldValueValidator';
-import React, { createRef, Component, RefObject } from 'react';
-import { IFormProps, IFormState } from '../models/types';
+import React, { Fragment } from 'react';
+import { IFormFieldProps } from '../models/types';
 
-class FormField extends Component<IFormProps, IFormState> {
-  validator: FormFieldValueValidator;
-  inputRef = createRef<HTMLInputElement>();
-  selectRef = createRef<HTMLSelectElement>();
-  radioRefs = new Array<RefObject<HTMLInputElement>>();
-  constructor(props: IFormProps) {
-    super(props);
-    this.validator = this.props.validator;
-    if (this.props.element === 'radio') {
-      this.radioRefs =
-        this.props.options?.map(() => {
-          return createRef<HTMLInputElement>();
-        }) || [];
-    }
-    this.state = { error: '', fileName: 'not selected' };
-  }
-
-  get fieldValue(): string | boolean | object {
-    return (
-      this.inputRef.current?.files ||
-      this.inputRef.current?.value ||
-      this.inputRef.current?.checked ||
-      this.selectRef.current?.value ||
-      this.radioRefs.find((radioRef) => radioRef.current?.checked)?.current?.value ||
-      ''
-    );
-  }
-
-  reset(): void {
-    if (this.inputRef.current) {
-      this.inputRef.current.value = '';
-      this.inputRef.current.checked = false;
-      this.setState({ fileName: 'not selected' });
-    }
-    if (this.selectRef.current) {
-      this.selectRef.current.value = '';
-    }
-    if (this.radioRefs) {
-      this.radioRefs.forEach((radioRef) => {
-        if (radioRef.current) {
-          radioRef.current.checked = false;
-        }
-      });
-    }
-  }
-
-  validate(): string {
-    const error = this.props.validator.validate(this.fieldValue);
-    this.setState({ error: error });
-    return error;
-  }
-
-  onImageSelect(): void {
-    const name =
-      this.inputRef.current !== null ? this.inputRef.current.files?.item(0)?.name : 'not selected';
-    this.setState({ fileName: name });
-  }
-
-  renderInput() {
-    return (
-      <label className="form-label">
-        {this.props.label}
-        {this.props.value}
-        {this.props.type === 'file' ? (
-          <div className="file-wrapper">
-            <span
-              className={this.state.fileName === 'not selected' ? 'filename' : 'filename-selected'}
-            >
-              {this.state.fileName}
-            </span>
-            <label htmlFor="fileInput" className="input-wrapper">
-              Select image
-              <input
-                type={this.props.type}
-                id="fileInput"
-                ref={this.inputRef}
-                name={this.props.name}
-                value={this.props.value}
-                data-testid={
-                  this.props.label
-                    ? this.props.label.toLocaleLowerCase().slice(2, 4)
-                    : this.props.name?.toLocaleLowerCase().slice(2, 4)
-                }
-                onChange={this.onImageSelect.bind(this)}
-              ></input>
-            </label>
-          </div>
-        ) : (
-          <input
-            type={this.props.type}
-            ref={this.inputRef}
-            name={this.props.name}
-            value={this.props.value}
-            data-testid={
-              this.props.label
-                ? this.props.label.toLocaleLowerCase().slice(2, 4)
-                : this.props.name?.toLocaleLowerCase().slice(2, 4)
-            }
-          ></input>
-        )}
-      </label>
-    );
-  }
-
-  renderSelect() {
-    return (
-      <label className="form-label">
-        {this.props.label}
-        {this.props.value}
-        <select
-          ref={this.selectRef}
-          name={this.props.name}
-          data-testid={this.props.label?.slice(0, -2).toLocaleLowerCase()}
-        >
-          {this.props.options?.map((opt) => {
-            return (
-              <option
-                value={opt}
-                data-testid={`${this.props.label?.toLocaleLowerCase().slice(0, 3)}`}
-                key={`option-${opt.toLocaleLowerCase()}`}
-              >
-                {opt}
-              </option>
-            );
-          })}
-        </select>
-      </label>
-    );
-  }
-
-  renderRadio() {
-    return this.props.options?.map((option, index) => {
-      return (
-        <label className="form-label" key={option}>
-          {option}
-          <input
-            type="radio"
-            ref={this.radioRefs[index]}
-            name={this.props.name}
-            value={option}
-            data-testid={`radio-${index}`}
-          ></input>
-        </label>
-      );
-    });
-  }
-
-  render() {
+export default function FormField(props: IFormFieldProps) {
+  const renderTextInput = () => {
     return (
       <>
-        {this.props.element === 'input' && this.renderInput()}
-        {this.props.element === 'select' && this.renderSelect()}
-        {this.props.element === 'radio' && this.renderRadio()}
-        <span className="input-error">{this.state.error}</span>
-        <div className="underline"></div>
+        <label className="form-label">
+          {props.formField.labels[0]}
+          <input
+            placeholder={props.formField.placeholder}
+            data-testid={props.formField.ids[0]}
+            key={props.formField.ids[0]}
+            {...props.register(props.formField.register, {
+              required: props.formField.required,
+              pattern: props.formField.patern,
+              minLength: props.formField.minLength,
+            })}
+          ></input>
+        </label>
+        {props.formField.ids[0] === 'name' && props.errors.name && (
+          <span className="input-error">{props.errors.name.message}</span>
+        )}
+        {props.formField.ids[0] === 'origin' && props.errors.origin && (
+          <span className="input-error">{props.errors.origin.message}</span>
+        )}
+        {props.formField.ids[0] === 'location' && props.errors.location && (
+          <span className="input-error">{props.errors.location.message}</span>
+        )}
       </>
     );
-  }
-}
+  };
 
-export default FormField;
+  const renderRadioInput = () => {
+    return (
+      <>
+        <label className="form-label">
+          {props.formField.ids.map((_, index) => {
+            return (
+              <Fragment key={props.formField.ids[index]}>
+                {props.formField.labels[index]}
+                <input
+                  type={props.formField.type}
+                  data-testid={props.formField.ids[index]}
+                  {...props.register(props.formField.register, {
+                    required: props.formField.required,
+                    pattern: props.formField.patern,
+                    minLength: props.formField.minLength,
+                  })}
+                  value={props.formField.values?.[index]}
+                ></input>
+              </Fragment>
+            );
+          })}
+        </label>
+        {props.errors.status && <span className="input-error">{props.errors.status.message}</span>}
+      </>
+    );
+  };
+
+  const renderSelectInput = () => {
+    return (
+      <>
+        <label className="form-label">
+          {props.formField.labels[0]}
+          <select
+            {...props.register(props.formField.register, { required: props.formField.required })}
+          >
+            {props.formField.ids.map((_, index) => {
+              return (
+                <option
+                  key={`${props.formField.ids[0]}-${index}`}
+                  data-testid={props.formField.ids[index]}
+                  value={props.formField.values?.[index]}
+                >
+                  {props.formField.options?.[index]}
+                </option>
+              );
+            })}
+          </select>
+        </label>
+        {props.formField.ids[0] === 'select-spec-0' && props.errors.species && (
+          <span className="input-error">{props.errors.species.message}</span>
+        )}
+        {props.formField.ids[0] === 'select-gen-0' && props.errors.gender && (
+          <span className="input-error">{props.errors.gender.message}</span>
+        )}
+      </>
+    );
+  };
+
+  const renderInput = () => {
+    return (
+      <>
+        <label className="form-label">
+          {props.formField.labels[0]}
+          <input
+            {...props.register(props.formField.register, { required: props.formField.required })}
+            type={props.formField.type}
+            key={props.formField.ids[0]}
+            data-testid={props.formField.ids[0]}
+          />
+        </label>
+        {props.formField.type === 'file' && props.errors.image && (
+          <span className="input-error">{props.errors.image.message}</span>
+        )}
+        {props.formField.type === 'date' && props.errors.date && (
+          <span className="input-error">{props.errors.date.message}</span>
+        )}
+        {props.formField.type === 'checkbox' && props.errors.consest && (
+          <span className="input-error">{props.errors.consest.message}</span>
+        )}
+      </>
+    );
+  };
+
+  return (
+    <>
+      {props.formField.type === 'text' && renderTextInput()}
+      {props.formField.type === 'radio' && renderRadioInput()}
+      {props.formField.type === 'select' && renderSelectInput()}
+      {(props.formField.type === 'file' ||
+        props.formField.type === 'date' ||
+        props.formField.type === 'checkbox') &&
+        renderInput()}
+      <div className="underline"></div>
+    </>
+  );
+}

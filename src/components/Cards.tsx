@@ -1,17 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Card from './Card';
 import { ICardsProps } from '../models/types';
 
-class Cards extends Component<ICardsProps> {
-  render() {
-    return (
-      <div className="cards" data-testid="cards">
-        {this.props.characters.map((person) => {
-          return <Card character={person} key={String(person.id)} />;
-        })}
-      </div>
-    );
-  }
+function Cards(props: ICardsProps) {
+  return (
+    <div className="cards" data-testid="cards">
+      {props.characters.map((character) => {
+        return <Card character={character} key={String(character.id)} />;
+      })}
+    </div>
+  );
 }
 
 export default Cards;

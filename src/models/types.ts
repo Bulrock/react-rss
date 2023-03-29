@@ -4,10 +4,6 @@ export interface SearchBarProps {
   handleSearchClick?: () => void;
 }
 
-export interface UpdateFormPageDataState {
-  updateData?: (value: string | boolean) => void;
-}
-
 export interface ICharacter {
   id: number | string;
   name: string;
@@ -41,13 +37,8 @@ export interface IViewRepository {
   findView: (key: number) => boolean;
 }
 
-export interface ICardState {
-  likes: number;
-  views: number;
-  show: boolean;
-  info: boolean;
-  isLiked: boolean;
-  isViewed: boolean;
+export interface IHeaderProps {
+  hideSearch: boolean;
 }
 
 export interface ICardProps {
@@ -55,10 +46,6 @@ export interface ICardProps {
 }
 
 export interface ICardsProps {
-  characters: ICharacter[];
-}
-
-export interface IFormPageState {
   characters: ICharacter[];
 }
 

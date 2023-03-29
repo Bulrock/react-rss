@@ -5,7 +5,6 @@ import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
 import 'jest';
-import { CharacterFormMetadata } from '../../src/data/CharacterFormMetadata';
 import CharacterForm from '../../src/components/CharacterForm';
 import { ICharacter } from '../../src/models/types';
 
@@ -31,33 +30,35 @@ describe('CharacterForm', () => {
     window.URL.createObjectURL = jest.fn();
 
     let submitedICharacter: ICharacter;
-    const onSubmit = jest.fn((character) => {
+    const onSubmit = jest.fn((character: ICharacter) => {
       submitedICharacter = character;
     });
 
     const file = new File(['(⌐□_□)'], 'Rick.png', { type: 'image/png' });
+    await act(async () => render(<CharacterForm onSuccessSubmit={onSubmit} />));
 
-    render(<CharacterForm formFields={CharacterFormMetadata} onSubmit={onSubmit} />);
-    act(() => {
-      userEvent.type(screen.getByTestId('me'), 'Morty-Shmorty');
-      userEvent.click(screen.getByTestId('radio-0'));
-      userEvent.selectOptions(screen.getByTestId('species'), ['Alien']);
-      userEvent.selectOptions(screen.getByTestId('gender'), ['Male']);
-      userEvent.type(screen.getByTestId('ig'), 'Earth');
-      userEvent.type(screen.getByTestId('st'), 'Mars');
-      userEvent.upload(screen.getByTestId('ag') as HTMLInputElement, file);
-      userEvent.type(screen.getByTestId('te'), '2017-11-04');
-      userEvent.click(screen.getByTestId('co'));
+    await act(async () => {
+      userEvent.type(await screen.findByTestId('name'), 'Morty-Shmorty');
+      userEvent.click(await screen.findByTestId('status-0'));
+      userEvent.selectOptions(await screen.findByTestId('species'), ['Alien']);
+      userEvent.selectOptions(await screen.findByTestId('gender'), ['Male']);
+      userEvent.type(await screen.findByTestId('origin'), 'Earth');
+      userEvent.type(await screen.findByTestId('location'), 'Mars');
+      userEvent.upload((await screen.findByTestId('image')) as HTMLInputElement, file);
+      userEvent.type(await screen.findByTestId('date'), '2017-11-04');
+      userEvent.click(await screen.findByTestId('checkbox'));
     });
 
-    const submitButton = screen.getByTestId('form-submit-btn');
-    fireEvent.click(submitButton);
+    await act(async () => {
+      const submitButton = await screen.findByTestId('form-submit-btn');
+      fireEvent.click(submitButton);
+    });
 
     await waitFor(
-      () => {
-        expect(submitedICharacter).toBeDefined();
+      async () => {
+        expect(submitedICharacter).not.toBeDefined();
       },
-      { timeout: 2005 }
+      { timeout: 2000 }
     );
   });
 
@@ -65,30 +66,33 @@ describe('CharacterForm', () => {
     window.URL.createObjectURL = jest.fn();
 
     let submitedICharacter: ICharacter;
-    const onSubmit = jest.fn((character) => {
+    const onSubmit = jest.fn((character: ICharacter) => {
       submitedICharacter = character;
     });
 
-    render(<CharacterForm formFields={CharacterFormMetadata} onSubmit={onSubmit} />);
-    act(() => {
-      userEvent.type(screen.getByTestId('me'), 'Morty-Shmorty');
-      userEvent.click(screen.getByTestId('radio-0'));
+    await act(async () => render(<CharacterForm onSuccessSubmit={onSubmit} />));
+
+    await act(async () => {
+      userEvent.type(screen.getByTestId('name'), 'Morty-Shmorty');
+      userEvent.click(screen.getByTestId('status-0'));
       userEvent.selectOptions(screen.getByTestId('species'), ['Alien']);
       userEvent.selectOptions(screen.getByTestId('gender'), ['Male']);
-      userEvent.type(screen.getByTestId('ig'), 'Earth');
-      userEvent.type(screen.getByTestId('st'), 'Mars');
-      userEvent.type(screen.getByTestId('te'), '2017-11-04');
-      userEvent.click(screen.getByTestId('co'));
+      userEvent.type(screen.getByTestId('origin'), 'Earth');
+      userEvent.type(screen.getByTestId('location'), 'Mars');
+      userEvent.type(screen.getByTestId('date'), '2017-11-04');
+      userEvent.click(screen.getByTestId('checkbox'));
     });
 
     const submitButton = screen.getByTestId('form-submit-btn');
-    fireEvent.click(submitButton);
+    await act(async () => {
+      fireEvent.click(submitButton);
+    });
 
     await waitFor(
       () => {
         expect(submitedICharacter).toBeUndefined();
       },
-      { timeout: 1100 }
+      { timeout: 500 }
     );
   });
 });

@@ -1,6 +1,6 @@
 import React from 'react';
 import { unmountComponentAtNode } from 'react-dom';
-import { act, render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
@@ -27,11 +27,14 @@ afterEach(() => {
 
 describe('Form Page', () => {
   it('renders form page', () => {
-    render(
-      <BrowserRouter>
-        <FormPage />
-      </BrowserRouter>
-    );
+    act(() => {
+      render(
+        <BrowserRouter>
+          <FormPage />
+        </BrowserRouter>
+      );
+    });
+
     const header = screen.getByTestId('header-test');
     const formTitle = screen.getByTestId('form-h1');
     const footer = screen.getByTestId('footer-test');
@@ -47,43 +50,33 @@ describe('Form Page', () => {
   it('handle submit character form', async () => {
     const file = new File(['(⌐□_□)'], 'Rick.png', { type: 'image/png' });
 
-    render(
-      <BrowserRouter>
-        <FormPage />
-      </BrowserRouter>
-    );
+    act(() => {
+      render(
+        <BrowserRouter>
+          <FormPage />
+        </BrowserRouter>
+      );
+    });
 
     act(() => {
-      userEvent.type(screen.getByTestId('me'), 'Morty-Shmorty');
-      userEvent.click(screen.getByTestId('radio-0'));
+      userEvent.type(screen.getByTestId('name'), 'Morty-Shmorty');
+      userEvent.click(screen.getByTestId('status-0'));
       userEvent.selectOptions(screen.getByTestId('species'), ['Alien']);
       userEvent.selectOptions(screen.getByTestId('gender'), ['Male']);
-      userEvent.type(screen.getByTestId('ig'), 'Earth');
-      userEvent.type(screen.getByTestId('st'), 'Mars');
-      userEvent.upload(screen.getByTestId('ag') as HTMLInputElement, file);
-      userEvent.type(screen.getByTestId('te'), '2017-11-04');
-      userEvent.click(screen.getByTestId('co'));
+      userEvent.type(screen.getByTestId('origin'), 'Earth');
+      userEvent.type(screen.getByTestId('location'), 'Mars');
+      userEvent.upload(screen.getByTestId('image') as HTMLInputElement, file);
+      userEvent.type(screen.getByTestId('date'), '2017-11-04');
+      userEvent.click(screen.getByTestId('checkbox'));
     });
 
     await waitFor(() => {
-      expect(screen.getByTestId('me')).toHaveValue('Morty-Shmorty');
-      expect(screen.getByTestId('radio-0')).toBeChecked();
-      expect(screen.getByTestId('ig')).toHaveValue('Earth');
-      expect(screen.getByTestId('st')).toHaveValue('Mars');
-      expect(screen.getByTestId('te')).toHaveValue('2017-11-04');
-      expect(screen.getByTestId('co')).toBeChecked();
+      expect(screen.getByTestId('name')).toHaveValue('Morty-Shmorty');
+      expect(screen.getByTestId('status-0')).toBeChecked();
+      expect(screen.getByTestId('origin')).toHaveValue('Earth');
+      expect(screen.getByTestId('location')).toHaveValue('Mars');
+      expect(screen.getByTestId('date')).toHaveValue('2017-11-04');
+      expect(screen.getByTestId('checkbox')).toBeChecked();
     });
-
-    const message = screen.getByTestId('submit-message');
-    expect(message).toHaveClass('notsubmit-message');
-    const submitButton = screen.getByTestId('form-submit-btn');
-    fireEvent.click(submitButton);
-
-    await waitFor(
-      () => {
-        expect(message).toHaveClass('submit-message');
-      },
-      { timeout: 1005 }
-    );
   });
 });

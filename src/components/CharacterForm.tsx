@@ -42,7 +42,7 @@ export default function CharacterForm(onSuccessSubmit: ICharacterFormProps) {
   };
 
   return (
-    <form className="character-form" onSubmit={handleSubmit(onSubmit)}>
+    <form data-testid="form" className="character-form" onSubmit={handleSubmit(onSubmit)}>
       {CharacterFormMetadata.map((_, index) => {
         return (
           <FormField
@@ -54,7 +54,7 @@ export default function CharacterForm(onSuccessSubmit: ICharacterFormProps) {
         );
       })}
 
-      <input className="form-buttons" type="submit" />
+      <input className="form-buttons" type="submit" data-testid="form-submit-btn" />
       <span
         data-testid="submit-message"
         className={showSubmitMessage ? 'submit-message' : 'notsubmit-message'}

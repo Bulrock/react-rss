@@ -64,6 +64,7 @@ export default function FormField(props: IFormFieldProps) {
         <label className="form-label">
           {props.formField.labels[0]}
           <select
+            data-testid={props.formField.register}
             {...props.register(props.formField.register, { required: props.formField.required })}
           >
             {props.formField.ids.map((_, index) => {

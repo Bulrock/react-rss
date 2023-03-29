@@ -16,9 +16,7 @@ function Card(props: ICardProps) {
   const viewRepository = new LocalStorageViewRepository();
 
   useEffect(() => {
-    return () => {
-      componentDidMount();
-    };
+    componentDidMount();
   });
 
   const handleLikesClick = () => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { unmountComponentAtNode } from 'react-dom';
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
@@ -12,7 +12,6 @@ let container: HTMLDivElement | null = null;
 beforeEach(() => {
   container = document.createElement('div') as HTMLDivElement;
   document.body.appendChild(container);
-  jest.useFakeTimers();
 });
 
 afterEach(() => {
@@ -22,7 +21,6 @@ afterEach(() => {
     container.remove();
     container = null;
   }
-  jest.useRealTimers();
 });
 
 describe('Form Page', () => {
@@ -77,6 +75,59 @@ describe('Form Page', () => {
       expect(screen.getByTestId('location')).toHaveValue('Mars');
       expect(screen.getByTestId('date')).toHaveValue('2017-11-04');
       expect(screen.getByTestId('checkbox')).toBeChecked();
+    });
+  });
+
+  it('submits the form correctly with message and reset the form', async () => {
+    act(() => {
+      render(
+        <BrowserRouter>
+          <FormPage />
+        </BrowserRouter>
+      );
+    });
+    const submitButton = screen.getByRole('button');
+
+    fireEvent.input(screen.getByLabelText('Name:'), { target: { value: 'Rick Sanchez' } });
+    fireEvent.click(screen.getByTestId('status-0'));
+    fireEvent.select(screen.getByLabelText('Species:'), { target: { value: 'Human' } });
+    fireEvent.select(screen.getByLabelText('Gender:'), { target: { value: 'Male' } });
+    fireEvent.input(screen.getByLabelText('Origin planet of birth:'), {
+      target: { value: 'Earth' },
+    });
+    fireEvent.input(screen.getByLabelText('Last known location:'), { target: { value: 'Earth' } });
+    fireEvent.change(screen.getByLabelText('Image:'), {
+      target: { files: [new File([], 'test.png', { type: 'image/png' })] },
+    });
+    fireEvent.input(screen.getByLabelText('Date of character creation:'), {
+      target: { value: '2022-01-01' },
+    });
+    fireEvent.click(screen.getByLabelText('I consent to this data'));
+
+    await act(async () => {
+      fireEvent.submit(submitButton);
+    });
+
+    const submitMessage = waitFor(() => screen.getByTestId('submit-message'));
+
+    waitFor(
+      () => {
+        expect(submitMessage).toHaveTextContent(/Data has been saved/i);
+      },
+      { timeout: 1500 }
+    );
+
+    waitFor(() => {
+      expect(screen.getByLabelText('Name:')).toHaveValue('');
+      expect(screen.getByTestId('status-0')).not.toBeChecked();
+      expect(screen.getByLabelText('Species:')).toHaveValue('');
+      expect(screen.getByLabelText('Gender:')).toHaveValue('');
+      expect(screen.getByLabelText('Origin planet of birth:')).toHaveValue('');
+      expect(screen.getByLabelText('Last known location:')).toHaveValue('');
+      expect(screen.getByLabelText('Image:') as HTMLInputElement).toHaveValue('');
+      expect(screen.getByLabelText('Date of character creation:')).toHaveValue('');
+      expect(screen.getByLabelText('I consent to this data')).not.toBeChecked();
+      expect(screen.getByLabelText('card')).not.toBeChecked();
     });
   });
 });

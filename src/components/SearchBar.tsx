@@ -1,13 +1,26 @@
 import React, { useState } from 'react';
 import find from '../assets/find.png';
+import CharactersService from '../models/CharactersService';
+import { SearchBarProps, ICharacter } from '../models/types';
 
-function SearchBar() {
+function SearchBar(props: SearchBarProps) {
   const [search, setSearch] = useState(localStorage.getItem('search'));
+  const charactersService = CharactersService();
 
   const handleSearchClick = () => {
     if (!search) return;
 
+    if (search) {
+      charactersService(search).then((characters: ICharacter[]) =>
+        handleCharactersFetched(characters)
+      );
+    }
+
     localStorage.setItem('search', search);
+  };
+
+  const handleCharactersFetched = (characters: ICharacter[]) => {
+    if (props.onCharactersFetched) props.onCharactersFetched(characters);
   };
 
   const onInputValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {

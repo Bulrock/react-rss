@@ -1,7 +1,7 @@
 import { UseFormRegister, FieldErrors } from 'react-hook-form';
 
 export interface SearchBarProps {
-  handleSearchClick?: () => void;
+  onCharactersFetched?: (characters: ICharacter[]) => void;
 }
 
 export interface ICharacter {
@@ -38,6 +38,7 @@ export interface IViewRepository {
 }
 
 export interface IHeaderProps {
+  onCharactersFetched?: (persons: ICharacter[]) => void;
   hideSearch: boolean;
 }
 

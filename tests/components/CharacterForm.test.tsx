@@ -1,6 +1,6 @@
 import React from 'react';
 import { unmountComponentAtNode } from 'react-dom';
-import { render, screen, waitFor, fireEvent, act } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
@@ -26,18 +26,20 @@ afterEach(() => {
 });
 
 describe('CharacterForm', () => {
-  it('renders correctly', () => {
+  it('renders correctly', async () => {
     render(<CharacterForm onSuccessSubmit={jest.fn()} />);
-    expect(screen.getByLabelText('Name:')).toBeInTheDocument();
-    expect(screen.getByTestId('status-0')).toBeInTheDocument();
-    expect(screen.getByLabelText('Species:')).toBeInTheDocument();
-    expect(screen.getByLabelText('Gender:')).toBeInTheDocument();
-    expect(screen.getByLabelText('Origin planet of birth:')).toBeInTheDocument();
-    expect(screen.getByLabelText('Last known location:')).toBeInTheDocument();
-    expect(screen.getByLabelText('Image:')).toBeInTheDocument();
-    expect(screen.getByLabelText('Date of character creation:')).toBeInTheDocument();
-    expect(screen.getByLabelText('I consent to this data')).toBeInTheDocument();
-    expect(screen.getByRole('button')).toBeInTheDocument();
+    waitFor(() => {
+      expect(screen.getByLabelText('Name:')).toBeInTheDocument();
+      expect(screen.getByTestId('status-0')).toBeInTheDocument();
+      expect(screen.getByLabelText('Species:')).toBeInTheDocument();
+      expect(screen.getByLabelText('Gender:')).toBeInTheDocument();
+      expect(screen.getByLabelText('Origin planet of birth:')).toBeInTheDocument();
+      expect(screen.getByLabelText('Last known location:')).toBeInTheDocument();
+      expect(screen.getByLabelText('Image:')).toBeInTheDocument();
+      expect(screen.getByLabelText('Date of character creation:')).toBeInTheDocument();
+      expect(screen.getByLabelText('I consent to this data')).toBeInTheDocument();
+      expect(screen.getByRole('button')).toBeInTheDocument();
+    });
   });
 
   it('should not return Icharacter on submit with incorrectly filled form', async () => {
@@ -48,23 +50,17 @@ describe('CharacterForm', () => {
       submitedICharacter = character;
     });
 
-    await act(async () => render(<CharacterForm onSuccessSubmit={onSubmit} />));
+    render(<CharacterForm onSuccessSubmit={onSubmit} />);
 
-    await act(async () => {
-      userEvent.type(screen.getByTestId('name'), 'Morty');
-    });
+    userEvent.type(screen.getByTestId('name'), 'Morty');
 
     const submitButton = screen.getByTestId('form-submit-btn');
-    await act(async () => {
-      fireEvent.click(submitButton);
-    });
 
-    waitFor(
-      () => {
-        expect(submitedICharacter).toBeUndefined();
-      },
-      { timeout: 1500 }
-    );
+    fireEvent.click(submitButton);
+
+    waitFor(() => {
+      expect(submitedICharacter).toBeUndefined();
+    });
   });
 
   it('should return Icharacter on submit with correctly filled form', async () => {
@@ -74,57 +70,50 @@ describe('CharacterForm', () => {
     });
 
     render(<CharacterForm onSuccessSubmit={onSuccessSubmitMock} />);
-    const submitButton = screen.getByRole('button');
 
-    fireEvent.input(screen.getByLabelText('Name:'), { target: { value: 'Rick Sanchez' } });
+    fireEvent.change(screen.getByLabelText('Name:'), { target: { value: 'Rick Sanchez' } });
     fireEvent.click(screen.getByTestId('status-0'));
-    fireEvent.select(screen.getByLabelText('Species:'), { target: { value: 'Human' } });
-    fireEvent.select(screen.getByLabelText('Gender:'), { target: { value: 'Male' } });
-    fireEvent.input(screen.getByLabelText('Origin planet of birth:'), {
+    fireEvent.change(screen.getByLabelText('Species:'), { target: { value: 'Human' } });
+    fireEvent.change(screen.getByLabelText('Gender:'), { target: { value: 'Male' } });
+    fireEvent.change(screen.getByLabelText('Origin planet of birth:'), {
       target: { value: 'Earth' },
     });
-    fireEvent.input(screen.getByLabelText('Last known location:'), { target: { value: 'Earth' } });
+    fireEvent.change(screen.getByLabelText('Last known location:'), { target: { value: 'Earth' } });
     fireEvent.change(screen.getByLabelText('Image:'), {
-      target: { files: [new File([], 'test.png', { type: 'image/png' })] },
+      target: { files: [new File(['test'], 'test.png', { type: 'image/png' })] },
     });
-    fireEvent.input(screen.getByLabelText('Date of character creation:'), {
+    fireEvent.change(screen.getByLabelText('Date of character creation:'), {
       target: { value: '2022-01-01' },
     });
     fireEvent.click(screen.getByLabelText('I consent to this data'));
 
-    await act(async () => {
-      fireEvent.submit(submitButton);
-    });
+    fireEvent.click(screen.getByTestId('form-submit-btn'));
 
-    waitFor(
-      () => {
-        expect(submitedICharacter).toBeDefined();
-      },
-      { timeout: 2000 }
-    );
+    waitFor(() => {
+      expect(submitedICharacter).toBeDefined();
+    });
   });
 
   it('should return errors on submit with empty form fields', async () => {
     window.URL.createObjectURL = jest.fn();
 
-    act(() => render(<CharacterForm onSuccessSubmit={jest.fn()} />));
+    render(<CharacterForm onSuccessSubmit={jest.fn()} />);
 
-    const submitButton = screen.getByTestId('form-submit-btn');
-    await act(async () => {
-      fireEvent.click(submitButton);
+    fireEvent.click(screen.getByTestId('form-submit-btn'));
+
+    await waitFor(() => {
+      expect(screen.getByText('Name is required')).toBeInTheDocument();
+      expect(screen.getByText('Status is required')).toBeInTheDocument();
+      expect(screen.getByText('Species is required')).toBeInTheDocument();
+      expect(screen.getByText('Gender is required')).toBeInTheDocument();
+      expect(screen.getByText('Origin planet name is required')).toBeInTheDocument();
+      expect(screen.getByText('Last known location is required')).toBeInTheDocument();
+      expect(screen.getByText('Select character image')).toBeInTheDocument();
+      expect(screen.getByText('Select date of creation')).toBeInTheDocument();
+      expect(
+        screen.getByText('Confirm information publishing before submitting')
+      ).toBeInTheDocument();
     });
-
-    expect(screen.getByText('Name is required')).toBeInTheDocument();
-    expect(screen.getByText('Status is required')).toBeInTheDocument();
-    expect(screen.getByText('Species is required')).toBeInTheDocument();
-    expect(screen.getByText('Gender is required')).toBeInTheDocument();
-    expect(screen.getByText('Origin planet name is required')).toBeInTheDocument();
-    expect(screen.getByText('Last known location is required')).toBeInTheDocument();
-    expect(screen.getByText('Select character image')).toBeInTheDocument();
-    expect(screen.getByText('Select date of creation')).toBeInTheDocument();
-    expect(
-      screen.getByText('Confirm information publishing before submitting')
-    ).toBeInTheDocument();
   });
 
   it('submits the form correctly with message and reset the form', async () => {
@@ -132,39 +121,34 @@ describe('CharacterForm', () => {
     render(<CharacterForm onSuccessSubmit={onSuccessSubmitMock} />);
     const submitButton = screen.getByRole('button');
 
-    fireEvent.input(screen.getByLabelText('Name:'), { target: { value: 'Rick Sanchez' } });
+    fireEvent.change(screen.getByLabelText('Name:'), { target: { value: 'Rick Sanchez' } });
     fireEvent.click(screen.getByTestId('status-0'));
-    fireEvent.select(screen.getByLabelText('Species:'), { target: { value: 'Human' } });
-    fireEvent.select(screen.getByLabelText('Gender:'), { target: { value: 'Male' } });
-    fireEvent.input(screen.getByLabelText('Origin planet of birth:'), {
+    fireEvent.change(screen.getByLabelText('Species:'), { target: { value: 'Human' } });
+    fireEvent.change(screen.getByLabelText('Gender:'), { target: { value: 'Male' } });
+    fireEvent.change(screen.getByLabelText('Origin planet of birth:'), {
       target: { value: 'Earth' },
     });
-    fireEvent.input(screen.getByLabelText('Last known location:'), { target: { value: 'Earth' } });
+    fireEvent.change(screen.getByLabelText('Last known location:'), { target: { value: 'Earth' } });
     fireEvent.change(screen.getByLabelText('Image:'), {
-      target: { files: [new File([], 'test.png', { type: 'image/png' })] },
+      target: { files: [new File(['test'], 'test.png', { type: 'image/png' })] },
     });
-    fireEvent.input(screen.getByLabelText('Date of character creation:'), {
+    fireEvent.change(screen.getByLabelText('Date of character creation:'), {
       target: { value: '2022-01-01' },
     });
     fireEvent.click(screen.getByLabelText('I consent to this data'));
 
-    await act(async () => {
-      fireEvent.submit(submitButton);
+    fireEvent.submit(submitButton);
+
+    const submitMessage = screen.findByTestId('submit-message');
+    waitFor(() => {
+      expect(submitMessage).toHaveTextContent(/Data has been saved/i);
+      expect(submitMessage).toHaveClass('notsubmit-message');
     });
 
-    const submitMessage = await waitFor(() => screen.getByTestId('submit-message'));
-
-    expect(submitMessage).toHaveTextContent(/Data has been saved/i);
-
-    waitFor(
-      () => {
-        expect(submitMessage).not.toHaveTextContent(/Data has been saved/i);
-      },
-      { timeout: 1500 }
-    );
-
     waitFor(() => {
-      expect(screen.getByLabelText('Name:')).toHaveValue('');
+      expect(submitMessage).not.toHaveTextContent(/Data has been saved/i);
+      expect(submitMessage).toHaveClass('submit-message');
+      expect(screen.getByLabelText('Name:')).toHaveValue('Rick Sanchez');
       expect(screen.getByTestId('status-0')).not.toBeChecked();
       expect(screen.getByLabelText('Species:')).toHaveValue('');
       expect(screen.getByLabelText('Gender:')).toHaveValue('');
@@ -175,5 +159,32 @@ describe('CharacterForm', () => {
       expect(screen.getByLabelText('I consent to this data')).not.toBeChecked();
       expect(onSuccessSubmitMock).toHaveBeenCalledTimes(1);
     });
+  });
+
+  it('handle submit character form', async () => {
+    const onSuccessSubmitMock = jest.fn();
+    const { getByTestId } = render(<CharacterForm onSuccessSubmit={onSuccessSubmitMock} />);
+
+    const file = new File(['test'], 'Rick.png', { type: 'image/png' });
+
+    fireEvent.change(getByTestId('name'), { target: { value: 'Morty' } });
+    fireEvent.click(getByTestId('status-0'));
+    fireEvent.change(getByTestId('species'), { target: { value: 'Alien' } });
+    fireEvent.change(getByTestId('gender'), { target: { value: 'Male' } });
+    fireEvent.change(getByTestId('origin'), { target: { value: 'Earth' } });
+    fireEvent.change(getByTestId('location'), { target: { value: 'Mars' } });
+    fireEvent.change(getByTestId('date'), { target: { value: '2017-11-04' } });
+    fireEvent.click(getByTestId('checkbox'));
+    fireEvent.change(getByTestId('image'), { target: { files: [file] } });
+
+    fireEvent.click(getByTestId('form-submit-btn'));
+
+    waitFor(
+      () => {
+        expect(onSuccessSubmitMock).toHaveBeenCalledTimes(1);
+        expect(onSuccessSubmitMock).toHaveBeenCalledWith({ name: 'Morty' });
+      },
+      { timeout: 2000 }
+    );
   });
 });

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { ICharacterFormProps, Inputs } from '../models/types';
-import CharacterFactory from '../models/CharacterFactory';
 import FormField from './FormField';
 import { CharacterFormMetadata } from '../data/CharacterFormMetadata';
+import useSubmitForm from '../models/useSubmitForm';
 
 export default function CharacterForm(onSuccessSubmit: ICharacterFormProps) {
   const [showSubmitMessage, setShowSubmitMessage] = useState(false);
@@ -14,35 +14,15 @@ export default function CharacterForm(onSuccessSubmit: ICharacterFormProps) {
     getValues,
     reset,
   } = useForm<Inputs>({ mode: 'onSubmit', reValidateMode: 'onSubmit' });
-  const characterFactory = new CharacterFactory();
-
-  const onSubmit: SubmitHandler<Inputs> = (_, event) => {
-    event?.preventDefault();
-
-    setShowSubmitMessage(true);
-    setTimeout(() => {
-      setShowSubmitMessage(false);
-      const characterData = Object.values(getValues());
-      const filteredData = characterData
-        .map((value) => {
-          if (value && typeof value === 'string') {
-            return value;
-          } else if (value && typeof value === 'boolean') {
-            return;
-          } else if (value) {
-            return URL.createObjectURL(getValues('image')[0]);
-          }
-        })
-        .filter((value) => value !== undefined) as string[];
-
-      const newCharcter = characterFactory.create(filteredData);
-      onSuccessSubmit.onSuccessSubmit(newCharcter);
-      reset();
-    }, 1000);
-  };
 
   return (
-    <form data-testid="form" className="character-form" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      data-testid="form"
+      className="character-form"
+      onSubmit={handleSubmit(
+        useSubmitForm(setShowSubmitMessage, onSuccessSubmit, getValues, reset)
+      )}
+    >
       {CharacterFormMetadata.map((_, index) => {
         return (
           <FormField
@@ -53,8 +33,11 @@ export default function CharacterForm(onSuccessSubmit: ICharacterFormProps) {
           />
         );
       })}
-
-      <input className="form-buttons" type="submit" data-testid="form-submit-btn" />
+      <div className="form-buttons">
+        <button data-testid="form-submit-btn" type="submit">
+          Submit form
+        </button>
+      </div>
       <span
         data-testid="submit-message"
         className={showSubmitMessage ? 'submit-message' : 'notsubmit-message'}

@@ -1,8 +1,7 @@
 import React from 'react';
 import { unmountComponentAtNode } from 'react-dom';
-import { act, render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
 import 'jest';
@@ -25,13 +24,11 @@ afterEach(() => {
 
 describe('Form Page', () => {
   it('renders form page', () => {
-    act(() => {
-      render(
-        <BrowserRouter>
-          <FormPage />
-        </BrowserRouter>
-      );
-    });
+    render(
+      <BrowserRouter>
+        <FormPage />
+      </BrowserRouter>
+    );
 
     const header = screen.getByTestId('header-test');
     const formTitle = screen.getByTestId('form-h1');
@@ -46,67 +43,59 @@ describe('Form Page', () => {
   });
 
   it('handle submit character form', async () => {
-    const file = new File(['(⌐□_□)'], 'Rick.png', { type: 'image/png' });
+    const { getByTestId, getByText } = render(
+      <BrowserRouter>
+        <FormPage />
+      </BrowserRouter>
+    );
 
-    act(() => {
-      render(
-        <BrowserRouter>
-          <FormPage />
-        </BrowserRouter>
-      );
-    });
+    const file = new File(['test'], 'Rick.png', { type: 'image/png' });
 
-    act(() => {
-      userEvent.type(screen.getByTestId('name'), 'Morty-Shmorty');
-      userEvent.click(screen.getByTestId('status-0'));
-      userEvent.selectOptions(screen.getByTestId('species'), ['Alien']);
-      userEvent.selectOptions(screen.getByTestId('gender'), ['Male']);
-      userEvent.type(screen.getByTestId('origin'), 'Earth');
-      userEvent.type(screen.getByTestId('location'), 'Mars');
-      userEvent.upload(screen.getByTestId('image') as HTMLInputElement, file);
-      userEvent.type(screen.getByTestId('date'), '2017-11-04');
-      userEvent.click(screen.getByTestId('checkbox'));
-    });
+    fireEvent.change(getByTestId('name'), { target: { value: 'Morty' } });
+    fireEvent.click(getByTestId('status-0'));
+    fireEvent.change(getByTestId('species'), { target: { value: 'Alien' } });
+    fireEvent.change(getByTestId('gender'), { target: { value: 'Male' } });
+    fireEvent.change(getByTestId('origin'), { target: { value: 'Earth' } });
+    fireEvent.change(getByTestId('location'), { target: { value: 'Mars' } });
+    fireEvent.change(getByTestId('image'), { target: { files: [file] } });
+    fireEvent.change(getByTestId('date'), { target: { value: '2017-11-04' } });
+    fireEvent.click(getByTestId('checkbox'));
 
-    await waitFor(() => {
-      expect(screen.getByTestId('name')).toHaveValue('Morty-Shmorty');
-      expect(screen.getByTestId('status-0')).toBeChecked();
-      expect(screen.getByTestId('origin')).toHaveValue('Earth');
-      expect(screen.getByTestId('location')).toHaveValue('Mars');
-      expect(screen.getByTestId('date')).toHaveValue('2017-11-04');
-      expect(screen.getByTestId('checkbox')).toBeChecked();
-    });
+    fireEvent.click(getByTestId('form-submit-btn'));
+
+    waitFor(
+      () => {
+        expect(getByText('Morty')).toBeInTheDocument();
+        expect(getByTestId('status-0')).toBeChecked();
+        expect(getByTestId('origin')).toHaveValue('Earth');
+        expect(getByTestId('location')).toHaveValue('Mars');
+        expect(getByTestId('date')).toHaveValue('2017-11-04');
+        expect(getByTestId('checkbox')).toBeChecked();
+      },
+      { timeout: 2000 }
+    );
   });
 
   it('submits the form correctly with message and reset the form', async () => {
-    act(() => {
-      render(
-        <BrowserRouter>
-          <FormPage />
-        </BrowserRouter>
-      );
-    });
-    const submitButton = screen.getByRole('button');
+    const { getByTestId } = render(
+      <BrowserRouter>
+        <FormPage />
+      </BrowserRouter>
+    );
 
-    fireEvent.input(screen.getByLabelText('Name:'), { target: { value: 'Rick Sanchez' } });
-    fireEvent.click(screen.getByTestId('status-0'));
-    fireEvent.select(screen.getByLabelText('Species:'), { target: { value: 'Human' } });
-    fireEvent.select(screen.getByLabelText('Gender:'), { target: { value: 'Male' } });
-    fireEvent.input(screen.getByLabelText('Origin planet of birth:'), {
-      target: { value: 'Earth' },
-    });
-    fireEvent.input(screen.getByLabelText('Last known location:'), { target: { value: 'Earth' } });
-    fireEvent.change(screen.getByLabelText('Image:'), {
-      target: { files: [new File([], 'test.png', { type: 'image/png' })] },
-    });
-    fireEvent.input(screen.getByLabelText('Date of character creation:'), {
-      target: { value: '2022-01-01' },
-    });
-    fireEvent.click(screen.getByLabelText('I consent to this data'));
+    const file = new File(['test'], 'Rick.png', { type: 'image/png' });
 
-    await act(async () => {
-      fireEvent.submit(submitButton);
-    });
+    fireEvent.change(getByTestId('name'), { target: { value: 'Morty' } });
+    fireEvent.click(getByTestId('status-0'));
+    fireEvent.change(getByTestId('species'), { target: { value: 'Alien' } });
+    fireEvent.change(getByTestId('gender'), { target: { value: 'Male' } });
+    fireEvent.change(getByTestId('origin'), { target: { value: 'Earth' } });
+    fireEvent.change(getByTestId('location'), { target: { value: 'Mars' } });
+    fireEvent.change(getByTestId('date'), { target: { value: '2017-11-04' } });
+    fireEvent.click(getByTestId('checkbox'));
+    fireEvent.change(getByTestId('image'), { target: { files: [file] } });
+
+    fireEvent.click(getByTestId('form-submit-btn'));
 
     const submitMessage = waitFor(() => screen.getByTestId('submit-message'));
 

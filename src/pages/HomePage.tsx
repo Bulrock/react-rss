@@ -3,9 +3,10 @@ import Header from '../../src/components/Header';
 import Footer from '../components/Footer';
 import Cards from '../../src/components/Cards';
 import { ICharacter } from 'models/types';
+import { characters as charactersDefault } from '../data/Characters';
 
 function HomePage() {
-  const [characters, setCharacters] = useState<ICharacter[]>([]);
+  const [characters, setCharacters] = useState(charactersDefault);
 
   const handleCharactersFetched = (characters: ICharacter[]) => {
     setCharacters(characters);

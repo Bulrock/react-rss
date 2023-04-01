@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import find from '../assets/find.png';
 import CharactersService from '../models/CharactersService';
 import { SearchBarProps, ICharacter } from '../models/types';
+import { useEffect } from 'react';
 
 function SearchBar(props: SearchBarProps) {
   const [search, setSearch] = useState(localStorage.getItem('search'));
   const charactersService = CharactersService();
+  const searchRef = useRef<HTMLInputElement | null>(null);
 
-  const handleSearchClick = () => {
+  const handleCharactersFetched = useCallback(
+    (characters: ICharacter[]) => {
+      if (props.onCharactersFetched) props.onCharactersFetched(characters);
+    },
+    [props]
+  );
+
+  const performSearch = useCallback(() => {
     if (!search) return;
 
     if (search) {
@@ -15,19 +24,38 @@ function SearchBar(props: SearchBarProps) {
         handleCharactersFetched(characters)
       );
     }
+  }, [charactersService, handleCharactersFetched, search]);
 
-    localStorage.setItem('search', search);
-  };
+  useEffect(() => {
+    performSearch();
+  }, [performSearch, search]);
 
-  const handleCharactersFetched = (characters: ICharacter[]) => {
-    if (props.onCharactersFetched) props.onCharactersFetched(characters);
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.key === 'Enter') {
+        handleSearchClick();
+      }
+    };
+
+    document.addEventListener('keyup', handleKeyPress);
+
+    return () => {
+      document.removeEventListener('keyup', handleKeyPress);
+    };
+  });
+
+  const handleSearchClick = () => {
+    if (searchRef.current) {
+      setSearch(searchRef.current.value);
+    }
   };
 
   const onInputValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e) {
-      const newSearch = e.target.value;
-      setSearch(newSearch);
-      localStorage.setItem('search', newSearch);
+      if (searchRef.current) {
+        const newSearch = searchRef.current?.value;
+        localStorage.setItem('search', newSearch);
+      }
     }
   };
 
@@ -37,8 +65,9 @@ function SearchBar(props: SearchBarProps) {
         <img className="search-img" src={find} alt="find" />
         <input
           type="search"
-          value={search || ''}
+          defaultValue={search || ''}
           data-testid="search-input"
+          ref={searchRef}
           onChange={onInputValueChange}
         />
       </div>

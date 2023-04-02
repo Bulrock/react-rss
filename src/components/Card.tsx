@@ -8,7 +8,6 @@ import LocalStorageViewRepository from '../models/LocalStorageViewRepository';
 function Card(props: ICardProps) {
   const [likes, setLikes] = useState(0);
   const [views, setViews] = useState(0);
-  const [show, setShow] = useState(false);
   const [info, setInfo] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [isViewed, setIsViewed] = useState(false);
@@ -29,10 +28,6 @@ function Card(props: ICardProps) {
       setIsLiked(!isLiked);
       likeRepository.remove(props.character.id);
     }
-  };
-
-  const handleDetailsClick = () => {
-    setShow(!show);
   };
 
   const handleInfoClick = () => {
@@ -57,8 +52,15 @@ function Card(props: ICardProps) {
     setViews(views);
   };
 
+  const handleCardClick = () => {
+    if (!props.setModalActive) return;
+    props.setModalActive(true);
+    props.onCharacterCardClick(props.character);
+    handleInfoClick();
+  };
+
   return (
-    <div className="card" data-testid="card">
+    <div className="card" data-testid="card" onClick={handleCardClick}>
       <div className="card-header-wrapper">
         <div>
           <img className="person-img" src={props.character.image} alt="person image" />
@@ -73,36 +75,6 @@ function Card(props: ICardProps) {
               {props.character.status} - {props.character.species}
             </strong>
           </span>
-          <p className="person-loc" data-testid="person-loc">
-            {show && <span className="person-location-title">Last known location:</span>}
-            <br></br>
-            {show && (
-              <strong className="person-location-name">{props.character.location.name}</strong>
-            )}
-            <br></br>
-            {show && <span className="person-gender-title">Gender:</span>}
-            <br></br>
-            {show && <strong className="person-gender">{props.character.gender}</strong>}
-          </p>
-          <p className="person-loc" data-testid="person-info-block">
-            {info && <span className="person-info-title">Origin place of birth:</span>}
-            <br></br>
-            {info && <strong className="person-info-name">{props.character.origin.name}</strong>}
-            <br></br>
-            {info && <span className="person-birth-title">Date of birth:</span>}
-            <br></br>
-            {info && (
-              <strong className="person-date">{props.character.created.slice(0, 10)}</strong>
-            )}
-          </p>
-        </div>
-        <div className="buttons-wrapper">
-          <button className="btn person-details" onClick={handleDetailsClick}>
-            {show ? 'Hide details' : 'Show details'}
-          </button>
-          <button className="btn person-info" data-testid="info-button" onClick={handleInfoClick}>
-            {info ? 'Hide info' : 'Show info'}
-          </button>
         </div>
       </div>
       <div>

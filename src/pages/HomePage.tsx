@@ -4,8 +4,9 @@ import Footer from '../components/Footer';
 import Cards from '../../src/components/Cards';
 import { ICharacter } from 'models/types';
 import { characters as charactersDefault } from '../data/Characters';
+import { IHomePageProps } from 'models/types';
 
-function HomePage() {
+function HomePage(props: IHomePageProps) {
   const [characters, setCharacters] = useState(charactersDefault);
 
   const handleCharactersFetched = (characters: ICharacter[]) => {
@@ -17,7 +18,11 @@ function HomePage() {
       <Header onCharactersFetched={handleCharactersFetched} hideSearch={false} />
       <div className="main">
         <h1 data-testid="home-h1">The Rick and Morty Universe</h1>
-        <Cards characters={characters} />
+        <Cards
+          setModalActive={props.setModalActive}
+          onCharacterCardClick={props.onCharacterCardClick}
+          characters={characters}
+        />
       </div>
       <Footer />
     </div>

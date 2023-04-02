@@ -38,16 +38,36 @@ export interface IViewRepository {
 }
 
 export interface IHeaderProps {
-  onCharactersFetched?: (persons: ICharacter[]) => void;
+  onCharactersFetched?: (characters: ICharacter[]) => void;
   hideSearch: boolean;
 }
 
 export interface ICardProps {
   character: ICharacter;
+  onCharacterCardClick: (character: ICharacter) => void;
+  setModalActive: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export interface IModalProps {
+  characterModal: ICharacter | null;
+  active: boolean;
+  setActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface ICardsProps {
   characters: ICharacter[];
+  onCharacterCardClick: (character: ICharacter) => void;
+  setModalActive: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export interface IHomePageProps {
+  onCharacterCardClick: (character: ICharacter) => void;
+  setModalActive: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export interface IFormPageProps {
+  onCharacterCardClick: (character: ICharacter) => void;
+  setModalActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface IFormFieldProps {

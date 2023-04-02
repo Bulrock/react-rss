@@ -129,6 +129,14 @@ a:hover,
   height: min-content;
   border: 1px solid gray;
   border-radius: 10px;
+  transition: all .3s ease-in-out;
+}
+
+.card:hover {
+  cursor: pointer;
+  transform: scale(0.95);
+  border: 1px solid rgb(56, 72, 252);
+  border-radius: 10px;
 }
 
 .person-img {
@@ -375,6 +383,54 @@ a:hover,
   flex-direction: column-reverse;
   justify-content: right;
 }
+
+.modal {
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0);
+}
+
+.modal.active {
+  transform: scale(1);
+}
+
+.modal-content {
+  margin: 0 auto;
+  border-radius: 12px;
+  background-color: white;
+  min-height: 450px;
+  width: 288px;
+  transform: scale(0);
+  transition: all .7s ease-in-out;
+}
+
+.modal-content.active {
+  transform: scale(1);
+}
+
+.modal-close-cross {
+  display: flex;
+  margin: 5px;
+  justify-content: flex-end;
+}
+
+.cross-img {
+  transform:rotate(180deg);
+  transition: all .3s ease-in-out;
+}
+
+.cross-img:hover {
+  cursor: pointer;
+  transform: scale(1.2);
+}
+
 
 @media screen and (max-width: 400px){
   .wrapper-search {

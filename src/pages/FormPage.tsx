@@ -4,8 +4,9 @@ import Footer from '../components/Footer';
 import Cards from '../components/Cards';
 import { ICharacter } from '../models/types';
 import CharacterForm from '../components/CharacterForm';
+import { IFormPageProps } from '../models/types';
 
-function FormPage() {
+function FormPage(props: IFormPageProps) {
   const [characters, setCharacters] = useState<ICharacter[]>([]);
 
   const handleSubmitCharacterForm = (character: ICharacter) => {
@@ -18,7 +19,11 @@ function FormPage() {
       <div className="main">
         <h1 data-testid="form-h1">Create new Character with form</h1>
         <CharacterForm onSuccessSubmit={handleSubmitCharacterForm} />
-        <Cards characters={characters} />
+        <Cards
+          setModalActive={props.setModalActive}
+          onCharacterCardClick={props.onCharacterCardClick}
+          characters={characters}
+        />
       </div>
       <Footer />
     </div>

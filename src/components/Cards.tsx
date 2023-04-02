@@ -6,7 +6,14 @@ function Cards(props: ICardsProps) {
   return (
     <div className="cards" data-testid="cards">
       {props.characters.map((character) => {
-        return <Card character={character} key={String(character.id)} />;
+        return (
+          <Card
+            setModalActive={props.setModalActive}
+            onCharacterCardClick={props.onCharacterCardClick}
+            character={character}
+            key={String(character.id)}
+          />
+        );
       })}
     </div>
   );

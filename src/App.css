@@ -395,10 +395,13 @@ a:hover,
   align-items: center;
   justify-content: center;
   transform: scale(0);
+  transition: all .0s ease-in-out;
+  transition-delay: 0.5s;
 }
 
 .modal.active {
   transform: scale(1);
+  transition: unset;
 }
 
 .modal-content {
@@ -408,7 +411,7 @@ a:hover,
   min-height: 450px;
   width: 288px;
   transform: scale(0);
-  transition: all .7s ease-in-out;
+  transition: all .5s ease-in-out;
 }
 
 .modal-content.active {

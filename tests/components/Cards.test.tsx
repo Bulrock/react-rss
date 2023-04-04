@@ -59,4 +59,17 @@ describe('Cards component', () => {
 
     expect(screen.getByTestId('cards')).toBeInTheDocument();
   });
+
+  it('do not render cards on characters equal null', () => {
+    render(
+      <Cards
+        onCharacterCardClick={onCharacterCardClick}
+        setModalActive={setModalActive}
+        characters={null}
+        key={999999999}
+      />
+    );
+
+    expect(screen.getByTestId('error-message-container')).toBeInTheDocument();
+  });
 });

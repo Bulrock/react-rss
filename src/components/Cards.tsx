@@ -7,6 +7,7 @@ function Cards(props: ICardsProps) {
     <div className="cards" data-testid="cards">
       {!props.characters ? (
         <Card
+          data-testid="null-character"
           setModalActive={props.setModalActive}
           onCharacterCardClick={props.onCharacterCardClick}
           character={null}

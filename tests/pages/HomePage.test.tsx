@@ -28,11 +28,13 @@ afterEach(() => {
 });
 
 describe('Home Page', () => {
+  const onCharacterCardClick = jest.fn();
+  const setModalActive = jest.fn();
   it('renders home page with navigation and Search Bar in header and default 4 cards', () => {
     act(() => {
       render(
         <BrowserRouter>
-          <HomePage />
+          <HomePage onCharacterCardClick={onCharacterCardClick} setModalActive={setModalActive} />
         </BrowserRouter>
       );
     });
@@ -51,7 +53,11 @@ describe('Home Page', () => {
   it('handlePersonsFetched with provided search value on search button click', async () => {
     render(
       <BrowserRouter>
-        <HomePage data-testid="home-page" />
+        <HomePage
+          onCharacterCardClick={onCharacterCardClick}
+          setModalActive={setModalActive}
+          data-testid="home-page"
+        />
       </BrowserRouter>
     );
 

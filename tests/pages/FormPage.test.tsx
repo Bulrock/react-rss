@@ -23,10 +23,13 @@ afterEach(() => {
 });
 
 describe('Form Page', () => {
+  const onCharacterCardClick = jest.fn();
+  const setModalActive = jest.fn();
+
   it('renders form page', () => {
     render(
       <BrowserRouter>
-        <FormPage />
+        <FormPage onCharacterCardClick={onCharacterCardClick} setModalActive={setModalActive} />
       </BrowserRouter>
     );
 
@@ -45,7 +48,7 @@ describe('Form Page', () => {
   it('handle submit character form', async () => {
     const { getByTestId, getByText } = render(
       <BrowserRouter>
-        <FormPage />
+        <FormPage onCharacterCardClick={onCharacterCardClick} setModalActive={setModalActive} />
       </BrowserRouter>
     );
 
@@ -79,7 +82,7 @@ describe('Form Page', () => {
   it('submits the form correctly with message and reset the form', async () => {
     const { getByTestId } = render(
       <BrowserRouter>
-        <FormPage />
+        <FormPage onCharacterCardClick={onCharacterCardClick} setModalActive={setModalActive} />
       </BrowserRouter>
     );
 

@@ -4,7 +4,6 @@ import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
 import 'jest';
 import CharactersService from '../../src/models/CharactersService';
-import { characters as personData } from '../../src/data/Characters';
 
 let container: HTMLDivElement | null = null;
 beforeEach(() => {
@@ -24,16 +23,16 @@ afterEach(() => {
   server.close();
 });
 
-describe('RickAndMortyService Service', () => {
-  it('handlePersonsFetched with provided wrong search value return default 4 data cards', async () => {
-    const rickAndMortyService = CharactersService();
-    const persons = await rickAndMortyService('qwert');
-    expect(persons).toEqual(personData);
+describe('CharactersService Service', () => {
+  it('handlePersonsFetched with provided wrong search value return null', async () => {
+    const charactersService = CharactersService();
+    const persons = await charactersService('qwert');
+    expect(persons).toEqual(null);
   });
 
   it('handlePersonsFetched with provided valid search value return not empty value', async () => {
-    const rickAndMortyService = CharactersService();
-    const persons = await rickAndMortyService('kyle');
+    const charactersService = CharactersService();
+    const persons = await charactersService('kyle');
     expect(persons).toHaveLength(1);
   });
 });

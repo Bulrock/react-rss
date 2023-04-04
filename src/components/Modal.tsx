@@ -4,7 +4,11 @@ import cross from '../assets/cross.svg';
 
 const Modal = (props: IModalProps) => {
   return (
-    <div className={props.active ? 'modal active' : 'modal'} onClick={() => props.setActive(false)}>
+    <div
+      data-testid="modal"
+      className={props.active ? 'modal active' : 'modal'}
+      onClick={() => props.setActive(false)}
+    >
       <div
         className={props.active ? 'modal-content active' : 'modal-content'}
         onClick={(e) => e.stopPropagation()}

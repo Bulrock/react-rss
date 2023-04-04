@@ -45,8 +45,17 @@ const mockPerson = [
 ];
 
 describe('Cards component', () => {
+  const onCharacterCardClick = jest.fn();
+  const setModalActive = jest.fn();
   it('renders cards', () => {
-    render(<Cards characters={mockPerson} key={String(mockPerson[0].id)} />);
+    render(
+      <Cards
+        onCharacterCardClick={onCharacterCardClick}
+        setModalActive={setModalActive}
+        characters={mockPerson}
+        key={String(mockPerson[0].id)}
+      />
+    );
 
     expect(screen.getByTestId('cards')).toBeInTheDocument();
   });

@@ -1,6 +1,6 @@
 import React from 'react';
 import { unmountComponentAtNode } from 'react-dom';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
 import 'jest';
@@ -44,49 +44,68 @@ const mockPerson = {
 };
 
 describe('Card component', () => {
-  it('renders person information and buttons', () => {
+  const onCharacterCardClick = jest.fn();
+  const setModalActive = jest.fn();
+  it('renders person information', () => {
     const { getByText, getByAltText } = render(
-      <Card character={mockPerson} key={String(mockPerson.id)} />
+      <Card
+        onCharacterCardClick={onCharacterCardClick}
+        setModalActive={setModalActive}
+        character={mockPerson}
+        key={String(mockPerson.id)}
+      />
     );
-    const personDetails = screen.getByTestId('person-loc');
 
     expect(getByText(mockPerson.name)).toBeInTheDocument();
     expect(getByText(`${mockPerson.status} - ${mockPerson.species}`)).toBeInTheDocument();
-    expect(personDetails).toBeEmpty;
     expect(getByAltText('person image')).toHaveAttribute('src', mockPerson.image);
-    expect(getByText('Show details')).toBeInTheDocument();
-    expect(getByText('Show info')).toBeInTheDocument();
   });
 
-  it('toggles person details on details button click', () => {
-    const { getByText } = render(<Card character={mockPerson} key="1" />);
-    const detailsButton = getByText('Show details');
-    const personDetails = screen.getByTestId('person-loc');
+  it('show modal window on characterCard click', () => {
+    render(
+      <Card
+        onCharacterCardClick={onCharacterCardClick}
+        setModalActive={setModalActive}
+        character={mockPerson}
+        key="1"
+      />
+    );
+    const characterCard = screen.getByTestId('card');
 
-    fireEvent.click(detailsButton);
+    fireEvent.click(characterCard);
 
-    expect(personDetails).not.toBeEmpty;
-
-    fireEvent.click(detailsButton);
-
-    expect(personDetails).toBeEmpty;
+    expect(setModalActive).toHaveBeenCalledWith(true);
   });
 
-  it('increase number of views on person info button click', () => {
-    render(<Card character={mockPerson} key="1" />);
-    const infoButton = screen.getByTestId('info-button');
+  it('increase number of views on character Card click', () => {
+    render(
+      <Card
+        onCharacterCardClick={onCharacterCardClick}
+        setModalActive={setModalActive}
+        character={mockPerson}
+        key="1"
+      />
+    );
+    const characterCard = screen.getByTestId('card');
     const views = screen.getByTestId('views');
 
-    if (infoButton) {
-      const prevValue = views.textContent;
-      fireEvent.click(infoButton);
-      const currValue = views.textContent;
+    const prevValue = views.textContent;
+    fireEvent.click(characterCard);
+    const currValue = views.textContent;
+    waitFor(() => {
       expect(Number(currValue) - Number(prevValue)).toBe(1);
-    }
+    });
   });
 
   it('increases and decrease likes on like button click', () => {
-    const { getByAltText } = render(<Card character={mockPerson} key="1" />);
+    const { getByAltText } = render(
+      <Card
+        onCharacterCardClick={onCharacterCardClick}
+        setModalActive={setModalActive}
+        character={mockPerson}
+        key="1"
+      />
+    );
     const likeButton = getByAltText('like image');
 
     fireEvent.click(likeButton);
@@ -95,21 +114,16 @@ describe('Card component', () => {
     expect(screen.getByTestId('likes').textContent).toBe('0');
   });
 
-  it('changes button text on info button click', () => {
-    const { getByText } = render(<Card character={mockPerson} key="1" />);
-    const infoButton = screen.getByTestId('info-button') as HTMLButtonElement;
-    expect(getByText('Show info')).toBeInTheDocument();
-
-    fireEvent.click(infoButton);
-    expect(getByText('Hide info')).toBeInTheDocument();
-    fireEvent.click(infoButton);
-    expect(getByText('Show info')).toBeInTheDocument();
-  });
-
   it('should render likes count as 1 when person is already liked', () => {
     const likeRepository = new LocalStorageLikeRepository();
     likeRepository.add(mockPerson.id);
-    render(<Card character={mockPerson} />);
+    render(
+      <Card
+        onCharacterCardClick={onCharacterCardClick}
+        setModalActive={setModalActive}
+        character={mockPerson}
+      />
+    );
 
     const likes = screen.getByTestId('likes');
     expect(likes.textContent).toBe('1');
@@ -118,7 +132,13 @@ describe('Card component', () => {
   it('should render likes count as 0 when person is not liked', () => {
     const likeRepository = new LocalStorageLikeRepository();
     likeRepository.remove(mockPerson.id);
-    render(<Card character={mockPerson} />);
+    render(
+      <Card
+        onCharacterCardClick={onCharacterCardClick}
+        setModalActive={setModalActive}
+        character={mockPerson}
+      />
+    );
 
     const likes = screen.getByTestId('likes');
     expect(likes.textContent).toBe('0');

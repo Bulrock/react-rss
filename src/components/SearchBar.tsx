@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import find from '../assets/find.png';
 import CharactersService from '../models/CharactersService';
 import { SearchBarProps, ICharacter } from '../models/types';
@@ -6,28 +6,35 @@ import { useEffect } from 'react';
 
 function SearchBar(props: SearchBarProps) {
   const [search, setSearch] = useState(localStorage.getItem('search'));
-  const charactersService = CharactersService();
+  const charactersService = useMemo(() => CharactersService(), []);
   const searchRef = useRef<HTMLInputElement | null>(null);
 
+  const { onCharactersFetched, onCharactersFetchedStart } = props;
+
   const handleCharactersFetched = useCallback(
-    (characters: ICharacter[]) => {
-      if (props.onCharactersFetched) props.onCharactersFetched(characters);
+    (characters: ICharacter[] | null) => {
+      if (onCharactersFetched) onCharactersFetched(characters);
     },
-    [props]
+    [onCharactersFetched]
   );
 
   const performSearch = useCallback(() => {
     if (!search) return;
 
     if (search) {
-      charactersService(search).then((characters: ICharacter[]) =>
-        handleCharactersFetched(characters)
-      );
+      if (onCharactersFetchedStart) {
+        onCharactersFetchedStart();
+      }
+      charactersService(search).then((characters: ICharacter[] | null) => {
+        handleCharactersFetched(characters);
+      });
     }
-  }, [charactersService, handleCharactersFetched, search]);
+  }, [charactersService, handleCharactersFetched, onCharactersFetchedStart, search]);
 
   useEffect(() => {
-    performSearch();
+    if (search) {
+      performSearch();
+    }
   }, [performSearch, search]);
 
   useEffect(() => {

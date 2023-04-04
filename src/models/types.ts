@@ -1,7 +1,8 @@
 import { UseFormRegister, FieldErrors } from 'react-hook-form';
 
 export interface SearchBarProps {
-  onCharactersFetched?: (characters: ICharacter[]) => void;
+  onCharactersFetched?: (characters: ICharacter[] | null) => void;
+  onCharactersFetchedStart?: () => void;
 }
 
 export interface ICharacter {
@@ -25,6 +26,11 @@ export interface ICharacter {
   created: string;
 }
 
+export interface ICharacterResult {
+  results: ICharacter[];
+  error?: string;
+}
+
 export interface ILikeRepository {
   add: (key: number) => void;
   remove: (key: number) => void;
@@ -38,12 +44,13 @@ export interface IViewRepository {
 }
 
 export interface IHeaderProps {
-  onCharactersFetched?: (characters: ICharacter[]) => void;
+  onCharactersFetchedStart?: () => void;
+  onCharactersFetched?: (characters: ICharacter[] | null) => void;
   hideSearch: boolean;
 }
 
 export interface ICardProps {
-  character: ICharacter;
+  character: ICharacter | null;
   onCharacterCardClick: (character: ICharacter) => void;
   setModalActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -55,7 +62,7 @@ export interface IModalProps {
 }
 
 export interface ICardsProps {
-  characters: ICharacter[];
+  characters: ICharacter[] | null;
   onCharacterCardClick: (character: ICharacter) => void;
   setModalActive: React.Dispatch<React.SetStateAction<boolean>>;
 }

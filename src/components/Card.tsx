@@ -4,6 +4,7 @@ import viewsIcon from '../assets/eye.png';
 import likesIcon from '../assets/like.png';
 import LocalStorageLikeRepository from '../models/LocalStorageLikeRepository';
 import LocalStorageViewRepository from '../models/LocalStorageViewRepository';
+import characterNotFound from '../assets/character-not-found.png';
 
 function Card(props: ICardProps) {
   const [likes, setLikes] = useState(0);
@@ -22,11 +23,15 @@ function Card(props: ICardProps) {
     if (!isLiked) {
       setLikes(likes + 1);
       setIsLiked(!isLiked);
-      likeRepository.add(props.character.id);
+      if (props.character) {
+        likeRepository.add(props.character.id);
+      }
     } else {
       setLikes(likes - 1);
       setIsLiked(!isLiked);
-      likeRepository.remove(props.character.id);
+      if (props.character) {
+        likeRepository.remove(props.character.id);
+      }
     }
   };
 
@@ -35,31 +40,45 @@ function Card(props: ICardProps) {
       setViews(views + 1);
       setInfo(!info);
       setIsViewed(!isViewed);
-      viewRepository.add(props.character.id);
+      if (props.character) {
+        viewRepository.add(props.character.id);
+      }
     } else {
       setInfo(!info);
     }
   };
 
   const componentDidMount = () => {
-    const isLiked = likeRepository.findLike(props.character.id);
+    let isLiked;
+    if (props.character) {
+      isLiked = likeRepository.findLike(props.character.id);
+    }
     const likes = isLiked ? 1 : 0;
-    const isViewed = viewRepository.findView(props.character.id);
+    let isViewed;
+    if (props.character) {
+      isViewed = viewRepository.findView(props.character.id);
+    }
     const views = isViewed ? 1 : 0;
-    setIsLiked(isLiked);
+    if (isLiked) {
+      setIsLiked(isLiked);
+    }
     setLikes(likes);
-    setIsViewed(isViewed);
+    if (isViewed) {
+      setIsViewed(isViewed);
+    }
     setViews(views);
   };
 
   const handleCardClick = () => {
     if (!props.setModalActive) return;
     props.setModalActive(true);
-    props.onCharacterCardClick(props.character);
+    if (props.character) {
+      props.onCharacterCardClick(props.character);
+    }
     handleInfoClick();
   };
 
-  return (
+  return props.character ? (
     <div className="card" data-testid="card" onClick={handleCardClick}>
       <div className="card-header-wrapper">
         <div>
@@ -94,6 +113,15 @@ function Card(props: ICardProps) {
           </div>
         </div>
       </div>
+    </div>
+  ) : (
+    <div className="error-message-container">
+      <div className="error-message">
+        <div>Character with this name</div>
+        <div>was not found!</div>
+        <div>Try another one</div>
+      </div>
+      <img className="giant-head-img" src={characterNotFound} alt="giant yellow head" />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { ICharacter } from '../models/types';
 
-export const characters: ICharacter[] = [
+export const characters: ICharacter[] | null = [
   {
     id: 1,
     name: 'Rick Sanchez',

@@ -16,6 +16,7 @@ const Modal = (props: IModalProps) => {
         <div className="card-modal" data-testid="card-modal">
           <div className="modal-close-cross">
             <img
+              data-testid={'modal-close-btn'}
               className="cross-img"
               src={cross}
               alt="modal-close-icon"
@@ -28,6 +29,7 @@ const Modal = (props: IModalProps) => {
               <h2 className="person-name">{props.characterModal?.name}</h2>
               <span className="person-status">
                 <span
+                  data-testid={'person-status-ico'}
                   className={
                     props.characterModal?.status === 'Alive'
                       ? 'status-icon-green'

@@ -77,6 +77,35 @@ describe('Card component', () => {
     expect(setModalActive).toHaveBeenCalledWith(true);
   });
 
+  it('show error message container on character equal null', () => {
+    render(
+      <Card
+        onCharacterCardClick={onCharacterCardClick}
+        setModalActive={setModalActive}
+        character={null}
+        key="1"
+      />
+    );
+
+    expect(screen.getByTestId('error-message-container')).toBeInTheDocument();
+  });
+
+  it('dont show modal window on characterCard click', () => {
+    render(
+      <Card
+        onCharacterCardClick={onCharacterCardClick}
+        setModalActive={setModalActive}
+        character={mockPerson}
+        key="1"
+      />
+    );
+    const characterCard = screen.getByTestId('card');
+
+    fireEvent.click(characterCard);
+
+    expect(setModalActive).toHaveBeenCalledWith(true);
+  });
+
   it('increase number of views on character Card click', () => {
     render(
       <Card

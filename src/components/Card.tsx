@@ -70,7 +70,6 @@ function Card(props: ICardProps) {
   };
 
   const handleCardClick = () => {
-    if (!props.setModalActive) return;
     props.setModalActive(true);
     if (props.character) {
       props.onCharacterCardClick(props.character);
@@ -115,7 +114,7 @@ function Card(props: ICardProps) {
       </div>
     </div>
   ) : (
-    <div className="error-message-container">
+    <div data-testid="error-message-container" className="error-message-container">
       <div className="error-message">
         <div>Character with this name</div>
         <div>was not found!</div>

@@ -138,8 +138,11 @@ describe('CharacterForm', () => {
     fireEvent.click(screen.getByLabelText('I consent to this data'));
 
     fireEvent.submit(submitButton);
+    const submitMessage = await screen.findByTestId('submit-message');
+    waitFor(() => {
+      expect(submitMessage).toHaveClass('submit-message');
+    });
 
-    const submitMessage = screen.findByTestId('submit-message');
     waitFor(() => {
       expect(submitMessage).toHaveTextContent(/Data has been saved/i);
       expect(submitMessage).toHaveClass('notsubmit-message');

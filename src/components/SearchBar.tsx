@@ -60,15 +60,6 @@ function SearchBar(props: SearchBarProps) {
     }
   };
 
-  // const onInputValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (e) {
-  //     if (searchRef.current) {
-  //       const newSearch = searchRef.current?.value;
-  //       localStorage.setItem('search', newSearch);
-  //     }
-  //   }
-  // };
-
   return (
     <div className="wrapper-search" data-testid="search-test">
       <div className="search-bar">
@@ -78,7 +69,6 @@ function SearchBar(props: SearchBarProps) {
           defaultValue={search || ''}
           data-testid="search-input"
           ref={searchRef}
-          // onChange={onInputValueChange}
         />
       </div>
       <button className="btn" data-testid="search-btn" onClick={handleSearchClick}>

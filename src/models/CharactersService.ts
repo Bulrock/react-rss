@@ -1,11 +1,12 @@
 import fetch from 'node-fetch';
 import { ICharacter, ICharacterResult } from './types';
 
-export default function CharactersService() {
+export default function CharactersService(isIdPassed: boolean) {
   const apiUrl = 'https://rickandmortyapi.com/api';
+  const path = isIdPassed ? '/character/' : '/character/?name=';
 
   return async function getCharacters(query: string): Promise<ICharacter[] | null> {
-    const searchCharacter = `${apiUrl}/character/?name=${query}`;
+    const searchCharacter = `${apiUrl}${path}${query}`;
     try {
       const response = await fetch(searchCharacter);
       if (response.status === 404) {

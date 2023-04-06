@@ -6,16 +6,16 @@ import { useEffect } from 'react';
 
 function SearchBar(props: SearchBarProps) {
   const [search, setSearch] = useState(localStorage.getItem('search'));
-  const charactersService = useMemo(() => CharactersService(), []);
+  const charactersService = useMemo(() => CharactersService(false), []);
   const searchRef = useRef<HTMLInputElement | null>(null);
 
   const { onCharactersFetched, onCharactersFetchedStart } = props;
 
   const handleCharactersFetched = useCallback(
     (characters: ICharacter[] | null) => {
-      if (onCharactersFetched) onCharactersFetched(characters);
+      if (onCharactersFetched && search) onCharactersFetched(characters, search);
     },
-    [onCharactersFetched]
+    [onCharactersFetched, search]
   );
 
   const performSearch = useCallback(() => {
@@ -54,17 +54,20 @@ function SearchBar(props: SearchBarProps) {
   const handleSearchClick = () => {
     if (searchRef.current) {
       setSearch(searchRef.current.value);
+
+      const newSearch = searchRef.current?.value;
+      localStorage.setItem('search', newSearch);
     }
   };
 
-  const onInputValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e) {
-      if (searchRef.current) {
-        const newSearch = searchRef.current?.value;
-        localStorage.setItem('search', newSearch);
-      }
-    }
-  };
+  // const onInputValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (e) {
+  //     if (searchRef.current) {
+  //       const newSearch = searchRef.current?.value;
+  //       localStorage.setItem('search', newSearch);
+  //     }
+  //   }
+  // };
 
   return (
     <div className="wrapper-search" data-testid="search-test">
@@ -75,7 +78,7 @@ function SearchBar(props: SearchBarProps) {
           defaultValue={search || ''}
           data-testid="search-input"
           ref={searchRef}
-          onChange={onInputValueChange}
+          // onChange={onInputValueChange}
         />
       </div>
       <button className="btn" data-testid="search-btn" onClick={handleSearchClick}>

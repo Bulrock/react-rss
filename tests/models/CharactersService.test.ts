@@ -30,6 +30,16 @@ describe('CharactersService Service', () => {
     expect(persons).toEqual(null);
   });
 
+  it('throws an error with provided valid search value and an error in the API response', async () => {
+    const charactersService = CharactersService();
+
+    try {
+      await charactersService('reject');
+    } catch (error) {
+      expect((error as Error).message).toEqual('There is nothing here');
+    }
+  });
+
   it('handlePersonsFetched with provided valid search value return not empty value', async () => {
     const charactersService = CharactersService();
     const persons = await charactersService('kyle');

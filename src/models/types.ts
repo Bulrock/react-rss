@@ -1,7 +1,7 @@
 import { UseFormRegister, FieldErrors } from 'react-hook-form';
 
 export interface SearchBarProps {
-  onCharactersFetched?: (characters: ICharacter[] | null) => void;
+  onCharactersFetched?: (characters: ICharacter[] | null, value: string) => void;
   onCharactersFetchedStart?: () => void;
 }
 
@@ -45,7 +45,7 @@ export interface IViewRepository {
 
 export interface IHeaderProps {
   onCharactersFetchedStart?: () => void;
-  onCharactersFetched?: (characters: ICharacter[] | null) => void;
+  onCharactersFetched?: (characters: ICharacter[] | null, value: string) => void;
   hideSearch: boolean;
 }
 

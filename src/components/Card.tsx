@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { ICardProps } from '../models/types';
 import viewsIcon from '../assets/eye.png';
 import likesIcon from '../assets/like.png';
@@ -7,17 +7,49 @@ import LocalStorageViewRepository from '../models/LocalStorageViewRepository';
 import characterNotFound from '../assets/character-not-found.png';
 
 function Card(props: ICardProps) {
+  console.log(props.character);
   const [likes, setLikes] = useState(0);
   const [views, setViews] = useState(0);
   const [info, setInfo] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [isViewed, setIsViewed] = useState(false);
-  const likeRepository = new LocalStorageLikeRepository();
-  const viewRepository = new LocalStorageViewRepository();
+  const likeRepository = useMemo(() => new LocalStorageLikeRepository(), []);
+  const viewRepository = useMemo(() => new LocalStorageViewRepository(), []);
+
+  const componentDidMount = useCallback(() => {
+    console.log('use callback CDM Card home page');
+    let isLiked;
+    if (props.character) {
+      isLiked = likeRepository.findLike(props.character.id);
+    }
+    const likes = isLiked ? 1 : 0;
+    let isViewed;
+    if (props.character) {
+      isViewed = viewRepository.findView(props.character.id);
+    }
+    const views = isViewed ? 1 : 0;
+    if (isLiked) {
+      setIsLiked(isLiked);
+    }
+    setLikes(likes);
+    if (isViewed) {
+      setIsViewed(isViewed);
+    }
+    setViews(views);
+  }, [likeRepository, props.character, viewRepository]);
+
+  const handleCardClick = () => {
+    props.setModalActive(true);
+    if (props.character) {
+      props.onCharacterCardClick(props.character);
+    }
+    handleInfoClick();
+  };
 
   useEffect(() => {
+    console.log('use effect CDM Card home page');
     componentDidMount();
-  });
+  }, [componentDidMount]);
 
   const handleLikesClick = () => {
     if (!isLiked) {
@@ -46,35 +78,6 @@ function Card(props: ICardProps) {
     } else {
       setInfo(!info);
     }
-  };
-
-  const componentDidMount = () => {
-    let isLiked;
-    if (props.character) {
-      isLiked = likeRepository.findLike(props.character.id);
-    }
-    const likes = isLiked ? 1 : 0;
-    let isViewed;
-    if (props.character) {
-      isViewed = viewRepository.findView(props.character.id);
-    }
-    const views = isViewed ? 1 : 0;
-    if (isLiked) {
-      setIsLiked(isLiked);
-    }
-    setLikes(likes);
-    if (isViewed) {
-      setIsViewed(isViewed);
-    }
-    setViews(views);
-  };
-
-  const handleCardClick = () => {
-    props.setModalActive(true);
-    if (props.character) {
-      props.onCharacterCardClick(props.character);
-    }
-    handleInfoClick();
   };
 
   return props.character ? (

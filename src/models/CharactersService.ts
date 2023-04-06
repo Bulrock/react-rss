@@ -5,7 +5,7 @@ export default function CharactersService(isIdPassed: boolean) {
   const apiUrl = 'https://rickandmortyapi.com/api';
   const path = isIdPassed ? '/character/' : '/character/?name=';
 
-  return async function getCharacters(query: string): Promise<ICharacter[] | null> {
+  return async function getCharacters(query: string | null): Promise<ICharacter[] | null> {
     const searchCharacter = `${apiUrl}${path}${query}`;
     try {
       const response = await fetch(searchCharacter);

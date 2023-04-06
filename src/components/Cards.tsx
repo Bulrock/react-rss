@@ -12,6 +12,7 @@ function Cards(props: ICardsProps) {
           onCharacterCardClick={props.onCharacterCardClick}
           character={null}
           key={99999999999}
+          canDraw={props.canDraw}
         />
       ) : (
         props.characters.map((character) => (
@@ -20,6 +21,7 @@ function Cards(props: ICardsProps) {
             onCharacterCardClick={props.onCharacterCardClick}
             character={character}
             key={String(character.id)}
+            canDraw={props.canDraw}
           />
         ))
       )}

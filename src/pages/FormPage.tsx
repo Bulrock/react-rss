@@ -20,6 +20,7 @@ function FormPage(props: IFormPageProps) {
         <h1 data-testid="form-h1">Create new Character with form</h1>
         <CharacterForm onSuccessSubmit={handleSubmitCharacterForm} />
         <Cards
+          canDraw={props.canDraw}
           setModalActive={props.setModalActive}
           onCharacterCardClick={props.onCharacterCardClick}
           characters={characters}

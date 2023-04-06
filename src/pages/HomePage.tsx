@@ -1,38 +1,23 @@
-import React, { useCallback, useState, useEffect, useMemo } from 'react';
+import React, { useCallback, useState } from 'react';
 import Header from '../../src/components/Header';
 import Footer from '../components/Footer';
 import Cards from '../../src/components/Cards';
 import { ICharacter } from '../models/types';
 import { IHomePageProps } from '../models/types';
-import CharactersService from '../models/CharactersService';
+import Roller from '../components/Roller';
 
 function HomePage(props: IHomePageProps) {
   const [characters, setCharacters] = useState<ICharacter[] | null>(null);
   const [invisible, setInvisible] = useState(true);
-  const [initialSearchValue, setInitialSearchValue] = useState<string>('');
-  const charactersService = useMemo(() => CharactersService(false), []);
+  const [canDrawCard, setCanDrawCard] = useState(false);
 
-  const startCharactersFetch = useCallback(() => {
-    console.log('start fetch use callback home page');
-    charactersService(initialSearchValue).then((characters: ICharacter[] | null) => {
-      setCharacters(characters);
-    });
-  }, [initialSearchValue, charactersService]);
-
-  useEffect(() => {
-    console.log('start fetch use effect home page');
-    startCharactersFetch();
-  }, [startCharactersFetch]);
-
-  const handleCharactersFetched = useCallback((characters: ICharacter[] | null, value: string) => {
-    console.log('handle characters fetched use callback home page');
+  const handleCharactersFetched = useCallback((characters: ICharacter[] | null) => {
     setCharacters(characters);
     setInvisible(true);
-    setInitialSearchValue(value);
+    setCanDrawCard(true);
   }, []);
 
   const onCharactersFetchedStart = useCallback(() => {
-    console.log('on characters fetched start use callback home page');
     setInvisible(false);
   }, []);
 
@@ -50,19 +35,11 @@ function HomePage(props: IHomePageProps) {
             setModalActive={props.setModalActive}
             onCharacterCardClick={props.onCharacterCardClick}
             characters={characters}
+            canDraw={canDrawCard}
           />
         </div>
       ) : (
-        <div className="lds-roller">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
+        <Roller />
       )}
 
       <Footer />

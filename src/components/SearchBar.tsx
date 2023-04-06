@@ -5,7 +5,9 @@ import { SearchBarProps, ICharacter } from '../models/types';
 import { useEffect } from 'react';
 
 function SearchBar(props: SearchBarProps) {
-  const [search, setSearch] = useState(localStorage.getItem('search'));
+  const [search, setSearch] = useState(
+    localStorage.getItem('search') ? localStorage.getItem('search') : ' '
+  );
   const charactersService = useMemo(() => CharactersService(false), []);
   const searchRef = useRef<HTMLInputElement | null>(null);
 

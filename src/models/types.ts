@@ -53,6 +53,7 @@ export interface ICardProps {
   character: ICharacter | null;
   onCharacterCardClick: (character: ICharacter) => void;
   setModalActive: React.Dispatch<React.SetStateAction<boolean>>;
+  canDraw: boolean | undefined;
 }
 
 export interface IModalProps {
@@ -65,6 +66,7 @@ export interface ICardsProps {
   characters: ICharacter[] | null;
   onCharacterCardClick: (character: ICharacter) => void;
   setModalActive: React.Dispatch<React.SetStateAction<boolean>>;
+  canDraw: boolean | undefined;
 }
 
 export interface IHomePageProps {
@@ -75,6 +77,7 @@ export interface IHomePageProps {
 export interface IFormPageProps {
   onCharacterCardClick: (character: ICharacter) => void;
   setModalActive: React.Dispatch<React.SetStateAction<boolean>>;
+  canDraw?: boolean | undefined;
 }
 
 export interface IFormFieldProps {

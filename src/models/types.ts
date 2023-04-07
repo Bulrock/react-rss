@@ -43,7 +43,7 @@ export interface IError {
   error: string;
 }
 
-export type APIResponse = ICharactersResult | ICharacter | IError;
+export type CharectersFetchResult = ICharacter[] | ICharacter | IError | undefined;
 
 export interface ILikeRepository {
   add: (key: number) => void;

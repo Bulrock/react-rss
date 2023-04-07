@@ -32,7 +32,7 @@ function Cards(props: ICardsProps) {
           data-testid="null-character"
           setModalActive={props.setModalActive}
           onCharacterCardClick={props.onCharacterCardClick}
-          character={undefined}
+          character={props.characters}
           key={99999999999}
           canDraw={props.canDraw}
         />

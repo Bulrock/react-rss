@@ -27,7 +27,7 @@ function Cards(props: ICardsProps) {
           canDraw={props.canDraw}
         />
       )}
-      {!props.characters && (
+      {!props.characters && props.canDraw && (
         <Card
           data-testid="null-character"
           setModalActive={props.setModalActive}

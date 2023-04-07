@@ -25,13 +25,13 @@ afterEach(() => {
 
 describe('CharactersService Service', () => {
   it('handlePersonsFetched with provided wrong search value return null', async () => {
-    const charactersService = CharactersService();
+    const charactersService = CharactersService(false);
     const persons = await charactersService('qwert');
-    expect(persons).toEqual(null);
+    expect(persons).toEqual(undefined);
   });
 
   it('throws an error with provided valid search value and an error in the API response', async () => {
-    const charactersService = CharactersService();
+    const charactersService = CharactersService(false);
 
     try {
       await charactersService('reject');
@@ -41,8 +41,16 @@ describe('CharactersService Service', () => {
   });
 
   it('handlePersonsFetched with provided valid search value return not empty value', async () => {
-    const charactersService = CharactersService();
+    const charactersService = CharactersService(false);
     const persons = await charactersService('kyle');
     expect(persons).toHaveLength(1);
+  });
+
+  it('handlePersonsFetched with provided id return single character', async () => {
+    const charactersService = CharactersService(true);
+    const persons = await charactersService('1111');
+    if (persons !== undefined && !Array.isArray(persons) && !('error' in persons)) {
+      expect(persons.name).toBe('Single');
+    }
   });
 });

@@ -2,7 +2,6 @@ import React from 'react';
 import { unmountComponentAtNode } from 'react-dom';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { act } from 'react-dom/test-utils';
 import { server } from '../mocks/server';
 import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
@@ -30,23 +29,46 @@ afterEach(() => {
 describe('Home Page', () => {
   const onCharacterCardClick = jest.fn();
   const setModalActive = jest.fn();
-  it('renders home page with navigation and Search Bar in header and default 4 cards', () => {
-    act(() => {
-      render(
-        <BrowserRouter>
-          <HomePage onCharacterCardClick={onCharacterCardClick} setModalActive={setModalActive} />
-        </BrowserRouter>
-      );
-    });
+  it('renders home page with navigation and Search Bar in header and roller on fetching start Card list', async () => {
+    render(
+      <BrowserRouter>
+        <HomePage onCharacterCardClick={onCharacterCardClick} setModalActive={setModalActive} />
+      </BrowserRouter>
+    );
 
-    const aboutTitle = screen.getByTestId('home-h1');
+    const homePage = screen.getByTestId('home-page-component');
     const searchBar = screen.queryByTestId('search-test');
-    const cardList = screen.queryAllByTestId('card');
+    const roller = screen.getByTestId('roller');
 
     waitFor(() => {
-      expect(aboutTitle).toBeInTheDocument();
-      expect(cardList).not.toHaveLength(0);
+      expect(homePage).toBeInTheDocument();
+      expect(roller).toBeInTheDocument();
       expect(searchBar).not.toBe(null);
+    });
+  });
+
+  it('show modal window on characterCard click with active style and can be closed by either modal backgound or cross', async () => {
+    render(
+      <BrowserRouter>
+        <HomePage onCharacterCardClick={onCharacterCardClick} setModalActive={setModalActive} />
+      </BrowserRouter>
+    );
+
+    const searchInput = screen.getByTestId('search-input') as HTMLInputElement;
+    const searchButton = screen.getByTestId('search-btn') as HTMLButtonElement;
+
+    fireEvent.change(searchInput, { target: { value: 'kyle' } });
+    fireEvent.click(searchButton);
+
+    await waitFor(() => screen.getByText('Kyle'));
+
+    const characterCard = screen.getByTestId('card');
+
+    fireEvent.click(characterCard);
+    waitFor(() => {
+      expect(screen.getByTestId('modal')).toHaveClass('modal active');
+      expect(screen.getByText("Kyle's Teenyverse")).toBeInTheDocument();
+      expect(setModalActive).toHaveBeenCalledWith(true);
     });
   });
 

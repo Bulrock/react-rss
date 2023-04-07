@@ -66,6 +66,23 @@ describe('Form Page', () => {
 
     fireEvent.click(getByTestId('form-submit-btn'));
 
+    fireEvent.change(getByTestId('name'), { target: { value: 'Morty' } });
+    fireEvent.click(getByTestId('status-0'));
+    fireEvent.change(getByTestId('species'), { target: { value: 'Alien' } });
+    fireEvent.change(getByTestId('gender'), { target: { value: 'Male' } });
+    fireEvent.change(getByTestId('origin'), { target: { value: 'Earth' } });
+    fireEvent.change(getByTestId('location'), { target: { value: 'Mars' } });
+    fireEvent.change(getByTestId('image'), { target: { files: [file] } });
+    fireEvent.change(getByTestId('date'), { target: { value: '2017-11-04' } });
+    fireEvent.click(getByTestId('checkbox'));
+
+    fireEvent.click(getByTestId('form-submit-btn'));
+    const formPage = getByTestId('form-page');
+    let items;
+    waitFor(() => {
+      items = screen.findAllByText('Morty');
+    });
+
     waitFor(
       () => {
         expect(getByText('Morty')).toBeInTheDocument();
@@ -74,6 +91,8 @@ describe('Form Page', () => {
         expect(getByTestId('location')).toHaveValue('Mars');
         expect(getByTestId('date')).toHaveValue('2017-11-04');
         expect(getByTestId('checkbox')).toBeChecked();
+        expect(formPage).toHaveTextContent('Morty');
+        expect(items.length).toBe(2);
       },
       { timeout: 2000 }
     );

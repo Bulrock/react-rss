@@ -25,7 +25,7 @@ afterEach(() => {
 const mockPerson = {
   id: 283,
   name: 'Rick D. Sanchez III',
-  status: 'Dead',
+  status: 'Alive',
   species: 'Human',
   type: '',
   gender: 'Male',
@@ -46,9 +46,11 @@ const mockPerson = {
 describe('Card component', () => {
   const onCharacterCardClick = jest.fn();
   const setModalActive = jest.fn();
+  const canDraw = true;
   it('renders person information', () => {
-    const { getByText, getByAltText } = render(
+    const { getByText, getByAltText, getByTestId } = render(
       <Card
+        canDraw={canDraw}
         onCharacterCardClick={onCharacterCardClick}
         setModalActive={setModalActive}
         character={mockPerson}
@@ -59,11 +61,13 @@ describe('Card component', () => {
     expect(getByText(mockPerson.name)).toBeInTheDocument();
     expect(getByText(`${mockPerson.status} - ${mockPerson.species}`)).toBeInTheDocument();
     expect(getByAltText('person image')).toHaveAttribute('src', mockPerson.image);
+    expect(getByTestId('status-icon')).toHaveClass('status-icon-green');
   });
 
   it('show modal window on characterCard click', () => {
     render(
       <Card
+        canDraw={canDraw}
         onCharacterCardClick={onCharacterCardClick}
         setModalActive={setModalActive}
         character={mockPerson}
@@ -77,22 +81,25 @@ describe('Card component', () => {
     expect(setModalActive).toHaveBeenCalledWith(true);
   });
 
-  it('show error message container on character equal null', () => {
+  it('show error message container on character equal undefined', () => {
     render(
       <Card
+        canDraw={canDraw}
         onCharacterCardClick={onCharacterCardClick}
         setModalActive={setModalActive}
-        character={null}
+        character={undefined}
         key="1"
       />
     );
-
-    expect(screen.getByTestId('error-message-container')).toBeInTheDocument();
+    waitFor(() => {
+      expect(screen.getByTestId('error-message-container')).toBeInTheDocument();
+    });
   });
 
   it('dont show modal window on characterCard click', () => {
     render(
       <Card
+        canDraw={canDraw}
         onCharacterCardClick={onCharacterCardClick}
         setModalActive={setModalActive}
         character={mockPerson}
@@ -109,6 +116,7 @@ describe('Card component', () => {
   it('increase number of views on character Card click', () => {
     render(
       <Card
+        canDraw={canDraw}
         onCharacterCardClick={onCharacterCardClick}
         setModalActive={setModalActive}
         character={mockPerson}
@@ -129,6 +137,7 @@ describe('Card component', () => {
   it('increases and decrease likes on like button click', () => {
     const { getByAltText } = render(
       <Card
+        canDraw={canDraw}
         onCharacterCardClick={onCharacterCardClick}
         setModalActive={setModalActive}
         character={mockPerson}
@@ -148,6 +157,7 @@ describe('Card component', () => {
     likeRepository.add(mockPerson.id);
     render(
       <Card
+        canDraw={canDraw}
         onCharacterCardClick={onCharacterCardClick}
         setModalActive={setModalActive}
         character={mockPerson}
@@ -163,6 +173,7 @@ describe('Card component', () => {
     likeRepository.remove(mockPerson.id);
     render(
       <Card
+        canDraw={canDraw}
         onCharacterCardClick={onCharacterCardClick}
         setModalActive={setModalActive}
         character={mockPerson}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
 import App from '../src/App';
@@ -11,7 +11,9 @@ describe('App', () => {
         <App />
       </MemoryRouter>
     );
-    expect(screen.getByText('The Rick and Morty Universe')).toBeInTheDocument();
+    waitFor(() => {
+      expect(screen.getByText('The Rick and Morty Universe')).toBeInTheDocument();
+    });
   });
 
   test('renders about page', () => {

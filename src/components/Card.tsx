@@ -96,6 +96,7 @@ function Card(props: ICardProps) {
               <h2 className="person-name">{props.character.name}</h2>
               <span className="person-status">
                 <span
+                  data-testid="status-icon"
                   className={
                     props.character.status === 'Alive' ? 'status-icon-green' : 'status-icon-red'
                   }

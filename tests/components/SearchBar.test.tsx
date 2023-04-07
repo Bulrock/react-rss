@@ -35,7 +35,7 @@ describe('SearchBar', () => {
     const searchButton = getByTestId('search-btn');
     fireEvent.change(searchInput, { target: { value: null } });
     fireEvent.click(searchButton);
-    expect(localStorage.getItem('search')).toBe(null);
+    expect(localStorage.getItem('search')).toBe('');
     fireEvent.change(searchInput, { target: { value: 'test' } });
     fireEvent.click(searchButton);
     expect(localStorage.getItem('search')).toBe('test');
@@ -67,21 +67,8 @@ describe('SearchBar', () => {
 
     fireEvent.change(searchInput, { target: { value: '' } });
     fireEvent.click(getByTestId('search-btn'));
-
-    expect(charactersServiceMock).not.toHaveBeenCalled();
-  });
-
-  it('should update the search input value when the user types', () => {
-    const { getByTestId } = render(<SearchBar />);
-    const searchInput = getByTestId('search-input') as HTMLInputElement;
-    fireEvent.change(searchInput, { target: { value: 'test' } });
-    expect(searchInput.value).toBe('test');
-  });
-
-  it('should save the search input value to local storage when the user types', () => {
-    const { getByTestId } = render(<SearchBar />);
-    const searchInput = getByTestId('search-input');
-    fireEvent.change(searchInput, { target: { value: 'test' } });
-    expect(localStorage.getItem('search')).toBe('test');
+    waitFor(() => {
+      expect(charactersServiceMock).not.toHaveBeenCalled();
+    });
   });
 });

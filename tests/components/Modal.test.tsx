@@ -67,7 +67,13 @@ describe('Modal', () => {
 
   it('should render a modal window with active class and modal Card of dead character', () => {
     const { getByTestId, getByText } = render(
-      <Modal characterModal={mockCharacterAlive} active={true} setActive={setActive} />
+      <Modal
+        isModalError={false}
+        isFetching={false}
+        characterModal={mockCharacterAlive}
+        active={true}
+        setActive={setActive}
+      />
     );
     expect(getByTestId('modal')).toHaveClass('modal active');
     expect(getByText('Rick D. Sanchez III')).toBeInTheDocument();
@@ -80,7 +86,13 @@ describe('Modal', () => {
 
   it('should render a modal window with active class and modal Card of alive character', () => {
     const { getByTestId, getByText } = render(
-      <Modal characterModal={mockCharacterDead} active={true} setActive={setActive} />
+      <Modal
+        isModalError={false}
+        isFetching={false}
+        characterModal={mockCharacterDead}
+        active={true}
+        setActive={setActive}
+      />
     );
     expect(getByTestId('modal')).toHaveClass('modal active');
     expect(getByText('Rick D. Sanchez III')).toBeInTheDocument();
@@ -93,28 +105,48 @@ describe('Modal', () => {
 
   it('should render a modal window without active class', () => {
     const { getByTestId } = render(
-      <Modal characterModal={null} active={false} setActive={setActive} />
+      <Modal
+        isModalError={false}
+        isFetching={false}
+        characterModal={undefined}
+        active={false}
+        setActive={setActive}
+      />
     );
     expect(getByTestId('modal')).toHaveClass('modal');
   });
 
   it('should be closed on close button click', () => {
     const { getByTestId } = render(
-      <Modal characterModal={null} active={true} setActive={setActive} />
+      <Modal
+        isModalError={false}
+        isFetching={false}
+        characterModal={undefined}
+        active={true}
+        setActive={setActive}
+      />
     );
 
     expect(getByTestId('modal')).toHaveClass('modal active');
     fireEvent.click(screen.getByTestId('modal-close-btn'));
     expect(getByTestId('modal')).toHaveClass('modal');
+    expect(setActive).toHaveBeenCalled();
   });
 
   it('should be closed on background click', () => {
     const { getByTestId } = render(
-      <Modal characterModal={null} active={true} setActive={setActive} />
+      <Modal
+        isModalError={false}
+        isFetching={false}
+        characterModal={undefined}
+        active={true}
+        setActive={setActive}
+      />
     );
 
     expect(getByTestId('modal')).toHaveClass('modal active');
     fireEvent.click(screen.getByTestId('modal'));
     expect(getByTestId('modal')).toHaveClass('modal');
+    expect(setActive).toHaveBeenCalled();
   });
 });

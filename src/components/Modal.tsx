@@ -1,7 +1,7 @@
 import { IModalProps } from '../models/types';
 import React from 'react';
 import cross from '../assets/cross.svg';
-import RollerModal from './RollerModal';
+import Roller from './Roller';
 
 const Modal = (props: IModalProps) => {
   if (props.characterModal !== undefined && !('error' in props.characterModal)) {
@@ -103,7 +103,9 @@ const Modal = (props: IModalProps) => {
                 </div>
               </div>
             )}
-            {!props.isModalError && props.isFetching && <RollerModal />}
+            {!props.isModalError && props.isFetching && (
+              <Roller classRoller={'lds-roller-modal lds-roller'} />
+            )}
           </div>
         </div>
       </div>

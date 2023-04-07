@@ -39,7 +39,7 @@ function HomePage(props: IHomePageProps) {
           />
         </div>
       ) : (
-        <Roller />
+        <Roller classRoller={'lds-roller-main lds-roller'} />
       )}
 
       <Footer />

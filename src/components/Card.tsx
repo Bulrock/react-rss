@@ -5,7 +5,7 @@ import likesIcon from '../assets/like.png';
 import LocalStorageLikeRepository from '../models/LocalStorageLikeRepository';
 import LocalStorageViewRepository from '../models/LocalStorageViewRepository';
 const ErrorMessage = React.lazy(() => import('./ErrorMessage'));
-import RollerModal from './RollerModal';
+import Roller from './Roller';
 
 function Card(props: ICardProps) {
   const [likes, setLikes] = useState(0);
@@ -131,7 +131,7 @@ function Card(props: ICardProps) {
         </div>
       ) : (
         <div className="roller-wrapper">
-          <Suspense fallback={<RollerModal />}>
+          <Suspense fallback={<Roller classRoller={'lds-roller-modal lds-roller'} />}>
             <ErrorMessage />
           </Suspense>
         </div>

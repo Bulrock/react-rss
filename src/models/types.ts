@@ -8,6 +8,9 @@ export interface SearchBarProps {
   onCharactersFetchedStart?: () => void;
 }
 
+export interface IRollerProps {
+  classRoller: string;
+}
 export interface ICharacter {
   id: number | string;
   name: string;

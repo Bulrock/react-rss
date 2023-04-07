@@ -1,8 +1,9 @@
 import React from 'react';
+import { IRollerProps } from '../models/types';
 
-export default function Roller() {
+export default function Roller({ classRoller }: IRollerProps) {
   return (
-    <div className="lds-roller-main lds-roller">
+    <div className={classRoller}>
       <div></div>
       <div></div>
       <div></div>

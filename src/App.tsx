@@ -15,6 +15,7 @@ function App() {
   const [characterModal, setCharacterModal] = useState<ICharacter | IError | undefined>(undefined);
   const characterService = useMemo(() => CharactersService(true), []);
   const [isModalError, setIsModalError] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
 
   const handleCharacterCardClick = useCallback(
     (character: ICharacter) => {
@@ -27,6 +28,7 @@ function App() {
         ) {
           setCharacterModal(refetchedCharacter);
         } else {
+          setIsFetching(false);
           setIsModalError(true);
         }
       });
@@ -63,6 +65,7 @@ function App() {
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <Modal
+        isFetching={isFetching}
         isModalError={isModalError}
         characterModal={characterModal}
         active={modalActive}

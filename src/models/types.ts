@@ -78,6 +78,7 @@ export interface IModalProps {
   active: boolean;
   setActive: React.Dispatch<React.SetStateAction<boolean>>;
   isModalError: boolean;
+  isFetching: boolean;
 }
 
 export interface ICardsProps {

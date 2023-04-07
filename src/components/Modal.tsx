@@ -103,8 +103,7 @@ const Modal = (props: IModalProps) => {
                 </div>
               </div>
             )}
-            {!props.isModalError && <RollerModal />}
-            {/* <RollerModal /> */}
+            {!props.isModalError && props.isFetching && <RollerModal />}
           </div>
         </div>
       </div>

@@ -14,6 +14,7 @@ function App() {
   const [modalActive, setModalActive] = useState(false);
   const [characterModal, setCharacterModal] = useState<ICharacter | IError | undefined>(undefined);
   const characterService = useMemo(() => CharactersService(true), []);
+  const [isModalError, setIsModalError] = useState(false);
 
   const handleCharacterCardClick = useCallback(
     (character: ICharacter) => {
@@ -25,6 +26,8 @@ function App() {
           !('error' in refetchedCharacter)
         ) {
           setCharacterModal(refetchedCharacter);
+        } else {
+          setIsModalError(true);
         }
       });
     },
@@ -59,7 +62,12 @@ function App() {
         />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-      <Modal characterModal={characterModal} active={modalActive} setActive={setModalActive} />
+      <Modal
+        isModalError={isModalError}
+        characterModal={characterModal}
+        active={modalActive}
+        setActive={setModalActive}
+      />
     </>
   );
 }

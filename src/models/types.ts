@@ -77,6 +77,7 @@ export interface IModalProps {
   characterModal: ICharacter | IError | undefined;
   active: boolean;
   setActive: React.Dispatch<React.SetStateAction<boolean>>;
+  isModalError: boolean;
 }
 
 export interface ICardsProps {

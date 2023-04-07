@@ -96,12 +96,15 @@ const Modal = (props: IModalProps) => {
                 onClick={() => props.setActive(false)}
               />
             </div>
-            {/* <div className="card-header-wrapper">
-              <div className="modal-error">
-                <div>Failed to fetch Character Information!</div>
+            {props.isModalError && (
+              <div className="card-header-wrapper">
+                <div className="modal-error">
+                  <div>Failed to fetch Character Information!</div>
+                </div>
               </div>
-            </div> */}
-            <RollerModal />
+            )}
+            {!props.isModalError && <RollerModal />}
+            {/* <RollerModal /> */}
           </div>
         </div>
       </div>

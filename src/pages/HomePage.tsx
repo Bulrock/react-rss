@@ -2,20 +2,25 @@ import React, { useCallback, useState } from 'react';
 import Header from '../../src/components/Header';
 import Footer from '../components/Footer';
 import Cards from '../../src/components/Cards';
-import { ICharacter } from '../models/types';
+import { ICharacter, IError } from '../models/types';
 import { IHomePageProps } from '../models/types';
 import Roller from '../components/Roller';
 
 function HomePage(props: IHomePageProps) {
-  const [characters, setCharacters] = useState<ICharacter[] | null>(null);
+  const [characters, setCharacters] = useState<ICharacter[] | ICharacter | IError | undefined>(
+    undefined
+  );
   const [invisible, setInvisible] = useState(true);
   const [canDrawCard, setCanDrawCard] = useState(false);
 
-  const handleCharactersFetched = useCallback((characters: ICharacter[] | null) => {
-    setCharacters(characters);
-    setInvisible(true);
-    setCanDrawCard(true);
-  }, []);
+  const handleCharactersFetched = useCallback(
+    (characters: ICharacter[] | ICharacter | IError | undefined) => {
+      setCharacters(characters);
+      setInvisible(true);
+      setCanDrawCard(true);
+    },
+    []
+  );
 
   const onCharactersFetchedStart = useCallback(() => {
     setInvisible(false);

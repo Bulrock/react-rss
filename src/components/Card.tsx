@@ -5,7 +5,7 @@ import likesIcon from '../assets/like.png';
 import LocalStorageLikeRepository from '../models/LocalStorageLikeRepository';
 import LocalStorageViewRepository from '../models/LocalStorageViewRepository';
 const ErrorMessage = React.lazy(() => import('./ErrorMessage'));
-import Roller from './Roller';
+import RollerModal from './RollerModal';
 
 function Card(props: ICardProps) {
   const [likes, setLikes] = useState(0);
@@ -18,12 +18,12 @@ function Card(props: ICardProps) {
 
   const componentDidMount = useCallback(() => {
     let isLiked;
-    if (props.character) {
+    if (props.character && !('error' in props.character)) {
       isLiked = likeRepository.findLike(props.character.id);
     }
     const likes = isLiked ? 1 : 0;
     let isViewed;
-    if (props.character) {
+    if (props.character && !('error' in props.character)) {
       isViewed = viewRepository.findView(props.character.id);
     }
     const views = isViewed ? 1 : 0;
@@ -39,7 +39,7 @@ function Card(props: ICardProps) {
 
   const handleCardClick = () => {
     props.setModalActive(true);
-    if (props.character) {
+    if (props.character && !('error' in props.character)) {
       props.onCharacterCardClick(props.character);
     }
     handleInfoClick();
@@ -53,13 +53,13 @@ function Card(props: ICardProps) {
     if (!isLiked) {
       setLikes(likes + 1);
       setIsLiked(!isLiked);
-      if (props.character) {
+      if (props.character && !('error' in props.character)) {
         likeRepository.add(props.character.id);
       }
     } else {
       setLikes(likes - 1);
       setIsLiked(!isLiked);
-      if (props.character) {
+      if (props.character && !('error' in props.character)) {
         likeRepository.remove(props.character.id);
       }
     }
@@ -70,7 +70,7 @@ function Card(props: ICardProps) {
       setViews(views + 1);
       setInfo(!info);
       setIsViewed(!isViewed);
-      if (props.character) {
+      if (props.character && !('error' in props.character)) {
         viewRepository.add(props.character.id);
       }
     } else {
@@ -80,7 +80,10 @@ function Card(props: ICardProps) {
 
   return (
     <>
-      {props.character && props.canDraw && (
+      {props.character !== undefined &&
+      props.character !== null &&
+      !('error' in props.character) &&
+      props.canDraw ? (
         <div className="card" data-testid="card" onClick={handleCardClick}>
           <div className="card-header-wrapper">
             <div>
@@ -126,11 +129,12 @@ function Card(props: ICardProps) {
             </div>
           </div>
         </div>
-      )}
-      {!props.character && props.canDraw && (
-        <Suspense fallback={<Roller />}>
-          <ErrorMessage />
-        </Suspense>
+      ) : (
+        <div className="roller-wrapper">
+          <Suspense fallback={<RollerModal />}>
+            <ErrorMessage />
+          </Suspense>
+        </div>
       )}
     </>
   );

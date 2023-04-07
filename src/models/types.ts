@@ -1,7 +1,10 @@
 import { UseFormRegister, FieldErrors } from 'react-hook-form';
 
 export interface SearchBarProps {
-  onCharactersFetched?: (characters: ICharacter[] | null, value: string) => void;
+  onCharactersFetched?: (
+    characters: ICharacter[] | ICharacter | IError | undefined,
+    value: string
+  ) => void;
   onCharactersFetchedStart?: () => void;
 }
 
@@ -26,10 +29,21 @@ export interface ICharacter {
   created: string;
 }
 
-export interface ICharacterResult {
+export interface ICharactersResult {
+  info: {
+    count: number;
+    next: string | null;
+    pages: number;
+    prev: string | null;
+  };
   results: ICharacter[];
-  error?: string;
 }
+
+export interface IError {
+  error: string;
+}
+
+export type APIResponse = ICharactersResult | ICharacter | IError;
 
 export interface ILikeRepository {
   add: (key: number) => void;
@@ -45,25 +59,28 @@ export interface IViewRepository {
 
 export interface IHeaderProps {
   onCharactersFetchedStart?: () => void;
-  onCharactersFetched?: (characters: ICharacter[] | null, value: string) => void;
+  onCharactersFetched?: (
+    characters: ICharacter[] | ICharacter | IError | undefined,
+    value: string
+  ) => void;
   hideSearch: boolean;
 }
 
 export interface ICardProps {
-  character: ICharacter | null;
+  character: ICharacter | IError | undefined;
   onCharacterCardClick: (character: ICharacter) => void;
   setModalActive: React.Dispatch<React.SetStateAction<boolean>>;
   canDraw: boolean | undefined;
 }
 
 export interface IModalProps {
-  characterModal: ICharacter | null;
+  characterModal: ICharacter | IError | undefined;
   active: boolean;
   setActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface ICardsProps {
-  characters: ICharacter[] | null;
+  characters: ICharacter[] | ICharacter | IError | undefined;
   onCharacterCardClick: (character: ICharacter) => void;
   setModalActive: React.Dispatch<React.SetStateAction<boolean>>;
   canDraw: boolean | undefined;

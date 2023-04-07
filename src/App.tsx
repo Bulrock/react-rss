@@ -1,21 +1,35 @@
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import AboutPage from './pages/AboutPage';
 import HomePage from './pages/HomePage';
 import NotFoundPage from './pages/NotFoundPage';
 import FormPage from './pages/FormPage';
 import Modal from './components/Modal';
-import { ICharacter } from './models/types';
+import { ICharacter, IError } from './models/types';
+import CharactersService from './models/CharactersService';
 
 import './App.css';
 
 function App() {
   const [modalActive, setModalActive] = useState(false);
-  const [characterModal, setCharacterModal] = useState<ICharacter | null>(null);
+  const [characterModal, setCharacterModal] = useState<ICharacter | IError | undefined>(undefined);
+  const characterService = useMemo(() => CharactersService(true), []);
 
-  const handleCharacterCardClick = (character: ICharacter) => {
-    setCharacterModal(character);
-  };
+  const handleCharacterCardClick = useCallback(
+    (character: ICharacter) => {
+      setCharacterModal(undefined);
+      characterService(String(character.id)).then((refetchedCharacter) => {
+        if (
+          refetchedCharacter !== undefined &&
+          !Array.isArray(refetchedCharacter) &&
+          !('error' in refetchedCharacter)
+        ) {
+          setCharacterModal(refetchedCharacter);
+        }
+      });
+    },
+    [characterService]
+  );
 
   return (
     <>

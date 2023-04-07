@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import find from '../assets/find.png';
 import CharactersService from '../models/CharactersService';
-import { SearchBarProps, ICharacter } from '../models/types';
+import { SearchBarProps, ICharacter, IError } from '../models/types';
 import { useEffect } from 'react';
 
 function SearchBar(props: SearchBarProps) {
@@ -14,7 +14,7 @@ function SearchBar(props: SearchBarProps) {
   const { onCharactersFetched, onCharactersFetchedStart } = props;
 
   const handleCharactersFetched = useCallback(
-    (characters: ICharacter[] | null) => {
+    (characters: ICharacter[] | ICharacter | IError | undefined) => {
       if (onCharactersFetched && search) onCharactersFetched(characters, search);
     },
     [onCharactersFetched, search]
@@ -27,7 +27,7 @@ function SearchBar(props: SearchBarProps) {
       if (onCharactersFetchedStart) {
         onCharactersFetchedStart();
       }
-      charactersService(search).then((characters: ICharacter[] | null) => {
+      charactersService(search).then((characters) => {
         handleCharactersFetched(characters);
       });
     }

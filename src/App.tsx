@@ -31,6 +31,10 @@ function App() {
     [characterService]
   );
 
+  const handleCharacterCardClickFormPage = (character: ICharacter) => {
+    setCharacterModal(character);
+  };
+
   return (
     <>
       <Routes>
@@ -48,7 +52,7 @@ function App() {
           path="/form"
           element={
             <FormPage
-              onCharacterCardClick={handleCharacterCardClick}
+              onCharacterCardClick={handleCharacterCardClickFormPage}
               setModalActive={setModalActive}
             />
           }

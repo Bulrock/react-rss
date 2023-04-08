@@ -1,16 +1,20 @@
 {
   "files": {
-    "main.css": "/react-rss/static/css/main.ea5f5fca.css",
-    "main.js": "/react-rss/static/js/main.2838ccc6.js",
+    "main.css": "/react-rss/static/css/main.a6d1421c.css",
+    "main.js": "/react-rss/static/js/main.521a984a.js",
+    "static/js/220.32694a18.chunk.js": "/react-rss/static/js/220.32694a18.chunk.js",
     "static/media/notFound.png": "/react-rss/static/media/notFound.a67886071a86217cd040.png",
+    "static/media/character-not-found.png": "/react-rss/static/media/character-not-found.b3b80caa8cde465c800f.png",
     "static/media/school_logo.svg": "/react-rss/static/media/school_logo.b0bf6ac385986ba7d5bca77941250a46.svg",
     "static/media/github.svg": "/react-rss/static/media/github.7c2b277031fc9aeb24c033ff9332c319.svg",
     "index.html": "/react-rss/index.html",
-    "main.ea5f5fca.css.map": "/react-rss/static/css/main.ea5f5fca.css.map",
-    "main.2838ccc6.js.map": "/react-rss/static/js/main.2838ccc6.js.map"
+    "static/media/cross.svg": "/react-rss/static/media/cross.ab01c4c3cfc1d3954265de46175a2c3f.svg",
+    "main.a6d1421c.css.map": "/react-rss/static/css/main.a6d1421c.css.map",
+    "main.521a984a.js.map": "/react-rss/static/js/main.521a984a.js.map",
+    "220.32694a18.chunk.js.map": "/react-rss/static/js/220.32694a18.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.ea5f5fca.css",
-    "static/js/main.2838ccc6.js"
+    "static/css/main.a6d1421c.css",
+    "static/js/main.521a984a.js"
   ]
 }

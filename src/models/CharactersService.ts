@@ -24,7 +24,6 @@ export default function CharactersService(isIdPassed: boolean) {
         }
       }
     } catch (error) {
-      console.log(error);
       return undefined;
     }
   };

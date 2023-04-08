@@ -48,7 +48,7 @@ describe('CharactersService Service', () => {
 
   it('handlePersonsFetched with provided id return single character', async () => {
     const charactersService = CharactersService(true);
-    const persons = await charactersService('1111');
+    const persons = await charactersService('11111');
     if (persons !== undefined && !Array.isArray(persons) && !('error' in persons)) {
       expect(persons.name).toBe('Single');
     }

@@ -1,13 +1,14 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import find from '../assets/find.png';
 import CharactersService from '../models/CharactersService';
 import { SearchBarProps, CharectersFetchResult } from '../models/types';
 import { useEffect } from 'react';
+import { updateSearch } from '../features/SearchBarSlice';
+import { useAppSelector, useAppDispatch } from '../app/hooks';
 
 function SearchBar(props: SearchBarProps) {
-  const [search, setSearch] = useState(
-    localStorage.getItem('search') ? localStorage.getItem('search') : ' '
-  );
+  const searchValue = useAppSelector((state) => state.search);
+  const dispatch = useAppDispatch();
   const charactersService = useMemo(() => CharactersService(false), []);
   const searchRef = useRef<HTMLInputElement | null>(null);
 
@@ -15,29 +16,29 @@ function SearchBar(props: SearchBarProps) {
 
   const handleCharactersFetched = useCallback(
     (characters: CharectersFetchResult) => {
-      if (onCharactersFetched && search) onCharactersFetched(characters, search);
+      if (onCharactersFetched && searchValue) onCharactersFetched(characters, searchValue.value);
     },
-    [onCharactersFetched, search]
+    [onCharactersFetched, searchValue]
   );
 
   const performSearch = useCallback(() => {
-    if (!search) return;
+    if (!searchValue) return;
 
-    if (search) {
+    if (searchValue) {
       if (onCharactersFetchedStart) {
         onCharactersFetchedStart();
       }
-      charactersService(search).then((characters) => {
+      charactersService(searchValue.value).then((characters) => {
         handleCharactersFetched(characters);
       });
     }
-  }, [charactersService, handleCharactersFetched, onCharactersFetchedStart, search]);
+  }, [charactersService, handleCharactersFetched, onCharactersFetchedStart, searchValue]);
 
   useEffect(() => {
-    if (search) {
+    if (searchValue) {
       performSearch();
     }
-  }, [performSearch, search]);
+  }, [performSearch, searchValue]);
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
@@ -55,10 +56,7 @@ function SearchBar(props: SearchBarProps) {
 
   const handleSearchClick = () => {
     if (searchRef.current) {
-      setSearch(searchRef.current.value);
-
-      const newSearch = searchRef.current?.value;
-      localStorage.setItem('search', newSearch);
+      dispatch(updateSearch(searchRef.current.value));
     }
   };
 
@@ -68,7 +66,7 @@ function SearchBar(props: SearchBarProps) {
         <img className="search-img" src={find} alt="find" />
         <input
           type="search"
-          defaultValue={search || ''}
+          defaultValue={searchValue.value || ''}
           data-testid="search-input"
           ref={searchRef}
         />

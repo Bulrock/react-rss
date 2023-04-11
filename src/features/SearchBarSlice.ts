@@ -1,20 +1,28 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { RootState } from '../app/store';
+import { ISearchState, CharectersFetchResult } from '../models/types';
+
+const initialState: ISearchState = {
+  value: ' ',
+  searchCharacters: undefined,
+};
 
 export const SearchBarSlice = createSlice({
   name: 'search',
-  initialState: {
-    value: '',
-  },
+  initialState,
   reducers: {
     updateSearch: (state, action: PayloadAction<string>) => {
       state.value = action.payload;
     },
+    updateSearchCharacters: (state, action: PayloadAction<CharectersFetchResult>) => {
+      if (!action.payload || 'error' in action.payload) {
+        state.searchCharacters = { error: 'There is nothing here' };
+      } else {
+        state.searchCharacters = action.payload;
+      }
+    },
   },
 });
 
-export const { updateSearch: updateSearch } = SearchBarSlice.actions;
-
-export const searchValue = (state: RootState) => state.search;
+export const { updateSearch, updateSearchCharacters } = SearchBarSlice.actions;
 
 export default SearchBarSlice.reducer;

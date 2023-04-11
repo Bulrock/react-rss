@@ -1,16 +1,13 @@
 import { UseFormRegister, FieldErrors } from 'react-hook-form';
 
 export interface SearchBarProps {
-  onCharactersFetched?: (
-    characters: ICharacter[] | ICharacter | IError | undefined,
-    value: string
-  ) => void;
   onCharactersFetchedStart?: () => void;
 }
 
 export interface IRollerProps {
   classRoller: string;
 }
+
 export interface ICharacter {
   id: number | string;
   name: string;
@@ -46,6 +43,15 @@ export interface IError {
   error: string;
 }
 
+export interface ISearchState {
+  value: string;
+  searchCharacters: ICharacter | ICharacter[] | IError | undefined;
+}
+
+export interface ICharacterFormState {
+  value: ICharacter[];
+}
+
 export type CharectersFetchResult = ICharacter[] | ICharacter | IError | undefined;
 
 export interface ILikeRepository {
@@ -62,10 +68,6 @@ export interface IViewRepository {
 
 export interface IHeaderProps {
   onCharactersFetchedStart?: () => void;
-  onCharactersFetched?: (
-    characters: ICharacter[] | ICharacter | IError | undefined,
-    value: string
-  ) => void;
   hideSearch: boolean;
 }
 
@@ -148,9 +150,9 @@ export interface IFormField {
   options?: string[];
 }
 
-export interface ICharacterFormProps {
-  onSuccessSubmit: (character: ICharacter) => void;
-}
+// export interface ICharacterFormProps {
+//   onSuccessSubmit: (character: ICharacter) => void;
+// }
 
 export type Inputs = {
   name: string;

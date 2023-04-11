@@ -1,13 +1,15 @@
 import CharacterFactory from './CharacterFactory';
 import { SubmitHandler, UseFormGetValues, UseFormReset } from 'react-hook-form';
-import { ICharacterFormProps, Inputs } from './types';
+import { Inputs } from './types';
+import { addCharacter } from '../features/CharacterFormSlice';
+import { useAppDispatch } from '../app/hooks';
 
 export default function useSubmitForm(
   setShowSubmitMessage: (value: React.SetStateAction<boolean>) => void,
-  onSuccessSubmit: ICharacterFormProps,
   getValues: UseFormGetValues<Inputs>,
   reset: UseFormReset<Inputs>
 ) {
+  const dispatch = useAppDispatch();
   const useSubmit: SubmitHandler<Inputs> = (data, event) => {
     const characterFactory = new CharacterFactory();
     event?.preventDefault();
@@ -29,7 +31,7 @@ export default function useSubmitForm(
         .filter((value) => value !== undefined) as string[];
 
       const newCharcter = characterFactory.create(filteredData);
-      onSuccessSubmit.onSuccessSubmit(newCharcter);
+      dispatch(addCharacter(newCharcter));
       reset();
     }, 1000);
   };

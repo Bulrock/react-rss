@@ -31,10 +31,7 @@ function Header(props: IHeaderProps) {
           </NavLink>
         </div>
         {!props.hideSearch && (
-          <SearchBar
-            onCharactersFetched={props.onCharactersFetched}
-            onCharactersFetchedStart={props.onCharactersFetchedStart}
-          />
+          <SearchBar onCharactersFetchedStart={props.onCharactersFetchedStart} />
         )}
       </header>
     </>

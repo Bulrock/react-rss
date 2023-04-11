@@ -27,16 +27,19 @@ function Cards(props: ICardsProps) {
           canDraw={props.canDraw}
         />
       )}
-      {!props.characters && props.canDraw && (
-        <Card
-          data-testid="null-character"
-          setModalActive={props.setModalActive}
-          onCharacterCardClick={props.onCharacterCardClick}
-          character={props.characters}
-          key={99999999999}
-          canDraw={props.canDraw}
-        />
-      )}
+      {props.characters &&
+        !Array.isArray(props.characters) &&
+        'error' in props.characters &&
+        props.canDraw && (
+          <Card
+            data-testid="null-character"
+            setModalActive={props.setModalActive}
+            onCharacterCardClick={props.onCharacterCardClick}
+            character={props.characters}
+            key={99999999999}
+            canDraw={props.canDraw}
+          />
+        )}
     </div>
   );
 }

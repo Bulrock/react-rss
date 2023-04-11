@@ -1,25 +1,18 @@
 import React, { useCallback, useMemo, useRef } from 'react';
 import find from '../assets/find.png';
 import CharactersService from '../models/CharactersService';
-import { SearchBarProps, CharectersFetchResult } from '../models/types';
+import { SearchBarProps } from '../models/types';
 import { useEffect } from 'react';
-import { updateSearch } from '../features/SearchBarSlice';
+import { updateSearch, updateSearchCharacters } from '../features/SearchBarSlice';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 
 function SearchBar(props: SearchBarProps) {
-  const searchValue = useAppSelector((state) => state.search);
+  const searchRef = useRef<HTMLInputElement | null>(null);
+  const searchValue = useAppSelector((state) => state.search.value);
   const dispatch = useAppDispatch();
   const charactersService = useMemo(() => CharactersService(false), []);
-  const searchRef = useRef<HTMLInputElement | null>(null);
 
-  const { onCharactersFetched, onCharactersFetchedStart } = props;
-
-  const handleCharactersFetched = useCallback(
-    (characters: CharectersFetchResult) => {
-      if (onCharactersFetched && searchValue) onCharactersFetched(characters, searchValue.value);
-    },
-    [onCharactersFetched, searchValue]
-  );
+  const { onCharactersFetchedStart } = props;
 
   const performSearch = useCallback(() => {
     if (!searchValue) return;
@@ -28,11 +21,11 @@ function SearchBar(props: SearchBarProps) {
       if (onCharactersFetchedStart) {
         onCharactersFetchedStart();
       }
-      charactersService(searchValue.value).then((characters) => {
-        handleCharactersFetched(characters);
+      charactersService(searchValue).then((characters) => {
+        dispatch(updateSearchCharacters(characters));
       });
     }
-  }, [charactersService, handleCharactersFetched, onCharactersFetchedStart, searchValue]);
+  }, [charactersService, dispatch, onCharactersFetchedStart, searchValue]);
 
   useEffect(() => {
     if (searchValue) {
@@ -66,7 +59,7 @@ function SearchBar(props: SearchBarProps) {
         <img className="search-img" src={find} alt="find" />
         <input
           type="search"
-          defaultValue={searchValue.value || ''}
+          defaultValue={searchValue || ''}
           data-testid="search-input"
           ref={searchRef}
         />

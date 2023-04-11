@@ -1,30 +1,39 @@
-import React, { useState, useEffect, useCallback, useMemo, Suspense } from 'react';
+import React, { useState, useEffect, useCallback, Suspense } from 'react';
 import { ICardProps } from '../models/types';
 import viewsIcon from '../assets/eye.png';
 import likesIcon from '../assets/like.png';
-import LocalStorageLikeRepository from '../models/LocalStorageLikeRepository';
-import LocalStorageViewRepository from '../models/LocalStorageViewRepository';
+import StateLikeRepository from '../models/StateLikeRepository';
+import StateViewRepository from '../models/StateViewRepository';
 const ErrorMessage = React.lazy(() => import('./ErrorMessage'));
 import Roller from './Roller';
 
-function Card(props: ICardProps) {
+function Card({ character, canDraw, setModalActive, onCharacterCardClick }: ICardProps) {
   const [likes, setLikes] = useState(0);
   const [views, setViews] = useState(0);
   const [info, setInfo] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [isViewed, setIsViewed] = useState(false);
-  const likeRepository = useMemo(() => new LocalStorageLikeRepository(), []);
-  const viewRepository = useMemo(() => new LocalStorageViewRepository(), []);
+  const findLikeState = StateLikeRepository('find');
+  const addLikeState = StateLikeRepository('add');
+  const removeLikeState = StateLikeRepository('remove');
+  const findViewState = StateViewRepository('find');
+  const addViewState = StateViewRepository('add');
 
   const componentDidMount = useCallback(() => {
-    let isLiked;
-    if (props.character && !('error' in props.character)) {
-      isLiked = likeRepository.findLike(props.character.id);
+    let isLiked = false;
+    if (character && !('error' in character)) {
+      const liked = findLikeState(character.id);
+      if (typeof liked === 'boolean') {
+        isLiked = liked;
+      }
     }
     const likes = isLiked ? 1 : 0;
-    let isViewed;
-    if (props.character && !('error' in props.character)) {
-      isViewed = viewRepository.findView(props.character.id);
+    let isViewed = false;
+    if (character && !('error' in character)) {
+      const viewed = findViewState(character.id);
+      if (typeof viewed === 'boolean') {
+        isViewed = viewed;
+      }
     }
     const views = isViewed ? 1 : 0;
     if (isLiked) {
@@ -35,12 +44,12 @@ function Card(props: ICardProps) {
       setIsViewed(isViewed);
     }
     setViews(views);
-  }, [likeRepository, props.character, viewRepository]);
+  }, [character, findLikeState, findViewState]);
 
   const handleCardClick = () => {
-    props.setModalActive(true);
-    if (props.character && !('error' in props.character)) {
-      props.onCharacterCardClick(props.character);
+    setModalActive(true);
+    if (character && !('error' in character)) {
+      onCharacterCardClick(character);
     }
     handleInfoClick();
   };
@@ -53,14 +62,14 @@ function Card(props: ICardProps) {
     if (!isLiked) {
       setLikes(likes + 1);
       setIsLiked(!isLiked);
-      if (props.character && !('error' in props.character)) {
-        likeRepository.add(props.character.id);
+      if (character && !('error' in character) && addLikeState) {
+        addLikeState(character.id);
       }
     } else {
       setLikes(likes - 1);
       setIsLiked(!isLiked);
-      if (props.character && !('error' in props.character)) {
-        likeRepository.remove(props.character.id);
+      if (character && !('error' in character) && removeLikeState) {
+        removeLikeState(character.id);
       }
     }
   };
@@ -70,8 +79,8 @@ function Card(props: ICardProps) {
       setViews(views + 1);
       setInfo(!info);
       setIsViewed(!isViewed);
-      if (props.character && !('error' in props.character)) {
-        viewRepository.add(props.character.id);
+      if (character && !('error' in character) && addViewState) {
+        addViewState(character.id);
       }
     } else {
       setInfo(!info);
@@ -80,29 +89,19 @@ function Card(props: ICardProps) {
 
   return (
     <>
-      {props.character !== undefined &&
-      props.character !== null &&
-      !('error' in props.character) &&
-      props.canDraw ? (
+      {character !== undefined && character !== null && !('error' in character) && canDraw ? (
         <div className="card" data-testid="card" onClick={handleCardClick}>
           <div className="card-header-wrapper">
             <div>
-              <img
-                className="person-img"
-                src={props.character.image}
-                alt="person image"
-                loading="lazy"
-              />
-              <h2 className="person-name">{props.character.name}</h2>
+              <img className="person-img" src={character.image} alt="person image" loading="lazy" />
+              <h2 className="person-name">{character.name}</h2>
               <span className="person-status">
                 <span
                   data-testid="status-icon"
-                  className={
-                    props.character.status === 'Alive' ? 'status-icon-green' : 'status-icon-red'
-                  }
+                  className={character.status === 'Alive' ? 'status-icon-green' : 'status-icon-red'}
                 ></span>
                 <strong>
-                  {props.character.status} - {props.character.species}
+                  {character.status} - {character.species}
                 </strong>
               </span>
             </div>

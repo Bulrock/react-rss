@@ -1,9 +1,9 @@
 import 'jest';
-import LocalStorageLikeRepository from '../../src/models/LocalStorageLikeRepository';
+import StateLikeRepository from '../../src/models/StateLikeRepository';
 
-let likeRepository: LocalStorageLikeRepository;
+let likeRepository: StateLikeRepository;
 beforeAll(() => {
-  likeRepository = new LocalStorageLikeRepository();
+  likeRepository = new StateLikeRepository();
   localStorage.clear();
 });
 

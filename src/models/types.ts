@@ -48,16 +48,18 @@ export interface ISearchState {
   searchCharacters: ICharacter | ICharacter[] | IError | undefined;
 }
 
+export interface IStateRepository {
+  value: (number | string)[];
+}
+
 export interface ICharacterFormState {
   value: ICharacter[];
 }
 
 export type CharectersFetchResult = ICharacter[] | ICharacter | IError | undefined;
 
-export interface ILikeRepository {
-  add: (key: number) => void;
-  remove: (key: number) => void;
-  findLike: (key: number) => boolean;
+export interface IStateFunction {
+  (key: number | string): boolean | void;
 }
 
 export interface IViewRepository {

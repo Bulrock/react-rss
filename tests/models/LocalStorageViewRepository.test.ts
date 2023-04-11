@@ -1,5 +1,5 @@
 import 'jest';
-import LocalStorageViewRepository from '../../src/models/LocalStorageViewRepository';
+import LocalStorageViewRepository from '../../src/models/StateViewRepository';
 
 let viewRepository: LocalStorageViewRepository;
 beforeAll(() => {

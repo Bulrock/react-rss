@@ -5,7 +5,7 @@ import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
 import 'jest';
 import Card from '../../src/components/Card';
-import LocalStorageLikeRepository from '../../src/models/LocalStorageLikeRepository';
+import StateLikeRepository from '../../src/models/StateLikeRepository';
 
 let container: HTMLDivElement | null = null;
 beforeEach(() => {
@@ -153,7 +153,7 @@ describe('Card component', () => {
   });
 
   it('should render likes count as 1 when person is already liked', () => {
-    const likeRepository = new LocalStorageLikeRepository();
+    const likeRepository = new StateLikeRepository();
     likeRepository.add(mockPerson.id);
     render(
       <Card
@@ -169,7 +169,7 @@ describe('Card component', () => {
   });
 
   it('should render likes count as 0 when person is not liked', () => {
-    const likeRepository = new LocalStorageLikeRepository();
+    const likeRepository = new StateLikeRepository();
     likeRepository.remove(mockPerson.id);
     render(
       <Card

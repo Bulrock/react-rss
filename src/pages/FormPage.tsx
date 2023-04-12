@@ -7,7 +7,7 @@ import { IFormPageProps } from '../models/types';
 import { useAppSelector } from '../app/hooks';
 
 function FormPage(props: IFormPageProps) {
-  const formCharacters = useAppSelector((state) => state.formCharacters.value);
+  const formCharacters = useAppSelector((state) => state.formCharacters?.value);
 
   return (
     <div data-testid="form-page">

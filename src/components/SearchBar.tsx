@@ -8,7 +8,7 @@ import { useAppSelector, useAppDispatch } from '../app/hooks';
 
 function SearchBar(props: SearchBarProps) {
   const searchRef = useRef<HTMLInputElement | null>(null);
-  const searchValue = useAppSelector((state) => state.search.value);
+  const searchValue = useAppSelector((state) => state.search?.value);
   const dispatch = useAppDispatch();
   const charactersService = useMemo(() => CharactersService(false), []);
 

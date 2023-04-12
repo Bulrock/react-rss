@@ -9,7 +9,7 @@ import { useAppSelector } from '../app/hooks';
 function HomePage(props: IHomePageProps) {
   const [invisible, setInvisible] = useState(true);
   const [canDrawCard, setCanDrawCard] = useState(false);
-  const searchCharacters = useAppSelector((state) => state.search.searchCharacters);
+  const searchCharacters = useAppSelector((state) => state.search?.searchCharacters);
 
   useEffect(() => {
     if (searchCharacters) {

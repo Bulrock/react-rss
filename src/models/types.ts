@@ -56,6 +56,8 @@ export interface ICharacterFormState {
   value: ICharacter[];
 }
 
+export type ResponseResult = ICharactersResult | ICharacter | IError | undefined;
+
 export type CharectersFetchResult = ICharacter[] | ICharacter | IError | undefined;
 
 export interface IStateFunction {
@@ -151,10 +153,6 @@ export interface IFormField {
   values?: string[];
   options?: string[];
 }
-
-// export interface ICharacterFormProps {
-//   onSuccessSubmit: (character: ICharacter) => void;
-// }
 
 export type Inputs = {
   name: string;

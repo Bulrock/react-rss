@@ -3,6 +3,7 @@ import SearchBarReducer from '../features/SearchBarSlice';
 import CharacterFormReducer from '../features/CharacterFormSlice';
 import StateLikeRepositoryReducer from '../features/StateLikeRepositorySlice';
 import StateViewRepositoryReducer from '../features/StateViewRepositorySlice';
+import { charactersAPI } from '../features/ApiSlice';
 
 const store = configureStore({
   reducer: {
@@ -10,7 +11,9 @@ const store = configureStore({
     formCharacters: CharacterFormReducer,
     likeArray: StateLikeRepositoryReducer,
     viewArray: StateViewRepositoryReducer,
+    [charactersAPI.reducerPath]: charactersAPI.reducer,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(charactersAPI.middleware),
 });
 
 export default store;

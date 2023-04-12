@@ -7,7 +7,7 @@ import { updateSearch, updateSearchCharacters } from '../features/SearchBarSlice
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 
 function SearchBar(props: SearchBarProps) {
-  const searchRef = useRef<HTMLInputElement | null>(null);
+  const searchRef = useRef<HTMLInputElement>(null);
   const searchValue = useAppSelector((state) => state.search?.value);
   const dispatch = useAppDispatch();
   const charactersService = useMemo(() => CharactersService(false), []);
@@ -33,28 +33,18 @@ function SearchBar(props: SearchBarProps) {
     }
   }, [performSearch, searchValue]);
 
-  useEffect(() => {
-    const handleKeyPress = (event: KeyboardEvent) => {
-      if (event.key === 'Enter') {
-        handleSearchClick();
-      }
-    };
-
-    document.addEventListener('keyup', handleKeyPress);
-
-    return () => {
-      document.removeEventListener('keyup', handleKeyPress);
-    };
-  });
-
-  const handleSearchClick = () => {
+  const handleSearch = (
+    event: React.MouseEvent<HTMLButtonElement> | React.FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault();
     if (searchRef.current) {
       dispatch(updateSearch(searchRef.current.value));
+      performSearch();
     }
   };
 
   return (
-    <div className="wrapper-search" data-testid="search-test">
+    <form className="wrapper-search" data-testid="search-test" onSubmit={handleSearch}>
       <div className="search-bar">
         <img className="search-img" src={find} alt="find" />
         <input
@@ -64,10 +54,10 @@ function SearchBar(props: SearchBarProps) {
           ref={searchRef}
         />
       </div>
-      <button className="btn" data-testid="search-btn" onClick={handleSearchClick}>
+      <button className="btn" data-testid="search-btn" onClick={handleSearch}>
         Search
       </button>
-    </div>
+    </form>
   );
 }
 

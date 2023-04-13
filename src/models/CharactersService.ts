@@ -1,13 +1,11 @@
 import fetch from 'node-fetch';
-import { ICharacter, ICharactersResult, IError } from './types';
+import { ICharacter, ICharactersResult, IError, ResponseResult } from './types';
 
 export default function CharactersService(isIdPassed: boolean) {
   const apiUrl = 'https://rickandmortyapi.com/api';
   const path = isIdPassed ? '/character/' : '/character/?name=';
 
-  return async function getCharacters(
-    query: string | null
-  ): Promise<ICharacter[] | ICharacter | undefined | IError> {
+  return async function getCharacters(query: string | null): Promise<ResponseResult> {
     const searchCharacter = `${apiUrl}${path}${query}`;
     try {
       const response = await fetch(searchCharacter);
@@ -16,7 +14,7 @@ export default function CharactersService(isIdPassed: boolean) {
       } else {
         const responseAPI: ICharacter | ICharactersResult | IError = await response.json();
         if ('results' in responseAPI) {
-          return responseAPI.results;
+          return responseAPI;
         } else if ('error' in responseAPI) {
           return responseAPI;
         } else if (!('error' in responseAPI) && !('results' in responseAPI)) {

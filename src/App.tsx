@@ -24,7 +24,8 @@ function App() {
         if (
           refetchedCharacter !== undefined &&
           !Array.isArray(refetchedCharacter) &&
-          !('error' in refetchedCharacter)
+          !('error' in refetchedCharacter) &&
+          !('results' in refetchedCharacter)
         ) {
           setCharacterModal(refetchedCharacter);
         } else {

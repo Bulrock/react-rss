@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ISearchState, ResponseResult } from '../models/types';
 
 const initialState: ISearchState = {
-  value: ' ',
+  value: '',
   searchCharacters: undefined,
 };
 

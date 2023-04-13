@@ -1,9 +1,5 @@
 import { UseFormRegister, FieldErrors } from 'react-hook-form';
 
-export interface SearchBarProps {
-  onCharactersFetchedStart?: () => void;
-}
-
 export interface IRollerProps {
   classRoller: string;
 }
@@ -71,7 +67,6 @@ export interface IViewRepository {
 }
 
 export interface IHeaderProps {
-  onCharactersFetchedStart?: () => void;
   hideSearch: boolean;
 }
 

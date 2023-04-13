@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+// import { ResponseResult } from 'models/types';
 
 export const charactersAPI = createApi({
   reducerPath: 'charactersAPI',

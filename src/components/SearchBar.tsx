@@ -1,60 +1,25 @@
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import find from '../assets/find.png';
-import CharactersService from '../models/CharactersService';
-import { SearchBarProps } from '../models/types';
-import { useEffect } from 'react';
-import { updateSearch, updateSearchCharacters } from '../features/SearchBarSlice';
+import { updateSearch } from '../features/SearchBarSlice';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 
-function SearchBar(props: SearchBarProps) {
+function SearchBar() {
   const searchRef = useRef<HTMLInputElement | null>(null);
   const searchValue = useAppSelector((state) => state.search?.value);
   const dispatch = useAppDispatch();
-  const charactersService = useMemo(() => CharactersService(false), []);
 
-  const { onCharactersFetchedStart } = props;
-
-  const performSearch = useCallback(() => {
-    if (!searchValue) return;
-
-    if (searchValue) {
-      if (onCharactersFetchedStart) {
-        onCharactersFetchedStart();
+  const handleSubmit = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement> | React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      if (searchRef.current) {
+        dispatch(updateSearch(searchRef.current.value));
       }
-      charactersService(searchValue).then((characters) => {
-        dispatch(updateSearchCharacters(characters));
-      });
-    }
-  }, [charactersService, dispatch, onCharactersFetchedStart, searchValue]);
-
-  useEffect(() => {
-    if (searchValue) {
-      performSearch();
-    }
-  }, [performSearch, searchValue]);
-
-  useEffect(() => {
-    const handleKeyPress = (event: KeyboardEvent) => {
-      if (event.key === 'Enter') {
-        handleSearchClick();
-      }
-    };
-
-    document.addEventListener('keyup', handleKeyPress);
-
-    return () => {
-      document.removeEventListener('keyup', handleKeyPress);
-    };
-  });
-
-  const handleSearchClick = () => {
-    if (searchRef.current) {
-      dispatch(updateSearch(searchRef.current.value));
-    }
-  };
+    },
+    [dispatch]
+  );
 
   return (
-    <div className="wrapper-search" data-testid="search-test">
+    <form className="wrapper-search" data-testid="search-test" onSubmit={handleSubmit}>
       <div className="search-bar">
         <img className="search-img" src={find} alt="find" />
         <input
@@ -64,45 +29,11 @@ function SearchBar(props: SearchBarProps) {
           ref={searchRef}
         />
       </div>
-      <button className="btn" data-testid="search-btn" onClick={handleSearchClick}>
+      <button className="btn" data-testid="search-btn" onClick={handleSubmit}>
         Search
       </button>
-    </div>
+    </form>
   );
 }
 
 export default SearchBar;
-
-// const searchRef = useRef<HTMLInputElement | null>(null);
-// const searchValue = useAppSelector((state) => state.search?.value);
-// const dispatch = useAppDispatch();
-// const { onCharactersFetchedStart } = props;
-
-// const { data: characters = [] } = useGetAllCharactersQuery('');
-
-// const handleSearch = useCallback(
-//   (event: React.MouseEvent<HTMLButtonElement> | React.FormEvent<HTMLFormElement>) => {
-//     event.preventDefault();
-//     if (searchRef.current) {
-//       dispatch(updateSearch(searchRef.current.value));
-//     }
-//   },
-//   [dispatch]
-// );
-
-// const { data: searchCharacters = [] } = useGetCharactersQuery(searchValue || '', {
-//   skip: !searchValue,
-//   refetchOnMountOrArgChange: true,
-//   onQueryStarted: () => {
-//     if (onCharactersFetchedStart) {
-//       onCharactersFetchedStart();
-//     }
-//   },
-//   onSuccess: (data) => {
-//     dispatch(updateSearchCharacters(data));
-//   },
-// });
-
-// useEffect(() => {
-//   dispatch(updateSearchCharacters(characters));
-// }, [characters, dispatch]);

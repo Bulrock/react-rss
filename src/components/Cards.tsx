@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import Card from './Card';
 import { ICardsProps } from '../models/types';
+import Roller from './Roller';
+const ErrorMessage = React.lazy(() => import('./ErrorMessage'));
 
 function Cards(props: ICardsProps) {
+  console.log(props.characters);
   return (
     <div className="cards" data-testid="cards">
       {props.characters &&
@@ -18,27 +21,24 @@ function Cards(props: ICardsProps) {
             />
           );
         })}
-      {props.characters && !Array.isArray(props.characters) && !('error' in props.characters) && (
+      {/* {props.characters && !Array.isArray(props.characters) && !('status' in props.characters) && (
         <Card
           setModalActive={props.setModalActive}
           onCharacterCardClick={props.onCharacterCardClick}
           character={props.characters}
-          key={String(props.characters.id)}
+          key={String(props.characters)}
           canDraw={props.canDraw}
         />
-      )}
+      )} */}
       {props.characters &&
         !Array.isArray(props.characters) &&
-        'error' in props.characters &&
+        'data' in props.characters &&
         props.canDraw && (
-          <Card
-            data-testid="null-character"
-            setModalActive={props.setModalActive}
-            onCharacterCardClick={props.onCharacterCardClick}
-            character={props.characters}
-            key={99999999999}
-            canDraw={props.canDraw}
-          />
+          <div className="roller-wrapper">
+            <Suspense fallback={<Roller classRoller={'lds-roller-main lds-roller'} />}>
+              <ErrorMessage />
+            </Suspense>
+          </div>
         )}
     </div>
   );

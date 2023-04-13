@@ -1,3 +1,4 @@
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query/fetchBaseQuery';
 import { UseFormRegister, FieldErrors } from 'react-hook-form';
 
 export interface IRollerProps {
@@ -39,9 +40,11 @@ export interface IError {
   error: string;
 }
 
+export type errorResult = FetchBaseQueryError;
+
 export interface ISearchState {
   value: string;
-  searchCharacters: ICharacter | ICharacter[] | IError | undefined;
+  searchResults: ICharacter[] | errorResult;
 }
 
 export interface IStateRepository {
@@ -71,7 +74,7 @@ export interface IHeaderProps {
 }
 
 export interface ICardProps {
-  character: ICharacter | IError | undefined;
+  character: ICharacter | errorResult;
   onCharacterCardClick: (character: ICharacter) => void;
   setModalActive: React.Dispatch<React.SetStateAction<boolean>>;
   canDraw: boolean | undefined;
@@ -86,7 +89,7 @@ export interface IModalProps {
 }
 
 export interface ICardsProps {
-  characters: ICharacter[] | ICharacter | IError | undefined;
+  characters: ICharacter[] | ICharacter | errorResult;
   onCharacterCardClick: (character: ICharacter) => void;
   setModalActive: React.Dispatch<React.SetStateAction<boolean>>;
   canDraw: boolean | undefined;

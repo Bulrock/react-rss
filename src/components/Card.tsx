@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useCallback, Suspense } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { ICardProps } from '../models/types';
 import viewsIcon from '../assets/eye.png';
 import likesIcon from '../assets/like.png';
 import StateLikeRepository from '../models/StateLikeRepository';
 import StateViewRepository from '../models/StateViewRepository';
-const ErrorMessage = React.lazy(() => import('./ErrorMessage'));
 import Roller from './Roller';
 
-function Card({ character, canDraw, setModalActive, onCharacterCardClick }: ICardProps) {
+function Card({ canDraw, character, setModalActive, onCharacterCardClick }: ICardProps) {
   const [likes, setLikes] = useState(0);
   const [views, setViews] = useState(0);
   const [info, setInfo] = useState(false);
@@ -21,7 +20,7 @@ function Card({ character, canDraw, setModalActive, onCharacterCardClick }: ICar
 
   const componentDidMount = useCallback(() => {
     let isLiked = false;
-    if (character && !('error' in character)) {
+    if (character && !('data' in character) && 'id' in character) {
       const liked = findLikeState(character.id);
       if (typeof liked === 'boolean') {
         isLiked = liked;
@@ -29,7 +28,7 @@ function Card({ character, canDraw, setModalActive, onCharacterCardClick }: ICar
     }
     const likes = isLiked ? 1 : 0;
     let isViewed = false;
-    if (character && !('error' in character)) {
+    if (character && 'id' in character) {
       const viewed = findViewState(character.id);
       if (typeof viewed === 'boolean') {
         isViewed = viewed;
@@ -48,7 +47,7 @@ function Card({ character, canDraw, setModalActive, onCharacterCardClick }: ICar
 
   const handleCardClick = () => {
     setModalActive(true);
-    if (character && !('error' in character)) {
+    if (character && 'id' in character) {
       onCharacterCardClick(character);
     }
     handleInfoClick();
@@ -62,13 +61,13 @@ function Card({ character, canDraw, setModalActive, onCharacterCardClick }: ICar
     if (!isLiked) {
       setLikes(likes + 1);
       setIsLiked(!isLiked);
-      if (character && !('error' in character) && addLikeState) {
+      if (character && 'id' in character && addLikeState) {
         addLikeState(character.id);
       }
     } else {
       setLikes(likes - 1);
       setIsLiked(!isLiked);
-      if (character && !('error' in character) && removeLikeState) {
+      if (character && 'id' in character && removeLikeState) {
         removeLikeState(character.id);
       }
     }
@@ -79,7 +78,7 @@ function Card({ character, canDraw, setModalActive, onCharacterCardClick }: ICar
       setViews(views + 1);
       setInfo(!info);
       setIsViewed(!isViewed);
-      if (character && !('error' in character) && addViewState) {
+      if (character && 'id' in character && addViewState) {
         addViewState(character.id);
       }
     } else {
@@ -89,7 +88,7 @@ function Card({ character, canDraw, setModalActive, onCharacterCardClick }: ICar
 
   return (
     <>
-      {character !== undefined && character !== null && !('error' in character) && canDraw ? (
+      {character && 'id' in character && canDraw ? (
         <div className="card" data-testid="card" onClick={handleCardClick}>
           <div className="card-header-wrapper">
             <div>
@@ -131,9 +130,7 @@ function Card({ character, canDraw, setModalActive, onCharacterCardClick }: ICar
         </div>
       ) : (
         <div className="roller-wrapper">
-          <Suspense fallback={<Roller classRoller={'lds-roller-modal lds-roller'} />}>
-            <ErrorMessage />
-          </Suspense>
+          <Roller classRoller={'lds-roller-modal lds-roller'} />
         </div>
       )}
     </>

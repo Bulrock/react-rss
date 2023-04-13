@@ -6,36 +6,43 @@ import Roller from '../components/Roller';
 import { IHomePageProps } from '../models/types';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { useGetAllCharactersQuery, useGetCharactersQuery } from 'features/ApiSlice';
-import { updateSearchCharacters } from '../features/SearchBarSlice';
+import { updateSearchResults } from '../features/SearchBarSlice';
 
 function HomePage(props: IHomePageProps) {
   const [canDrawCard, setCanDrawCard] = useState(false);
-  const searchCharacters = useAppSelector((state) => state.search?.searchCharacters);
+  const searchCharacters = useAppSelector((state) => state.search?.searchResults);
   const searchValue = useAppSelector((state) => state.search?.value);
   const dispatch = useAppDispatch();
 
-  const { data: characters } = useGetAllCharactersQuery('');
+  const { data: initialCharacters } = useGetAllCharactersQuery(' ');
 
   useEffect(() => {
-    dispatch(updateSearchCharacters(characters));
-  }, [characters, dispatch]);
+    if (initialCharacters) {
+      dispatch(updateSearchResults(initialCharacters.results));
+    }
+  }, [dispatch, initialCharacters]);
 
   const {
-    data: fetchedCharacters = [],
+    data: fetchedCharacters,
     isFetching,
-    isSuccess,
-  } = useGetCharactersQuery(searchValue || '', {
-    skip: !searchValue,
-  });
+    error,
+  } = useGetCharactersQuery(searchValue || '', {});
 
   useEffect(() => {
-    if (isSuccess) {
-      dispatch(updateSearchCharacters(fetchedCharacters));
+    if (fetchedCharacters) {
+      console.log(fetchedCharacters.results);
+      dispatch(updateSearchResults(fetchedCharacters.results));
+      // setCanDrawCard(true);
+    }
+    if (error && 'status' in error) {
+      console.log(error);
+      console.log(fetchedCharacters);
+      dispatch(updateSearchResults(error));
     }
     if (searchCharacters) {
       setCanDrawCard(true);
     }
-  }, [dispatch, fetchedCharacters, isFetching, isSuccess, searchCharacters]);
+  }, [dispatch, error, fetchedCharacters, isFetching, searchCharacters]);
 
   return (
     <div data-testid="home-page-component">

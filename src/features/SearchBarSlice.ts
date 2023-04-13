@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ISearchState, ResponseResult } from '../models/types';
+import { ISearchState, ICharacter } from '../models/types';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query/fetchBaseQuery';
 
 const initialState: ISearchState = {
   value: '',
-  searchCharacters: undefined,
+  searchResults: [],
 };
 
 export const SearchBarSlice = createSlice({
@@ -13,18 +14,21 @@ export const SearchBarSlice = createSlice({
     updateSearch: (state, action: PayloadAction<string>) => {
       state.value = action.payload;
     },
-    updateSearchCharacters: (state, action: PayloadAction<ResponseResult>) => {
-      if (!action.payload || 'error' in action.payload) {
-        state.searchCharacters = { error: 'There is nothing here' };
-      } else if (!('info' in action.payload)) {
-        state.searchCharacters = action.payload;
-      } else {
-        state.searchCharacters = action.payload.results;
-      }
+    updateSearchResults: (state, action: PayloadAction<FetchBaseQueryError | ICharacter[]>) => {
+      state.searchResults = action.payload;
+
+      // if (!action.payload || 'error' in action.payload) {
+      //   state.searchCharacters = undefined;
+      //   state.searchCharacters = { error: 'There is nothing here' };
+      // } else if (!('info' in action.payload)) {
+      //   state.searchCharacters = action.payload;
+      // } else {
+      //   state.searchCharacters = action.payload.results;
+      // }
     },
   },
 });
 
-export const { updateSearch, updateSearchCharacters } = SearchBarSlice.actions;
+export const { updateSearch, updateSearchResults } = SearchBarSlice.actions;
 
 export default SearchBarSlice.reducer;

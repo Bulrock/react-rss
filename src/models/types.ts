@@ -44,6 +44,9 @@ export type errorResult = FetchBaseQueryError;
 
 export interface ISearchState {
   value: string;
+}
+
+export interface ICharactersFetchState {
   searchResults: ICharacter[] | errorResult;
 }
 

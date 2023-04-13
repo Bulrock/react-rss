@@ -3,11 +3,13 @@ import SearchBarReducer from '../features/SearchBarSlice';
 import CharacterFormReducer from '../features/CharacterFormSlice';
 import StateLikeRepositoryReducer from '../features/StateLikeRepositorySlice';
 import StateViewRepositoryReducer from '../features/StateViewRepositorySlice';
+import CharactersFetchReducer from '../features/CharactersFetchSlice';
 import { charactersAPI } from '../features/ApiSlice';
 
 const store = configureStore({
   reducer: {
     search: SearchBarReducer,
+    characters: CharactersFetchReducer,
     formCharacters: CharacterFormReducer,
     likeArray: StateLikeRepositoryReducer,
     viewArray: StateViewRepositoryReducer,

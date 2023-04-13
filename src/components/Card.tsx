@@ -4,7 +4,6 @@ import viewsIcon from '../assets/eye.png';
 import likesIcon from '../assets/like.png';
 import StateLikeRepository from '../models/StateLikeRepository';
 import StateViewRepository from '../models/StateViewRepository';
-import Roller from './Roller';
 
 function Card({ canDraw, character, setModalActive, onCharacterCardClick }: ICardProps) {
   const [likes, setLikes] = useState(0);
@@ -88,7 +87,7 @@ function Card({ canDraw, character, setModalActive, onCharacterCardClick }: ICar
 
   return (
     <>
-      {character && 'id' in character && canDraw ? (
+      {character && 'id' in character && canDraw && (
         <div className="card" data-testid="card" onClick={handleCardClick}>
           <div className="card-header-wrapper">
             <div>
@@ -127,10 +126,6 @@ function Card({ canDraw, character, setModalActive, onCharacterCardClick }: ICar
               </div>
             </div>
           </div>
-        </div>
-      ) : (
-        <div className="roller-wrapper">
-          <Roller classRoller={'lds-roller-modal lds-roller'} />
         </div>
       )}
     </>

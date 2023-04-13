@@ -6,15 +6,15 @@ import Roller from '../components/Roller';
 import { IHomePageProps } from '../models/types';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { useGetAllCharactersQuery, useGetCharactersQuery } from 'features/ApiSlice';
-import { updateSearchResults } from '../features/SearchBarSlice';
+import { updateSearchResults } from '../features/CharactersFetchSlice';
 
 function HomePage(props: IHomePageProps) {
   const [canDrawCard, setCanDrawCard] = useState(false);
-  const searchCharacters = useAppSelector((state) => state.search?.searchResults);
+  const searchCharacters = useAppSelector((state) => state.characters?.searchResults);
   const searchValue = useAppSelector((state) => state.search?.value);
   const dispatch = useAppDispatch();
 
-  const { data: initialCharacters } = useGetAllCharactersQuery(' ');
+  const { data: initialCharacters, isFetching: initialFetch } = useGetAllCharactersQuery(' ');
 
   useEffect(() => {
     if (initialCharacters) {
@@ -24,30 +24,26 @@ function HomePage(props: IHomePageProps) {
 
   const {
     data: fetchedCharacters,
-    isFetching,
+    isFetching: searchFetch,
     error,
   } = useGetCharactersQuery(searchValue || '', {});
 
   useEffect(() => {
-    if (fetchedCharacters) {
-      console.log(fetchedCharacters.results);
-      dispatch(updateSearchResults(fetchedCharacters.results));
-      // setCanDrawCard(true);
-    }
     if (error && 'status' in error) {
-      console.log(error);
-      console.log(fetchedCharacters);
       dispatch(updateSearchResults(error));
+    } else if (fetchedCharacters) {
+      dispatch(updateSearchResults(fetchedCharacters.results));
     }
+
     if (searchCharacters) {
       setCanDrawCard(true);
     }
-  }, [dispatch, error, fetchedCharacters, isFetching, searchCharacters]);
+  }, [dispatch, error, fetchedCharacters, searchCharacters]);
 
   return (
     <div data-testid="home-page-component">
       <Header hideSearch={false} />
-      {!isFetching ? (
+      {!initialFetch && !searchFetch ? (
         <div className="main">
           <h1 data-testid="home-h1">The Rick and Morty Universe</h1>
           <Cards

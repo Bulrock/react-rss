@@ -5,7 +5,6 @@ import Roller from './Roller';
 const ErrorMessage = React.lazy(() => import('./ErrorMessage'));
 
 function Cards(props: ICardsProps) {
-  console.log(props.characters);
   return (
     <div className="cards" data-testid="cards">
       {props.characters &&

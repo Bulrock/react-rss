@@ -13,7 +13,7 @@ function Cards(props: ICardsProps) {
           return (
             <Card
               setModalActive={props.setModalActive}
-              onCharacterCardClick={props.onCharacterCardClick}
+              // onCharacterCardClick={props.onCharacterCardClick}
               character={character}
               key={String(character.id)}
               canDraw={props.canDraw}

@@ -1,41 +1,35 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import AboutPage from './pages/AboutPage';
 import HomePage from './pages/HomePage';
 import NotFoundPage from './pages/NotFoundPage';
 import FormPage from './pages/FormPage';
 import Modal from './components/Modal';
-import { ICharacter, IError } from './models/types';
-import CharactersService from './models/CharactersService';
+import { ICharacter } from './models/types';
+import { useGetCharacterByIdQuery } from './features/ApiSlice';
+import { useAppSelector } from './app/hooks';
 
 import './App.css';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 
 function App() {
   const [modalActive, setModalActive] = useState(false);
-  const [characterModal, setCharacterModal] = useState<ICharacter | IError | undefined>(undefined);
-  const characterService = useMemo(() => CharactersService(true), []);
+  const [characterModal, setCharacterModal] = useState<
+    FetchBaseQueryError | ICharacter | undefined
+  >(undefined);
   const [isModalError, setIsModalError] = useState(false);
   const [isFetching, setIsFetching] = useState(true);
+  const cardId = useAppSelector((state) => state.card.id);
+  const { data: fetchCharacterModal } = useGetCharacterByIdQuery(cardId);
 
-  const handleCharacterCardClick = useCallback(
-    (character: ICharacter) => {
-      setCharacterModal(undefined);
-      characterService(String(character.id)).then((refetchedCharacter) => {
-        if (
-          refetchedCharacter !== undefined &&
-          !Array.isArray(refetchedCharacter) &&
-          !('error' in refetchedCharacter) &&
-          !('results' in refetchedCharacter)
-        ) {
-          setCharacterModal(refetchedCharacter);
-        } else {
-          setIsFetching(false);
-          setIsModalError(true);
-        }
-      });
-    },
-    [characterService]
-  );
+  useEffect(() => {
+    if (fetchCharacterModal && 'id' in fetchCharacterModal) {
+      setCharacterModal(fetchCharacterModal);
+    } else {
+      setIsFetching(false);
+      setIsModalError(true);
+    }
+  }, [fetchCharacterModal]);
 
   const handleCharacterCardClickFormPage = (character: ICharacter) => {
     setCharacterModal(character);
@@ -44,15 +38,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <HomePage
-              onCharacterCardClick={handleCharacterCardClick}
-              setModalActive={setModalActive}
-            />
-          }
-        />
+        <Route path="/" element={<HomePage setModalActive={setModalActive} />} />
         <Route path="/about" element={<AboutPage />} />
         <Route
           path="/form"

@@ -4,7 +4,7 @@ import cross from '../assets/cross.svg';
 import Roller from './Roller';
 
 const Modal = (props: IModalProps) => {
-  if (props.characterModal !== undefined && !('error' in props.characterModal)) {
+  if (props.characterModal !== undefined && 'id' in props.characterModal) {
     return (
       <div
         data-testid="modal"

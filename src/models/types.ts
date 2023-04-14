@@ -46,8 +46,14 @@ export interface ISearchState {
   value: string;
 }
 
+export interface ICardState {
+  id: string;
+}
+
 export interface ICharactersFetchState {
   searchResults: ICharacter[] | errorResult;
+  // characterModal: ICharacter | errorResult;
+  // formCharacterModal: ICharacter;
 }
 
 export interface IStateRepository {
@@ -78,13 +84,13 @@ export interface IHeaderProps {
 
 export interface ICardProps {
   character: ICharacter | errorResult;
-  onCharacterCardClick: (character: ICharacter) => void;
+  onCharacterCardClick?: (character: ICharacter) => void;
   setModalActive: React.Dispatch<React.SetStateAction<boolean>>;
   canDraw: boolean | undefined;
 }
 
 export interface IModalProps {
-  characterModal: ICharacter | IError | undefined;
+  characterModal: ICharacter | errorResult | undefined;
   active: boolean;
   setActive: React.Dispatch<React.SetStateAction<boolean>>;
   isModalError: boolean;
@@ -93,13 +99,13 @@ export interface IModalProps {
 
 export interface ICardsProps {
   characters: ICharacter[] | ICharacter | errorResult;
-  onCharacterCardClick: (character: ICharacter) => void;
+  onCharacterCardClick?: (character: ICharacter) => void;
   setModalActive: React.Dispatch<React.SetStateAction<boolean>>;
   canDraw: boolean | undefined;
 }
 
 export interface IHomePageProps {
-  onCharacterCardClick: (character: ICharacter) => void;
+  // onCharacterCardClick: (character: ICharacter) => void;
   setModalActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 

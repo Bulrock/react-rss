@@ -5,8 +5,8 @@ import Cards from '../../src/components/Cards';
 import Roller from '../components/Roller';
 import { IHomePageProps } from '../models/types';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
-import { useGetAllCharactersQuery, useGetCharactersQuery } from 'features/ApiSlice';
-import { updateSearchResults } from '../features/CharactersFetchSlice';
+import { useGetAllCharactersQuery, useGetCharactersQuery } from '../features/ApiSlice';
+import { updateSearchResults } from '../features/CharactersSlice';
 
 function HomePage(props: IHomePageProps) {
   const [canDrawCard, setCanDrawCard] = useState(false);
@@ -48,7 +48,7 @@ function HomePage(props: IHomePageProps) {
           <h1 data-testid="home-h1">The Rick and Morty Universe</h1>
           <Cards
             setModalActive={props.setModalActive}
-            onCharacterCardClick={props.onCharacterCardClick}
+            // onCharacterCardClick={props.onCharacterCardClick}
             characters={searchCharacters}
             canDraw={canDrawCard}
           />

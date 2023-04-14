@@ -13,22 +13,13 @@ function Cards(props: ICardsProps) {
           return (
             <Card
               setModalActive={props.setModalActive}
-              // onCharacterCardClick={props.onCharacterCardClick}
+              onCharacterCardClick={props.onCharacterCardClick}
               character={character}
               key={String(character.id)}
               canDraw={props.canDraw}
             />
           );
         })}
-      {/* {props.characters && !Array.isArray(props.characters) && !('status' in props.characters) && (
-        <Card
-          setModalActive={props.setModalActive}
-          onCharacterCardClick={props.onCharacterCardClick}
-          character={props.characters}
-          key={String(props.characters)}
-          canDraw={props.canDraw}
-        />
-      )} */}
       {props.characters &&
         !Array.isArray(props.characters) &&
         'data' in props.characters &&

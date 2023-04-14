@@ -52,8 +52,6 @@ export interface ICardState {
 
 export interface ICharactersFetchState {
   searchResults: ICharacter[] | errorResult;
-  // characterModal: ICharacter | errorResult;
-  // formCharacterModal: ICharacter;
 }
 
 export interface IStateRepository {
@@ -64,9 +62,9 @@ export interface ICharacterFormState {
   value: ICharacter[];
 }
 
-export type ResponseResult = ICharactersResult | ICharacter | IError | undefined;
+export type ResponseResult = ICharactersResult | ICharacter | IError | null;
 
-export type CharectersFetchResult = ICharacter[] | ICharacter | IError | undefined;
+export type CharectersFetchResult = ICharacter[] | ICharacter | IError | null;
 
 export interface IStateFunction {
   (key: number | string): boolean | void;
@@ -90,11 +88,14 @@ export interface ICardProps {
 }
 
 export interface IModalProps {
-  characterModal: ICharacter | errorResult | undefined;
   active: boolean;
   setActive: React.Dispatch<React.SetStateAction<boolean>>;
-  isModalError: boolean;
-  isFetching: boolean;
+}
+
+export interface IModalFormPageProps {
+  characterModal: ICharacter | null;
+  active: boolean;
+  setActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface ICardsProps {
@@ -102,17 +103,6 @@ export interface ICardsProps {
   onCharacterCardClick?: (character: ICharacter) => void;
   setModalActive: React.Dispatch<React.SetStateAction<boolean>>;
   canDraw: boolean | undefined;
-}
-
-export interface IHomePageProps {
-  // onCharacterCardClick: (character: ICharacter) => void;
-  setModalActive: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-export interface IFormPageProps {
-  onCharacterCardClick: (character: ICharacter) => void;
-  setModalActive: React.Dispatch<React.SetStateAction<boolean>>;
-  canDraw?: boolean | undefined;
 }
 
 export interface IFormFieldProps {

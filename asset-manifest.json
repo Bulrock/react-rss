@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/react-rss/static/css/main.a6d1421c.css",
-    "main.js": "/react-rss/static/js/main.521a984a.js",
+    "main.js": "/react-rss/static/js/main.572939e1.js",
     "static/js/220.32694a18.chunk.js": "/react-rss/static/js/220.32694a18.chunk.js",
     "static/media/notFound.png": "/react-rss/static/media/notFound.a67886071a86217cd040.png",
     "static/media/character-not-found.png": "/react-rss/static/media/character-not-found.b3b80caa8cde465c800f.png",
@@ -10,11 +10,11 @@
     "index.html": "/react-rss/index.html",
     "static/media/cross.svg": "/react-rss/static/media/cross.ab01c4c3cfc1d3954265de46175a2c3f.svg",
     "main.a6d1421c.css.map": "/react-rss/static/css/main.a6d1421c.css.map",
-    "main.521a984a.js.map": "/react-rss/static/js/main.521a984a.js.map",
+    "main.572939e1.js.map": "/react-rss/static/js/main.572939e1.js.map",
     "220.32694a18.chunk.js.map": "/react-rss/static/js/220.32694a18.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a6d1421c.css",
-    "static/js/main.521a984a.js"
+    "static/js/main.572939e1.js"
   ]
 }

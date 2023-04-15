@@ -6,6 +6,8 @@ import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
 import 'jest';
 import NotFoundPage from '../../src/pages/NotFoundPage';
+import { Provider } from 'react-redux';
+import store from '../../src/app/store';
 
 let container: HTMLDivElement | null = null;
 beforeEach(() => {
@@ -25,9 +27,11 @@ afterEach(() => {
 describe('Not Found Page', () => {
   it('renders not found page', () => {
     render(
-      <BrowserRouter>
-        <NotFoundPage />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <NotFoundPage />
+        </BrowserRouter>
+      </Provider>
     );
     const notFoundTitle = screen.getByTestId('not-found-h1');
     const notFoundParagraph = screen.getByTestId('not-found-p');

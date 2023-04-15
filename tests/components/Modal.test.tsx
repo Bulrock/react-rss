@@ -5,6 +5,8 @@ import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
 import 'jest';
 import Modal from '../../src/components/Modal';
+import { Provider } from 'react-redux';
+import store from '../../src/app/store';
 
 let container: HTMLDivElement | null = null;
 beforeEach(() => {
@@ -23,57 +25,53 @@ afterEach(() => {
 
 describe('Modal', () => {
   const setActive = jest.fn();
-  const mockCharacterAlive = {
-    id: 283,
-    name: 'Rick D. Sanchez III',
-    status: 'Dead',
-    species: 'Human',
-    type: '',
-    gender: 'Male',
-    origin: {
-      name: 'unknown',
-      url: '',
-    },
-    location: {
-      name: 'Citadel of Ricks',
-      url: 'https://rickandmortyapi.com/api/location/3',
-    },
-    image: 'https://rickandmortyapi.com/api/character/avatar/283.jpeg',
-    episode: ['https://rickandmortyapi.com/api/episode/28'],
-    url: 'https://rickandmortyapi.com/api/character/283',
-    created: '2017-12-31T19:23:53.188Z',
-  };
+  // const mockCharacterAlive = {
+  //   id: 283,
+  //   name: 'Rick D. Sanchez III',
+  //   status: 'Dead',
+  //   species: 'Human',
+  //   type: '',
+  //   gender: 'Male',
+  //   origin: {
+  //     name: 'unknown',
+  //     url: '',
+  //   },
+  //   location: {
+  //     name: 'Citadel of Ricks',
+  //     url: 'https://rickandmortyapi.com/api/location/3',
+  //   },
+  //   image: 'https://rickandmortyapi.com/api/character/avatar/283.jpeg',
+  //   episode: ['https://rickandmortyapi.com/api/episode/28'],
+  //   url: 'https://rickandmortyapi.com/api/character/283',
+  //   created: '2017-12-31T19:23:53.188Z',
+  // };
 
-  const mockCharacterDead = {
-    id: 283,
-    name: 'Rick D. Sanchez III',
-    status: 'Alive',
-    species: 'Human',
-    type: '',
-    gender: 'Male',
-    origin: {
-      name: 'unknown',
-      url: '',
-    },
-    location: {
-      name: 'Citadel of Ricks',
-      url: 'https://rickandmortyapi.com/api/location/3',
-    },
-    image: 'https://rickandmortyapi.com/api/character/avatar/283.jpeg',
-    episode: ['https://rickandmortyapi.com/api/episode/28'],
-    url: 'https://rickandmortyapi.com/api/character/283',
-    created: '2017-12-31T19:23:53.188Z',
-  };
+  // const mockCharacterDead = {
+  //   id: 283,
+  //   name: 'Rick D. Sanchez III',
+  //   status: 'Alive',
+  //   species: 'Human',
+  //   type: '',
+  //   gender: 'Male',
+  //   origin: {
+  //     name: 'unknown',
+  //     url: '',
+  //   },
+  //   location: {
+  //     name: 'Citadel of Ricks',
+  //     url: 'https://rickandmortyapi.com/api/location/3',
+  //   },
+  //   image: 'https://rickandmortyapi.com/api/character/avatar/283.jpeg',
+  //   episode: ['https://rickandmortyapi.com/api/episode/28'],
+  //   url: 'https://rickandmortyapi.com/api/character/283',
+  //   created: '2017-12-31T19:23:53.188Z',
+  // };
 
   it('should render a modal window with active class and modal Card of dead character', () => {
     const { getByTestId, getByText } = render(
-      <Modal
-        isModalError={false}
-        isFetching={false}
-        characterModal={mockCharacterAlive}
-        active={true}
-        setActive={setActive}
-      />
+      <Provider store={store}>
+        <Modal active={true} setActive={setActive} />
+      </Provider>
     );
     expect(getByTestId('modal')).toHaveClass('modal active');
     expect(getByText('Rick D. Sanchez III')).toBeInTheDocument();
@@ -86,13 +84,9 @@ describe('Modal', () => {
 
   it('should render a modal window with active class and modal Card of alive character', () => {
     const { getByTestId, getByText } = render(
-      <Modal
-        isModalError={false}
-        isFetching={false}
-        characterModal={mockCharacterDead}
-        active={true}
-        setActive={setActive}
-      />
+      <Provider store={store}>
+        <Modal active={true} setActive={setActive} />
+      </Provider>
     );
     expect(getByTestId('modal')).toHaveClass('modal active');
     expect(getByText('Rick D. Sanchez III')).toBeInTheDocument();
@@ -105,26 +99,18 @@ describe('Modal', () => {
 
   it('should render a modal window without active class', () => {
     const { getByTestId } = render(
-      <Modal
-        isModalError={false}
-        isFetching={false}
-        characterModal={undefined}
-        active={false}
-        setActive={setActive}
-      />
+      <Provider store={store}>
+        <Modal active={false} setActive={setActive} />
+      </Provider>
     );
     expect(getByTestId('modal')).toHaveClass('modal');
   });
 
   it('should be closed on close button click', () => {
     const { getByTestId } = render(
-      <Modal
-        isModalError={false}
-        isFetching={false}
-        characterModal={undefined}
-        active={true}
-        setActive={setActive}
-      />
+      <Provider store={store}>
+        <Modal active={true} setActive={setActive} />
+      </Provider>
     );
 
     expect(getByTestId('modal')).toHaveClass('modal active');
@@ -135,13 +121,9 @@ describe('Modal', () => {
 
   it('should be closed on background click', () => {
     const { getByTestId } = render(
-      <Modal
-        isModalError={false}
-        isFetching={false}
-        characterModal={undefined}
-        active={true}
-        setActive={setActive}
-      />
+      <Provider store={store}>
+        <Modal active={true} setActive={setActive} />
+      </Provider>
     );
 
     expect(getByTestId('modal')).toHaveClass('modal active');

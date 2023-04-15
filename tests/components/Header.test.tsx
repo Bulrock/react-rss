@@ -7,6 +7,8 @@ import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
 import 'jest';
 import Header from '../../src/components/Header';
+import { Provider } from 'react-redux';
+import store from '../../src/app/store';
 
 let container: HTMLDivElement | null = null;
 beforeEach(() => {
@@ -26,9 +28,11 @@ afterEach(() => {
 describe('Header component', () => {
   it('renders header with 2 links: Home, About and search bar', () => {
     render(
-      <Router>
-        <Header hideSearch={false} />
-      </Router>
+      <Provider store={store}>
+        <Router>
+          <Header hideSearch={false} />
+        </Router>
+      </Provider>
     );
     const homeLink = screen.getByTestId('home-link');
     const aboutLink = screen.getByTestId('about-link');
@@ -43,9 +47,11 @@ describe('Header component', () => {
 
   it('change color of the links', () => {
     render(
-      <Router>
-        <Header hideSearch={false} />
-      </Router>
+      <Provider store={store}>
+        <Router>
+          <Header hideSearch={false} />
+        </Router>
+      </Provider>
     );
     const homeLink = screen.getByTestId('home-link');
     const aboutLink = screen.getByTestId('about-link');
@@ -63,9 +69,11 @@ describe('Header component', () => {
 
   it('change links styles', () => {
     render(
-      <MemoryRouter initialEntries={['/']}>
-        <Header hideSearch={false} />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/']}>
+          <Header hideSearch={false} />
+        </MemoryRouter>
+      </Provider>
     );
 
     const homeLink = screen.getByTestId('home-link');

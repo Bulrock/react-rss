@@ -6,6 +6,8 @@ import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
 import 'jest';
 import FormPage from '../../src/pages/FormPage';
+import { Provider } from 'react-redux';
+import store from '../../src/app/store';
 
 let container: HTMLDivElement | null = null;
 beforeEach(() => {
@@ -23,14 +25,13 @@ afterEach(() => {
 });
 
 describe('Form Page', () => {
-  const onCharacterCardClick = jest.fn();
-  const setModalActive = jest.fn();
-
   it('renders form page', () => {
     render(
-      <BrowserRouter>
-        <FormPage onCharacterCardClick={onCharacterCardClick} setModalActive={setModalActive} />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <FormPage />
+        </BrowserRouter>
+      </Provider>
     );
 
     const header = screen.getByTestId('header-test');
@@ -47,9 +48,11 @@ describe('Form Page', () => {
 
   it('handle submit character form', async () => {
     const { getByTestId, getByText } = render(
-      <BrowserRouter>
-        <FormPage onCharacterCardClick={onCharacterCardClick} setModalActive={setModalActive} />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <FormPage />
+        </BrowserRouter>
+      </Provider>
     );
 
     const file = new File(['test'], 'Rick.png', { type: 'image/png' });
@@ -100,9 +103,11 @@ describe('Form Page', () => {
 
   it('submits the form correctly with message and reset the form', async () => {
     const { getByTestId } = render(
-      <BrowserRouter>
-        <FormPage onCharacterCardClick={onCharacterCardClick} setModalActive={setModalActive} />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <FormPage />
+        </BrowserRouter>
+      </Provider>
     );
 
     const file = new File(['test'], 'Rick.png', { type: 'image/png' });

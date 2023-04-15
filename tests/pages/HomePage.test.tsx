@@ -7,6 +7,8 @@ import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
 import 'jest';
 import HomePage from '../../src/pages/HomePage';
+import { Provider } from 'react-redux';
+import store from '../../src/app/store';
 
 let container: HTMLDivElement | null = null;
 beforeEach(() => {
@@ -27,13 +29,13 @@ afterEach(() => {
 });
 
 describe('Home Page', () => {
-  const onCharacterCardClick = jest.fn();
-  const setModalActive = jest.fn();
   it('renders home page with navigation and Search Bar in header and roller on fetching start Card list', async () => {
     render(
-      <BrowserRouter>
-        <HomePage onCharacterCardClick={onCharacterCardClick} setModalActive={setModalActive} />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <HomePage />
+        </BrowserRouter>
+      </Provider>
     );
 
     const homePage = screen.getByTestId('home-page-component');
@@ -49,9 +51,11 @@ describe('Home Page', () => {
 
   it('show modal window on characterCard click with active style and can be closed by either modal backgound or cross', async () => {
     render(
-      <BrowserRouter>
-        <HomePage onCharacterCardClick={onCharacterCardClick} setModalActive={setModalActive} />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <HomePage />
+        </BrowserRouter>
+      </Provider>
     );
 
     const searchInput = screen.getByTestId('search-input') as HTMLInputElement;
@@ -68,19 +72,16 @@ describe('Home Page', () => {
     waitFor(() => {
       expect(screen.getByTestId('modal')).toHaveClass('modal active');
       expect(screen.getByText("Kyle's Teenyverse")).toBeInTheDocument();
-      expect(setModalActive).toHaveBeenCalledWith(true);
     });
   });
 
   it('handlePersonsFetched with provided search value on search button click', async () => {
     render(
-      <BrowserRouter>
-        <HomePage
-          onCharacterCardClick={onCharacterCardClick}
-          setModalActive={setModalActive}
-          data-testid="home-page"
-        />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <HomePage />
+        </BrowserRouter>
+      </Provider>
     );
 
     const searchInput = screen.getByTestId('search-input') as HTMLInputElement;

@@ -40,6 +40,21 @@ afterEach(() => {
 describe('Modal', () => {
   const setActive = jest.fn();
 
+  it("shouldn't render a modal window without active class", async () => {
+    store.dispatch(updateId('197'));
+
+    const { findByTestId } = render(
+      <Provider store={store}>
+        <Modal active={false} setActive={setActive} />
+      </Provider>
+    );
+
+    const modalCard = await findByTestId('modal');
+    await waitFor(() => {
+      expect(modalCard).toHaveClass('modal');
+    });
+  });
+
   it('should render a modal window with active class and modal Card of alive character', async () => {
     store.dispatch(updateId('197'));
 
@@ -49,6 +64,11 @@ describe('Modal', () => {
       </Provider>
     );
 
+    const modalCard = await findByTestId('modal');
+    await waitFor(() => {
+      expect(modalCard).toHaveClass('modal active');
+    });
+
     const modalContent = await findByTestId('person-loc');
 
     await waitFor(() => {
@@ -56,7 +76,6 @@ describe('Modal', () => {
     });
 
     await waitFor(() => {
-      expect(getByTestId('modal')).toHaveClass('modal active');
       expect(getByText('Kyle')).toBeInTheDocument();
       expect(getByText('Alive - Humanoid')).toBeInTheDocument();
       expect(getByText('Male')).toBeInTheDocument();
@@ -146,19 +165,25 @@ describe('Modal', () => {
     expect(getByTestId('modal')).toHaveClass('modal active');
     fireEvent.click(screen.getByTestId('modal-close-btn'));
     expect(getByTestId('modal')).toHaveClass('modal');
-    expect(setActive).toHaveBeenCalled();
+    expect(setActive).toHaveBeenCalledWith(false);
   });
 
-  it('should be closed on background click', () => {
-    const { getByTestId } = render(
+  it('should be closed on background click', async () => {
+    const { getByTestId, findByTestId } = render(
       <Provider store={store}>
         <Modal active={true} setActive={setActive} />
       </Provider>
     );
 
-    expect(getByTestId('modal')).toHaveClass('modal active');
-    fireEvent.click(screen.getByTestId('modal'));
-    expect(getByTestId('modal')).toHaveClass('modal');
-    expect(setActive).toHaveBeenCalled();
+    const modalBackground = await findByTestId('modal');
+    await waitFor(() => {
+      expect(modalBackground).toHaveClass('modal active');
+    });
+
+    fireEvent.click(modalBackground);
+    await waitFor(() => {
+      expect(getByTestId('modal')).toHaveClass('modal');
+      expect(setActive).toHaveBeenCalledWith(false);
+    });
   });
 });

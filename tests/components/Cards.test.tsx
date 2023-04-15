@@ -1,12 +1,13 @@
 import React from 'react';
 import { unmountComponentAtNode } from 'react-dom';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
 import 'jest';
 import Cards from '../../src/components/Cards';
 import { Provider } from 'react-redux';
 import store from '../../src/app/store';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 
 let container: HTMLDivElement | null = null;
 beforeEach(() => {
@@ -67,6 +68,14 @@ const mockPerson = {
   created: '2017-12-31T19:23:53.188Z',
 };
 
+const errorResult: FetchBaseQueryError = {
+  status: 'CUSTOM_ERROR',
+  data: '{}',
+  error: 'Something went wrong',
+};
+
+const id = '123';
+
 describe('Cards component', () => {
   const onCharacterCardClick = jest.fn();
   const setModalActive = jest.fn();
@@ -102,5 +111,24 @@ describe('Cards component', () => {
     );
 
     expect(screen.getByTestId('cards')).toBeInTheDocument();
+  });
+
+  it('renders error message', async () => {
+    const { findByTestId } = render(
+      <Provider store={store}>
+        <Cards
+          canDraw={canDraw}
+          onCharacterCardClick={onCharacterCardClick}
+          setModalActive={setModalActive}
+          characters={errorResult}
+          key={id}
+        />
+      </Provider>
+    );
+
+    const message = await findByTestId('error-message-container');
+    await waitFor(() => {
+      expect(message).toBeInTheDocument();
+    });
   });
 });

@@ -49,9 +49,11 @@ describe('Modal', () => {
       </Provider>
     );
 
-    const modalCard = await findByTestId('modal');
+    const modalContainer = await findByTestId('modal-error');
+    const modalContetnt = await findByTestId('modal-content-error');
     await waitFor(() => {
-      expect(modalCard).toHaveClass('modal');
+      expect(modalContainer).toHaveClass('modal');
+      expect(modalContetnt).toHaveClass('modal-content');
     });
   });
 
@@ -156,33 +158,57 @@ describe('Modal', () => {
   });
 
   it('should be closed on close button click', () => {
+    store.dispatch(updateId('197'));
     const { getByTestId } = render(
       <Provider store={store}>
         <Modal active={true} setActive={setActive} />
       </Provider>
     );
 
-    expect(getByTestId('modal')).toHaveClass('modal active');
+    expect(getByTestId('modal-error')).toHaveClass('modal active');
     fireEvent.click(screen.getByTestId('modal-close-btn'));
-    expect(getByTestId('modal')).toHaveClass('modal');
+    expect(getByTestId('modal-error')).toHaveClass('modal');
     expect(setActive).toHaveBeenCalledWith(false);
   });
 
   it('should be closed on background click', async () => {
-    const { getByTestId, findByTestId } = render(
+    store.dispatch(updateId('197'));
+    const { findByTestId } = render(
       <Provider store={store}>
         <Modal active={true} setActive={setActive} />
       </Provider>
     );
 
     const modalBackground = await findByTestId('modal');
+    const modalContent = await findByTestId('modal-content');
+    await waitFor(() => {
+      expect(modalBackground).toHaveClass('modal active');
+      expect(modalContent).toHaveClass('modal-content active');
+    });
+
+    fireEvent.click(modalBackground);
+    await waitFor(() => {
+      expect(modalBackground).toHaveClass('modal');
+      expect(modalContent).toHaveClass('modal-content');
+      expect(setActive).toHaveBeenCalledWith(false);
+    });
+  });
+
+  it('should be closed on background click when error', async () => {
+    const { findByTestId } = render(
+      <Provider store={store}>
+        <Modal active={true} setActive={setActive} />
+      </Provider>
+    );
+
+    const modalBackground = await findByTestId('modal-error');
     await waitFor(() => {
       expect(modalBackground).toHaveClass('modal active');
     });
 
     fireEvent.click(modalBackground);
     await waitFor(() => {
-      expect(getByTestId('modal')).toHaveClass('modal');
+      expect(modalBackground).toHaveClass('modal');
       expect(setActive).toHaveBeenCalledWith(false);
     });
   });

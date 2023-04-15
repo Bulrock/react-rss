@@ -32,13 +32,14 @@ const Modal = (props: IModalProps) => {
         }}
       >
         <div
+          data-testid="modal-content"
           className={props.active ? 'modal-content active' : 'modal-content'}
           onClick={(e) => e.stopPropagation()}
         >
           <div className="card-modal" data-testid="card-modal">
             <div className="modal-close-cross">
               <img
-                data-testid={'modal-close-btn'}
+                data-testid="modal-close-btn"
                 className="cross-img"
                 src={cross}
                 alt="modal-close-icon"
@@ -94,11 +95,12 @@ const Modal = (props: IModalProps) => {
   } else {
     return (
       <div
-        data-testid="modal"
+        data-testid="modal-error"
         className={props.active ? 'modal active' : 'modal'}
         onClick={() => props.setActive(false)}
       >
         <div
+          data-testid="modal-content-error"
           className={props.active ? 'modal-content active' : 'modal-content'}
           onClick={(e) => e.stopPropagation()}
         >

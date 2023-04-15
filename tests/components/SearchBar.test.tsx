@@ -44,10 +44,6 @@ describe('SearchBar', () => {
     const searchButton = getByTestId('search-btn');
     fireEvent.change(searchInput, { target: { value: null } });
     fireEvent.click(searchButton);
-    // expect(localStorage.getItem('search')).toBe(null);
-    // fireEvent.change(searchInput, { target: { value: 'test' } });
-    // fireEvent.click(searchButton);
-    // expect(localStorage.getItem('search')).toBe('test');
   });
 
   it('handleKeyPress should call handleSearchClick when "Enter" key is pressed', async () => {
@@ -59,14 +55,9 @@ describe('SearchBar', () => {
     const searchInput = getByTestId('search-input');
 
     fireEvent.keyUp(searchInput, { key: 'Enter' } as KeyboardEvent);
-    // waitFor(() => {
-    //   expect(handleSearchClick).toHaveBeenCalledTimes(1);
-    // });
   });
 
   test('performSearch should not be called if search is empty', async () => {
-    // const charactersServiceMock = jest.fn();
-
     const { getByTestId } = render(
       <Provider store={store}>
         <SearchBar />
@@ -76,8 +67,5 @@ describe('SearchBar', () => {
 
     fireEvent.change(searchInput, { target: { value: '' } });
     fireEvent.click(getByTestId('search-btn'));
-    // waitFor(() => {
-    //   expect(charactersServiceMock).not.toHaveBeenCalled();
-    // });
   });
 });

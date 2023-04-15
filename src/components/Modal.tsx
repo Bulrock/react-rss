@@ -115,7 +115,7 @@ const Modal = (props: IModalProps) => {
             {!isFetching && (
               <div className="card-header-wrapper">
                 <div className="modal-error">
-                  <div>Failed to fetch Character Information!</div>
+                  <div data-testid="on-error">Failed to fetch Character Information!</div>
                 </div>
               </div>
             )}

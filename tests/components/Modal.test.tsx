@@ -1,12 +1,26 @@
 import * as React from 'react';
 import { unmountComponentAtNode } from 'react-dom';
-import { screen, render, fireEvent } from '@testing-library/react';
+import { screen, render, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
 import 'jest';
 import Modal from '../../src/components/Modal';
 import { Provider } from 'react-redux';
 import store from '../../src/app/store';
+import { server } from '../mocks/server';
+import { charactersAPI } from '../../src/features/ApiSlice';
+import { updateId } from '../../src/features/CardSlice';
+
+beforeAll(() => {
+  server.listen();
+});
+
+afterEach(() => {
+  server.resetHandlers();
+  store.dispatch(charactersAPI.util.resetApiState());
+});
+
+afterAll(() => server.close());
 
 let container: HTMLDivElement | null = null;
 beforeEach(() => {
@@ -25,85 +39,101 @@ afterEach(() => {
 
 describe('Modal', () => {
   const setActive = jest.fn();
-  // const mockCharacterAlive = {
-  //   id: 283,
-  //   name: 'Rick D. Sanchez III',
-  //   status: 'Dead',
-  //   species: 'Human',
-  //   type: '',
-  //   gender: 'Male',
-  //   origin: {
-  //     name: 'unknown',
-  //     url: '',
-  //   },
-  //   location: {
-  //     name: 'Citadel of Ricks',
-  //     url: 'https://rickandmortyapi.com/api/location/3',
-  //   },
-  //   image: 'https://rickandmortyapi.com/api/character/avatar/283.jpeg',
-  //   episode: ['https://rickandmortyapi.com/api/episode/28'],
-  //   url: 'https://rickandmortyapi.com/api/character/283',
-  //   created: '2017-12-31T19:23:53.188Z',
-  // };
 
-  // const mockCharacterDead = {
-  //   id: 283,
-  //   name: 'Rick D. Sanchez III',
-  //   status: 'Alive',
-  //   species: 'Human',
-  //   type: '',
-  //   gender: 'Male',
-  //   origin: {
-  //     name: 'unknown',
-  //     url: '',
-  //   },
-  //   location: {
-  //     name: 'Citadel of Ricks',
-  //     url: 'https://rickandmortyapi.com/api/location/3',
-  //   },
-  //   image: 'https://rickandmortyapi.com/api/character/avatar/283.jpeg',
-  //   episode: ['https://rickandmortyapi.com/api/episode/28'],
-  //   url: 'https://rickandmortyapi.com/api/character/283',
-  //   created: '2017-12-31T19:23:53.188Z',
-  // };
+  it('should render a modal window with active class and modal Card of alive character', async () => {
+    store.dispatch(updateId('197'));
 
-  it('should render a modal window with active class and modal Card of dead character', () => {
-    const { getByTestId, getByText } = render(
+    const { findByTestId, getByTestId, getByText } = render(
       <Provider store={store}>
         <Modal active={true} setActive={setActive} />
       </Provider>
     );
-    expect(getByTestId('modal')).toHaveClass('modal active');
-    expect(getByText('Rick D. Sanchez III')).toBeInTheDocument();
-    expect(getByText('Dead - Human')).toBeInTheDocument();
-    expect(getByText('Male')).toBeInTheDocument();
-    expect(getByText('Citadel of Ricks')).toBeInTheDocument();
-    expect(getByText('2017-12-31')).toBeInTheDocument();
-    expect(getByTestId('person-status-ico')).toHaveClass('status-icon-red');
+
+    const modalContent = await findByTestId('person-loc');
+
+    await waitFor(() => {
+      expect(modalContent).toBeInTheDocument();
+    });
+
+    await waitFor(() => {
+      expect(getByTestId('modal')).toHaveClass('modal active');
+      expect(getByText('Kyle')).toBeInTheDocument();
+      expect(getByText('Alive - Humanoid')).toBeInTheDocument();
+      expect(getByText('Male')).toBeInTheDocument();
+      expect(getByText("Kyle's Teenyverse")).toBeInTheDocument();
+      expect(getByText('2017-12-30')).toBeInTheDocument();
+      expect(getByTestId('person-status-ico')).toHaveClass('status-icon-green');
+    });
   });
 
-  it('should render a modal window with active class and modal Card of alive character', () => {
-    const { getByTestId, getByText } = render(
+  it('should render a modal window with active class and modal Card of dead character', async () => {
+    store.dispatch(updateId('300'));
+
+    const { findByTestId, getByTestId, getByText } = render(
       <Provider store={store}>
         <Modal active={true} setActive={setActive} />
       </Provider>
     );
-    expect(getByTestId('modal')).toHaveClass('modal active');
-    expect(getByText('Rick D. Sanchez III')).toBeInTheDocument();
-    expect(getByText('Alive - Human')).toBeInTheDocument();
-    expect(getByText('Male')).toBeInTheDocument();
-    expect(getByText('Citadel of Ricks')).toBeInTheDocument();
-    expect(getByText('2017-12-31')).toBeInTheDocument();
-    expect(getByTestId('person-status-ico')).toHaveClass('status-icon-green');
+
+    const modalContent = await findByTestId('person-loc');
+
+    await waitFor(() => {
+      expect(modalContent).toBeInTheDocument();
+    });
+
+    await waitFor(() => {
+      expect(getByTestId('modal')).toHaveClass('modal active');
+      expect(getByText('Kyle')).toBeInTheDocument();
+      expect(getByText('Dead - Humanoid')).toBeInTheDocument();
+      expect(getByText('Male')).toBeInTheDocument();
+      expect(getByText("Kyle's Teenyverse")).toBeInTheDocument();
+      expect(getByText('2017-12-30')).toBeInTheDocument();
+      expect(getByTestId('person-status-ico')).toHaveClass('status-icon-red');
+    });
   });
 
-  it('should render a modal window without active class', () => {
-    const { getByTestId } = render(
+  it('should render a modal window', async () => {
+    store.dispatch(updateId('197'));
+
+    const { findByTestId, getByTestId } = render(
       <Provider store={store}>
-        <Modal active={false} setActive={setActive} />
+        <Modal active={true} setActive={setActive} />
       </Provider>
     );
-    expect(getByTestId('modal')).toHaveClass('modal');
+
+    const modalContent = await findByTestId('person-loc');
+
+    await waitFor(() => {
+      expect(modalContent).toBeInTheDocument();
+    });
+
+    await waitFor(() => {
+      expect(getByTestId('modal')).toHaveClass('modal active');
+      fireEvent.click(screen.getByTestId('modal-close-btn'));
+      expect(getByTestId('modal')).toHaveClass('modal');
+      expect(setActive).toHaveBeenCalled();
+    });
+    await waitFor(() => {
+      expect(getByTestId('modal')).toHaveClass('modal active');
+      fireEvent.click(screen.getByTestId('modal'));
+      expect(getByTestId('modal')).toHaveClass('modal');
+      expect(setActive).toHaveBeenCalled();
+    });
+  });
+
+  it('should render a modal window with error', async () => {
+    store.dispatch(updateId('000'));
+
+    const { findByTestId } = render(
+      <Provider store={store}>
+        <Modal active={true} setActive={setActive} />
+      </Provider>
+    );
+
+    const errorMessage = await findByTestId('on-error');
+    await waitFor(() => {
+      expect(errorMessage).toBeInTheDocument();
+    });
   });
 
   it('should be closed on close button click', () => {

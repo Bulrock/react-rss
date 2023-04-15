@@ -49,12 +49,7 @@ describe('CharacterForm', () => {
   });
 
   it('should not return Icharacter on submit with incorrectly filled form', async () => {
-    // window.URL.createObjectURL = jest.fn();
-
     let submitedICharacter: ICharacter;
-    // const onSubmit = jest.fn((character: ICharacter) => {
-    //   submitedICharacter = character;
-    // });
 
     render(
       <Provider store={store}>
@@ -75,9 +70,6 @@ describe('CharacterForm', () => {
 
   it('should return Icharacter on submit with correctly filled form', async () => {
     let submitedICharacter: ICharacter;
-    // const onSuccessSubmitMock = jest.fn((character: ICharacter) => {
-    //   submitedICharacter = character;
-    // });
 
     render(
       <Provider store={store}>
@@ -109,8 +101,6 @@ describe('CharacterForm', () => {
   });
 
   it('should return errors on submit with empty form fields', async () => {
-    // window.URL.createObjectURL = jest.fn();
-
     render(
       <Provider store={store}>
         <CharacterForm />
@@ -135,7 +125,6 @@ describe('CharacterForm', () => {
   });
 
   it('submits the form correctly with message and reset the form', async () => {
-    // const onSuccessSubmitMock = jest.fn();
     render(
       <Provider store={store}>
         <CharacterForm />
@@ -184,31 +173,4 @@ describe('CharacterForm', () => {
       expect(screen.getByLabelText('I consent to this data')).not.toBeChecked();
     });
   });
-
-  // it('handle submit character form', async () => {
-  //   // const onSuccessSubmitMock = jest.fn();
-  //   const { getByTestId } = render(<CharacterForm />);
-
-  //   const file = new File(['test'], 'Rick.png', { type: 'image/png' });
-
-  //   fireEvent.change(getByTestId('name'), { target: { value: 'Morty' } });
-  //   fireEvent.click(getByTestId('status-0'));
-  //   fireEvent.change(getByTestId('species'), { target: { value: 'Alien' } });
-  //   fireEvent.change(getByTestId('gender'), { target: { value: 'Male' } });
-  //   fireEvent.change(getByTestId('origin'), { target: { value: 'Earth' } });
-  //   fireEvent.change(getByTestId('location'), { target: { value: 'Mars' } });
-  //   fireEvent.change(getByTestId('date'), { target: { value: '2017-11-04' } });
-  //   fireEvent.click(getByTestId('checkbox'));
-  //   fireEvent.change(getByTestId('image'), { target: { files: [file] } });
-
-  //   fireEvent.click(getByTestId('form-submit-btn'));
-
-  //   waitFor(
-  //     () => {
-  //       expect(onSuccessSubmitMock).toHaveBeenCalledTimes(1);
-  //       expect(onSuccessSubmitMock).toHaveBeenCalledWith({ name: 'Morty' });
-  //     },
-  //     { timeout: 2000 }
-  //   );
-  // });
 });

@@ -28,6 +28,7 @@ describe('App', () => {
         </MemoryRouter>
       </Provider>
     );
+
     expect(screen.getByText('What is this?')).toBeInTheDocument();
   });
 
@@ -39,7 +40,7 @@ describe('App', () => {
         </MemoryRouter>
       </Provider>
     );
-    expect(screen.getByText('What is this?')).toBeInTheDocument();
+    expect(screen.getByText('Create new Character with form')).toBeInTheDocument();
   });
 
   test('renders not found page', () => {

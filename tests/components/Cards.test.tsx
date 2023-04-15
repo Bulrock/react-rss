@@ -103,20 +103,4 @@ describe('Cards component', () => {
 
     expect(screen.getByTestId('cards')).toBeInTheDocument();
   });
-
-  // it('do not render cards on characters equal undefined', () => {
-  //   render(
-  //     <Cards
-  //       canDraw={canDraw}
-  //       onCharacterCardClick={onCharacterCardClick}
-  //       setModalActive={setModalActive}
-  //       characters={undefined}
-  //       key={999999999}
-  //     />
-  //   );
-
-  //   waitFor(() => {
-  //     expect(screen.getByTestId('error-message-container')).toBeInTheDocument();
-  //   });
-  // });
 });

@@ -1,9 +1,9 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import SearchBar from './SearchBar';
-import { IHeaderProps } from '../models/types';
+// import SearchBar from './SearchBar';
+// import { IHeaderProps } from '../models/types';
 
-function Header(props: IHeaderProps) {
+function Header() {
   return (
     <>
       <header className="header-main" data-testid="header-test">
@@ -30,7 +30,6 @@ function Header(props: IHeaderProps) {
             About
           </NavLink>
         </div>
-        {!props.hideSearch && <SearchBar />}
       </header>
     </>
   );

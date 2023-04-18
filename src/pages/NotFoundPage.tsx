@@ -1,13 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../../src/components/Header';
-import Footer from '../components/Footer';
 import notFound from '../assets/notFound.png';
 
 function NotFoundPage() {
   return (
     <div>
-      <Header hideSearch={true} />
       <div className="main" data-testid="main">
         <h1 className="not-found-title" data-testid="not-found-h1">
           404
@@ -20,7 +17,6 @@ function NotFoundPage() {
         </p>
         <img className="not-found-img" src={notFound} />
       </div>
-      <Footer />
     </div>
   );
 }

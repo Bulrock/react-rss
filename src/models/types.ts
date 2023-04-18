@@ -76,9 +76,9 @@ export interface IViewRepository {
   findView: (key: number) => boolean;
 }
 
-export interface IHeaderProps {
-  hideSearch: boolean;
-}
+// export interface IHeaderProps {
+//   hideSearch: boolean;
+// }
 
 export interface ICardProps {
   character: ICharacter | errorResult;

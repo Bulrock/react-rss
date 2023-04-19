@@ -55,13 +55,13 @@ async function createServer() {
       if (!isProduction) {
         template = await fsp.readFile(resolve('index.html'), 'utf8');
         template = await vite.transformIndexHtml(url, template);
-        render = await vite.ssrLoadModule('src/entry-server.tsx').then((m) => m.render);
+        render = (await vite.ssrLoadModule('src/entry-server.tsx')).render;
       } else {
         template = await fsp.readFile(resolve('dist/client/index.html'), 'utf8');
-        render = (await import('./dist/server/entry-server.tsx'!)).render;
+        render = (await import('./dist/server/entry-server.js'!)).render;
       }
 
-      const parts = template.split('<!--app-->');
+      const parts = template.split('<!--ssr-outlet-->');
       try {
         res.write(parts[0]);
         const stream = await render(req, {

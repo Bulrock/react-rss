@@ -1,8 +1,11 @@
 import React from 'react';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 function AboutPage() {
   return (
     <>
+      <Header />
       <div className="main">
         <h1 data-testid="about-h1">What is this?</h1>
         <p data-testid="about-p">
@@ -11,6 +14,7 @@ function AboutPage() {
           and Morty API.
         </p>
       </div>
+      <Footer />
     </>
   );
 }

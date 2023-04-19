@@ -3,6 +3,8 @@ import Cards from '../../src/components/Cards';
 import Roller from '../components/Roller';
 import Modal from '../components/Modal';
 import SearchBar from 'src/components/SearchBar';
+import Header from 'src/components/Header';
+import Footer from 'src/components/Footer';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { useGetAllCharactersQuery, useGetCharactersQuery } from '../features/ApiSlice';
 import { updateSearchResults } from '../features/CharactersSlice';
@@ -43,7 +45,10 @@ function HomePage() {
   return (
     <>
       <div data-testid="home-page-component">
-        <SearchBar />
+        <div className="main-header-wrapper">
+          <Header />
+          <SearchBar />
+        </div>
         {!initialFetch && !searchFetch ? (
           <div className="main">
             <h1 data-testid="home-h1">The Rick and Morty Universe</h1>
@@ -56,6 +61,7 @@ function HomePage() {
         ) : (
           <Roller classRoller={'lds-roller-main lds-roller'} />
         )}
+        <Footer />
       </div>
       <Modal active={modalActive} setActive={setModalActive} />
     </>

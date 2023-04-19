@@ -19,12 +19,22 @@ h1 {
 
 .header-main,
 .footer {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   height: 60px;
-  background-color: rgba(130, 128, 128, 0.597);
   align-items: center;
   justify-content: space-around;
+}
+
+.footer {
+  background-color: rgba(130, 128, 128, 0.597);
+}
+
+.main-header-wrapper {
+  display: flex;
+  align-content: space-around;
+  background-color: rgba(130, 128, 128, 0.597);
 }
 
 .header-links {
@@ -48,6 +58,7 @@ a:hover,
   display: flex;
   gap: 15px;
   align-items: center;
+  margin-right: 20px;
 }
 
 .search-bar {

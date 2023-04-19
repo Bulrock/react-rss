@@ -25,9 +25,5 @@
   },
   "include": ["./src", "vite.config.ts", "server.ts"],
   "references": [{ "path": "./tsconfig.node.json" }],
-
-  "ts-node": {
-    "esm": true,
-    "transpileOnly": true,
-  },
+  "ts-node": { "esm": true, "experimentalSpecifierResolution": "node" }
 }

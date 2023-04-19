@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Cards from '../../src/components/Cards';
 import Roller from '../components/Roller';
 import Modal from '../components/Modal';
-import SearchBar from '@/components/SearchBar';
+import SearchBar from 'src/components/SearchBar';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { useGetAllCharactersQuery, useGetCharactersQuery } from '../features/ApiSlice';
 import { updateSearchResults } from '../features/CharactersSlice';

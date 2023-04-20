@@ -5,10 +5,9 @@ import { BrowserRouter } from 'react-router-dom';
 import { server } from '../mocks/server';
 import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
-import 'jest';
-import HomePage from '../../src/pages/HomePage';
+import HomePage from '../../pages/HomePage';
 import { Provider } from 'react-redux';
-import store from '../../src/app/store';
+import { storeSetup } from '../../app/store';
 
 let container: HTMLDivElement | null = null;
 beforeEach(() => {
@@ -29,6 +28,8 @@ afterEach(() => {
 });
 
 describe('Home Page', () => {
+  const store = storeSetup();
+
   it('renders home page with navigation and Search Bar in header and roller on fetching start Card list', async () => {
     render(
       <Provider store={store}>

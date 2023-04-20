@@ -4,10 +4,7 @@ import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
-import 'jest';
-import NotFoundPage from '../../src/pages/NotFoundPage';
-import { Provider } from 'react-redux';
-import store from '../../src/app/store';
+import AboutPage from '../../pages/AboutPage';
 
 let container: HTMLDivElement | null = null;
 beforeEach(() => {
@@ -24,23 +21,19 @@ afterEach(() => {
   }
 });
 
-describe('Not Found Page', () => {
-  it('renders not found page', () => {
+describe('About Page', () => {
+  it('renders about page', () => {
     render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <NotFoundPage />
-        </BrowserRouter>
-      </Provider>
+      <BrowserRouter>
+        <AboutPage />
+      </BrowserRouter>
     );
-    const notFoundTitle = screen.getByTestId('not-found-h1');
-    const notFoundParagraph = screen.getByTestId('not-found-p');
+    const aboutTitle = screen.getByTestId('about-h1');
+    const aboutParagraph = screen.getByTestId('about-p');
     const searchBar = screen.queryByTestId('search-test');
-    const homeLink = screen.getByTestId('not-found-link');
 
-    expect(notFoundTitle).toBeInTheDocument();
-    expect(notFoundParagraph).toBeInTheDocument();
-    expect(homeLink).toBeInTheDocument();
+    expect(aboutTitle).toBeInTheDocument();
+    expect(aboutParagraph).toBeInTheDocument();
     expect(searchBar).toBe(null);
   });
 });

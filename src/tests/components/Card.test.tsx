@@ -3,10 +3,10 @@ import { unmountComponentAtNode } from 'react-dom';
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
-import 'jest';
-import Card from '../../src/components/Card';
+import { vi } from 'vitest';
+import Card from '../../components/Card';
 import { Provider } from 'react-redux';
-import store from '../../src/app/store';
+import { storeSetup } from '../../app/store';
 
 let container: HTMLDivElement | null = null;
 beforeEach(() => {
@@ -45,9 +45,11 @@ const mockPerson = {
 };
 
 describe('Card component', () => {
-  const onCharacterCardClick = jest.fn();
-  const setModalActive = jest.fn();
+  const onCharacterCardClick = vi.fn();
+  const setModalActive = vi.fn();
   const canDraw = true;
+  const store = storeSetup();
+
   it('renders person information', () => {
     const { getByText, getByAltText, getByTestId } = render(
       <Provider store={store}>

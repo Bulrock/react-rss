@@ -1,5 +1,4 @@
-import 'jest';
-import UuidGenerator from '../../src/models/UuidGenerator';
+import UuidGenerator from '../../models/UuidGenerator';
 
 describe('Local Storage Like Repository', () => {
   it('creates uniqe UUID numbers', () => {

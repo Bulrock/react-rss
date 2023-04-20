@@ -3,10 +3,10 @@ import { unmountComponentAtNode } from 'react-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
-import 'jest';
-import Cards from '../../src/components/Cards';
+import { vi } from 'vitest';
+import Cards from '../../components/Cards';
 import { Provider } from 'react-redux';
-import store from '../../src/app/store';
+import { storeSetup } from '../../app/store';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 
 let container: HTMLDivElement | null = null;
@@ -77,9 +77,10 @@ const errorResult: FetchBaseQueryError = {
 const id = '123';
 
 describe('Cards component', () => {
-  const onCharacterCardClick = jest.fn();
-  const setModalActive = jest.fn();
+  const onCharacterCardClick = vi.fn();
+  const setModalActive = vi.fn();
   const canDraw = true;
+  const store = storeSetup();
 
   it('renders cards from array of cards', () => {
     render(

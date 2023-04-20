@@ -3,10 +3,10 @@ import { unmountComponentAtNode } from 'react-dom';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
-import 'jest';
-import Modal from '../../src/components/ModalFormPage';
+import { vi } from 'vitest';
+import Modal from '../../components/ModalFormPage';
 import { Provider } from 'react-redux';
-import store from '../../src/app/store';
+import { storeSetup } from '../../app/store';
 
 let container: HTMLDivElement | null = null;
 beforeEach(() => {
@@ -66,7 +66,8 @@ const mockPersonAlive = {
 };
 
 describe('ModalFormPage', () => {
-  const setActive = jest.fn();
+  const setActive = vi.fn();
+  const store = storeSetup();
 
   it("shouldn't render a modal window without active class", async () => {
     const { findByTestId } = render(

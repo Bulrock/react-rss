@@ -1,7 +1,7 @@
-import 'jest';
+import { vi } from 'vitest';
 import { waitFor } from '@testing-library/react';
-import CharacterFactory from '../../src/models/CharacterFactory';
-import { ICharacter } from '../../src/models/types';
+import CharacterFactory from '../../models/CharacterFactory';
+import { ICharacter } from '../../models/types';
 
 let characterFactory: CharacterFactory;
 
@@ -12,11 +12,11 @@ beforeAll(async () => {
 });
 
 beforeEach(() => {
-  jest.useFakeTimers();
+  vi.useFakeTimers();
 });
 
 afterEach(() => {
-  jest.useRealTimers();
+  vi.useRealTimers();
 });
 
 test('Character Factory creates a character object with the expected properties and values', async () => {

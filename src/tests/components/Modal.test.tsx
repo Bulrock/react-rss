@@ -3,14 +3,15 @@ import { unmountComponentAtNode } from 'react-dom';
 import { screen, render, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
-import 'jest';
-import Modal from '../../src/components/Modal';
+import { vi } from 'vitest';
+import Modal from '../../components/Modal';
 import { Provider } from 'react-redux';
-import store from '../../src/app/store';
+import { storeSetup } from '../../app/store';
 import { server } from '../mocks/server';
-import { charactersAPI } from '../../src/features/ApiSlice';
-import { updateId } from '../../src/features/CardSlice';
+import { charactersAPI } from '../../features/ApiSlice';
+import { updateId } from '../../features/CardSlice';
 
+const store = storeSetup();
 beforeAll(() => {
   server.listen();
 });
@@ -38,7 +39,7 @@ afterEach(() => {
 });
 
 describe('Modal', () => {
-  const setActive = jest.fn();
+  const setActive = vi.fn();
 
   it("shouldn't render a modal window without active class", async () => {
     store.dispatch(updateId('197'));

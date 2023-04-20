@@ -5,10 +5,9 @@ import { BrowserRouter as Router, MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
-import 'jest';
-import Header from '../../src/components/Header';
+import Header from '../../components/Header';
 import { Provider } from 'react-redux';
-import store from '../../src/app/store';
+import { storeSetup } from '../../app/store';
 
 let container: HTMLDivElement | null = null;
 beforeEach(() => {
@@ -26,30 +25,30 @@ afterEach(() => {
 });
 
 describe('Header component', () => {
+  const store = storeSetup();
+
   it('renders header with 2 links: Home, About and search bar', () => {
     render(
       <Provider store={store}>
         <Router>
-          <Header hideSearch={false} />
+          <Header />
         </Router>
       </Provider>
     );
     const homeLink = screen.getByTestId('home-link');
     const aboutLink = screen.getByTestId('about-link');
     const formLink = screen.getByTestId('form-link');
-    const searchBar = screen.getByTestId('search-test');
 
     expect(homeLink).toBeInTheDocument();
     expect(aboutLink).toBeInTheDocument();
     expect(formLink).toBeInTheDocument();
-    expect(searchBar).toBeInTheDocument();
   });
 
   it('change color of the links', () => {
     render(
       <Provider store={store}>
         <Router>
-          <Header hideSearch={false} />
+          <Header />
         </Router>
       </Provider>
     );
@@ -71,7 +70,7 @@ describe('Header component', () => {
     render(
       <Provider store={store}>
         <MemoryRouter initialEntries={['/']}>
-          <Header hideSearch={false} />
+          <Header />
         </MemoryRouter>
       </Provider>
     );

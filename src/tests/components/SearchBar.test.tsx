@@ -3,10 +3,9 @@ import { unmountComponentAtNode } from 'react-dom';
 import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
-import 'jest';
-import SearchBar from '../../src/components/SearchBar';
+import SearchBar from '../../components/SearchBar';
 import { Provider } from 'react-redux';
-import store from '../../src/app/store';
+import { storeSetup } from '../../app/store';
 
 let container: HTMLDivElement | null = null;
 beforeEach(() => {
@@ -24,6 +23,8 @@ afterEach(() => {
 });
 
 describe('SearchBar', () => {
+  const store = storeSetup();
+
   it('should render a search input and button', () => {
     const { getByTestId } = render(
       <Provider store={store}>

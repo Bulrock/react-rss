@@ -1,5 +1,5 @@
-import { ISearchState } from '../../src/models/types';
-import reducer, { updateSearch } from '../../src/features/SearchBarSlice';
+import { ISearchState } from '../../models/types';
+import reducer, { updateSearch } from '../../features/SearchBarSlice';
 
 describe('SearchBarSlice', () => {
   test('should return the initial state', () => {

@@ -4,8 +4,7 @@ import { render, screen } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
-import 'jest';
-import Footer from '../../src/components/Footer';
+import Footer from '../../components/Footer';
 
 let container: HTMLDivElement | null = null;
 beforeEach(() => {

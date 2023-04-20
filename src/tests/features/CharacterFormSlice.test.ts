@@ -1,5 +1,5 @@
-import { ICharactersFetchState } from '../../src/models/types';
-import reducer, { updateSearchResults } from '../../src/features/CharactersSlice';
+import { ICharacterFormState } from '../../models/types';
+import reducer, { addCharacter } from '../../features/CharacterFormSlice';
 
 const mockPerson = {
   id: 283,
@@ -43,16 +43,16 @@ const mockPersonSecond = {
   created: '2017-12-31T19:23:53.188Z',
 };
 
-describe('CharactersSlice', () => {
+describe('CharacterFormSlice', () => {
   test('should return the initial state', () => {
-    expect(reducer(undefined, { type: undefined })).toEqual({ searchResults: [] });
+    expect(reducer(undefined, { type: undefined })).toEqual({ value: [] });
   });
 
   test('should handle a new character added to an empty array', () => {
-    const previousState: ICharactersFetchState = { searchResults: [] };
+    const previousState: ICharacterFormState = { value: [] };
 
-    expect(reducer(previousState, updateSearchResults([mockPerson]))).toEqual({
-      searchResults: [
+    expect(reducer(previousState, addCharacter(mockPerson))).toEqual({
+      value: [
         {
           id: 283,
           name: 'Rick D. Sanchez III',
@@ -78,8 +78,8 @@ describe('CharactersSlice', () => {
   });
 
   test('should handle a new character being added to an existing array', () => {
-    const previousState: ICharactersFetchState = {
-      searchResults: [
+    const previousState: ICharacterFormState = {
+      value: [
         {
           id: 283,
           name: 'Rick D. Sanchez III',
@@ -103,8 +103,28 @@ describe('CharactersSlice', () => {
       ],
     };
 
-    expect(reducer(previousState, updateSearchResults([mockPersonSecond]))).toEqual({
-      searchResults: [
+    expect(reducer(previousState, addCharacter(mockPersonSecond))).toEqual({
+      value: [
+        {
+          id: 283,
+          name: 'Rick D. Sanchez III',
+          status: 'Alive',
+          species: 'Human',
+          type: '',
+          gender: 'Male',
+          origin: {
+            name: 'unknown',
+            url: '',
+          },
+          location: {
+            name: 'Citadel of Ricks',
+            url: 'https://rickandmortyapi.com/api/location/3',
+          },
+          image: 'https://rickandmortyapi.com/api/character/avatar/283.jpeg',
+          episode: ['https://rickandmortyapi.com/api/episode/28'],
+          url: 'https://rickandmortyapi.com/api/character/283',
+          created: '2017-12-31T19:23:53.188Z',
+        },
         {
           id: 2,
           name: 'Rick',

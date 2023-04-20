@@ -1,5 +1,5 @@
-import { IStateRepository } from '../../src/models/types';
-import reducer, { updateLikeArr } from '../../src/features/StateLikeRepositorySlice';
+import { IStateRepository } from '../../models/types';
+import reducer, { updateLikeArr } from '../../features/StateLikeRepositorySlice';
 
 describe('StateLikeRepositorySlice', () => {
   test('should return the initial state', () => {

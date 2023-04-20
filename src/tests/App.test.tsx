@@ -2,11 +2,13 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from '../src/app/store';
+import { storeSetup } from '../app/store';
 
-import App from '../src/App';
+import App from '../App';
 
 describe('App', () => {
+  const store = storeSetup();
+
   test('renders home page', () => {
     render(
       <Provider store={store}>

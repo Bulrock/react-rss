@@ -1,5 +1,5 @@
-import { IStateRepository } from '../../src/models/types';
-import reducer, { updateViewArr } from '../../src/features/StateViewRepositorySlice';
+import { IStateRepository } from '../../models/types';
+import reducer, { updateViewArr } from '../../features/StateViewRepositorySlice';
 
 describe('StateViewRepositorySlice', () => {
   test('should return the initial state', () => {

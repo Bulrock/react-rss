@@ -1,7 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import FormField from '../../src/components/FormField';
-import { IFormFieldProps } from '../../src/models/types';
+import FormField from '../../components/FormField';
+import { IFormFieldProps } from '../../models/types';
+import { vi } from 'vitest';
 
 describe('FormField', () => {
   const mockProps: IFormFieldProps = {
@@ -14,7 +15,7 @@ describe('FormField', () => {
       required: 'Name is required',
     },
     errors: {},
-    register: jest.fn(),
+    register: vi.fn(),
   };
 
   it('renders a text input', () => {

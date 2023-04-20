@@ -4,10 +4,9 @@ import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
-import 'jest';
-import FormPage from '../../src/pages/FormPage';
+import FormPage from '../../pages/FormPage';
 import { Provider } from 'react-redux';
-import store from '../../src/app/store';
+import { storeSetup } from '../../app/store';
 
 let container: HTMLDivElement | null = null;
 beforeEach(() => {
@@ -25,6 +24,8 @@ afterEach(() => {
 });
 
 describe('Form Page', () => {
+  const store = storeSetup();
+
   it('renders form page', () => {
     render(
       <Provider store={store}>

@@ -1,5 +1,5 @@
-import { ICardState } from '../../src/models/types';
-import reducer, { updateId } from '../../src/features/CardSlice';
+import { ICardState } from '../../models/types';
+import reducer, { updateId } from '../../features/CardSlice';
 
 describe('CardSlice', () => {
   test('should return the initial state', () => {

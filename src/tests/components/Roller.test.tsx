@@ -3,8 +3,7 @@ import { unmountComponentAtNode } from 'react-dom';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
-import 'jest';
-import ErrorMessage from '../../src/components/ErrorMessage';
+import Roller from '../../components/Roller';
 
 let container: HTMLDivElement | null = null;
 beforeEach(() => {
@@ -22,9 +21,9 @@ afterEach(() => {
 });
 
 describe('Card component', () => {
-  it('renders error message', () => {
-    const { getByTestId } = render(<ErrorMessage />);
+  it('renders roller', () => {
+    const { getByTestId } = render(<Roller classRoller={'lds-roller-modal lds-roller'} />);
 
-    expect(getByTestId('error-message-container')).toBeInTheDocument();
+    expect(getByTestId('roller')).toBeInTheDocument();
   });
 });

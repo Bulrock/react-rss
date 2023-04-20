@@ -4,11 +4,11 @@ import { render, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
-import 'jest';
-import CharacterForm from '../../src/components/CharacterForm';
-import { ICharacter } from '../../src/models/types';
+import { vi } from 'vitest';
+import CharacterForm from '../../components/CharacterForm';
+import { ICharacter } from '../../models/types';
 import { Provider } from 'react-redux';
-import store from '../../src/app/store';
+import { storeSetup } from '../../app/store';
 
 let container: HTMLDivElement | null = null;
 
@@ -24,10 +24,12 @@ afterEach(() => {
     container.remove();
     container = null;
   }
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
 
 describe('CharacterForm', () => {
+  const store = storeSetup();
+
   it('renders correctly', async () => {
     const { getByLabelText, getByTestId, getByRole } = render(
       <Provider store={store}>

@@ -1,4 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import * as toolkitRaw from '@reduxjs/toolkit';
+export type TypeToolkitRaw = typeof toolkitRaw & { default?: unknown };
+const { createSlice } = ((toolkitRaw as TypeToolkitRaw).default ?? toolkitRaw) as typeof toolkitRaw;
 import { ISearchState } from '../models/types';
 
 const initialState: ISearchState = {
@@ -9,7 +11,7 @@ export const SearchBarSlice = createSlice({
   name: 'search',
   initialState,
   reducers: {
-    updateSearch: (state, action: PayloadAction<string>) => {
+    updateSearch: (state, action: toolkitRaw.PayloadAction<string>) => {
       state.value = action.payload;
     },
   },

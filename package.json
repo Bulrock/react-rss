@@ -30,7 +30,8 @@
     "lint-fix": "eslint . --ext .tsx --ext .ts --fix",
     "test": "jest --detectOpenHandles --forceExit --coverage --collectCoverageFrom='src/components**/*.{ts,tsx}' --collectCoverageFrom='src/pages/**/*.{ts,tsx}' --collectCoverageFrom='src/models/**/*.ts' --collectCoverageFrom='!src/models/**/*types.ts' --collectCoverageFrom='src/**/*.tsx' --collectCoverageFrom='src/features**/*.ts'",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "develop": "vite"
   },
   "browserslist": {
     "production": [

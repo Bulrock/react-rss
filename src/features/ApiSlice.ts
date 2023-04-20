@@ -1,4 +1,8 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import * as rtkQuery from '@reduxjs/toolkit/dist/query/react';
+
+export type TypeRTKQuery = typeof rtkQuery & { default?: unknown };
+const { createApi, fetchBaseQuery } = ((rtkQuery as TypeRTKQuery).default ??
+  rtkQuery) as typeof rtkQuery;
 
 export const charactersAPI = createApi({
   reducerPath: 'charactersAPI',

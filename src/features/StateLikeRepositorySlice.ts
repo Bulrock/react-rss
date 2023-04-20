@@ -1,4 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import * as toolkitRaw from '@reduxjs/toolkit';
+export type TypeToolkitRaw = typeof toolkitRaw & { default?: unknown };
+const { createSlice } = ((toolkitRaw as TypeToolkitRaw).default ?? toolkitRaw) as typeof toolkitRaw;
 import { IStateRepository } from '../models/types';
 
 const initialState: IStateRepository = {
@@ -9,7 +11,7 @@ export const LikeRepositorySlice = createSlice({
   name: 'like',
   initialState,
   reducers: {
-    updateLikeArr: (state, action: PayloadAction<(string | number)[]>) => {
+    updateLikeArr: (state, action: toolkitRaw.PayloadAction<(string | number)[]>) => {
       state.value = action.payload;
     },
   },

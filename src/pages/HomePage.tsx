@@ -12,11 +12,14 @@ import { updateSearchResults } from '../features/CharactersSlice';
 function HomePage() {
   const [canDrawCard, setCanDrawCard] = useState(false);
   const [modalActive, setModalActive] = useState(false);
+  const [isSkipFetch, setIsSkipFetch] = useState(true);
   const searchCharacters = useAppSelector((state) => state.characters?.searchResults);
   const searchValue = useAppSelector((state) => state.search?.value);
   const dispatch = useAppDispatch();
 
-  const { data: initialCharacters, isFetching: initialFetch } = useGetAllCharactersQuery(' ');
+  const { data: initialCharacters, isFetching: initialFetch } = useGetAllCharactersQuery(' ', {
+    skip: isSkipFetch,
+  });
 
   useEffect(() => {
     if (initialCharacters) {
@@ -28,7 +31,7 @@ function HomePage() {
     data: fetchedCharacters,
     isFetching: searchFetch,
     error,
-  } = useGetCharactersQuery(searchValue || '', {});
+  } = useGetCharactersQuery(searchValue || '', { skip: isSkipFetch });
 
   useEffect(() => {
     if (error && 'status' in error) {
@@ -41,6 +44,10 @@ function HomePage() {
       setCanDrawCard(true);
     }
   }, [dispatch, error, fetchedCharacters, searchCharacters]);
+
+  useEffect(() => {
+    setIsSkipFetch(false);
+  }, []);
 
   return (
     <>

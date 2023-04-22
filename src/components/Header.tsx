@@ -1,7 +1,4 @@
-import React from 'react';
 import { NavLink } from 'react-router-dom';
-// import SearchBar from './SearchBar';
-// import { IHeaderProps } from '../models/types';
 
 function Header() {
   return (

@@ -1,8 +1,14 @@
 import * as rtkQuery from '@reduxjs/toolkit/dist/query/react';
+// import { buildCreateApi, coreModule, reactHooksModule } from '@reduxjs/toolkit/query/react';
 
 export type TypeRTKQuery = typeof rtkQuery & { default?: unknown };
-const { createApi, fetchBaseQuery } = ((rtkQuery as TypeRTKQuery).default ??
+const { fetchBaseQuery, createApi } = ((rtkQuery as TypeRTKQuery).default ??
   rtkQuery) as typeof rtkQuery;
+
+// const createApi = buildCreateApi(
+//   coreModule(),
+//   reactHooksModule({ unstable__sideEffectsInRender: true })
+// );
 
 export const charactersAPI = createApi({
   reducerPath: 'charactersAPI',
@@ -10,7 +16,7 @@ export const charactersAPI = createApi({
   keepUnusedDataFor: 0,
   endpoints: (builder) => ({
     getAllCharacters: builder.query({
-      query: (search: string) => `character/${search}`,
+      query: () => `character`,
     }),
     getCharacters: builder.query({
       query: (search: string) => `character/?name=${search}`,

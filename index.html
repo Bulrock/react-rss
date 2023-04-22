@@ -1,8 +1,15 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="/favicon.ico" />
+    <script type="module">
+      import RefreshRuntime from "/@react-refresh"
+      RefreshRuntime.injectIntoGlobalHook(window)
+      window.$RefreshReg$ = () => {}
+      window.$RefreshSig$ = () => (type) => type
+      window.__vite_plugin_react_preamble_installed__ = true
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
@@ -13,8 +20,7 @@
     <title>React RSS</title>
   </head>
   <body>
-    <div id="root"><!--ssr-outlet--></div>
-    <!--preload-->
-    <script type="module" src="/src/entry-client.tsx"></script>
+    <div id="root">ssr-outlet</div>
+     <script type="module" src="/src/entry-client.tsx"></script>
   </body>
-</html>
+</html> -->

@@ -4,9 +4,25 @@ import react from '@vitejs/plugin-react';
 import viteTsconfigPaths from 'vite-tsconfig-paths';
 import svgrPlugin from 'vite-plugin-svgr';
 import eslint from 'vite-plugin-eslint';
+import istanbul from 'vite-plugin-istanbul';
 
 export default defineConfig({
-  plugins: [react(), eslint(), viteTsconfigPaths(), svgrPlugin()],
+  build: {
+    sourcemap: true,
+  },
+  plugins: [
+    react(),
+    eslint(),
+    viteTsconfigPaths(),
+    svgrPlugin(),
+    istanbul({
+      cypress: true,
+      requireEnv: false,
+    }),
+  ],
+  server: {
+    open: true,
+  },
   test: {
     globals: true,
     environment: 'jsdom',

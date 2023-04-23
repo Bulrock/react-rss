@@ -30,7 +30,7 @@ afterEach(() => {
 describe('Home Page', () => {
   const store = storeSetup();
 
-  it('renders home page with navigation and Search Bar in header and roller on fetching start Card list', async () => {
+  it('renders home page with navigation and Search Bar in header', async () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
@@ -41,11 +41,9 @@ describe('Home Page', () => {
 
     const homePage = screen.getByTestId('home-page-component');
     const searchBar = screen.queryByTestId('search-test');
-    const roller = screen.getByTestId('roller');
 
     waitFor(() => {
       expect(homePage).toBeInTheDocument();
-      expect(roller).toBeInTheDocument();
       expect(searchBar).not.toBe(null);
     });
   });

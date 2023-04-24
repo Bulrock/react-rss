@@ -5,8 +5,6 @@ import { storeSetup } from './app/store';
 import { RootState } from './app/store';
 import App from './App';
 
-// const store = storeSetup({});
-
 type CustomWindowInstanse = Window &
   typeof globalThis & {
     __PRELOADED_STATE__?: RootState;

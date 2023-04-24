@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import Cards from '../components/Cards';
 import CharacterForm from '../components/CharacterForm';
 import { useAppSelector } from '../app/hooks';
 import ModalFormPage from '../components/ModalFormPage';
+import CardsForm from '../components/CardsForm';
 import { ICharacter } from '../models/types';
 
 function FormPage() {
@@ -24,11 +24,10 @@ function FormPage() {
         <div className="main">
           <h1 data-testid="form-h1">Create new Character with form</h1>
           <CharacterForm />
-          <Cards
-            canDraw={true}
+          <CardsForm
             setModalActive={setModalActive}
-            onCharacterCardClick={handleCardClickFormPage}
             characters={formCharacters}
+            onCharacterCardClick={handleCardClickFormPage}
           />
         </div>
         <Footer />

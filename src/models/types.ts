@@ -76,15 +76,10 @@ export interface IViewRepository {
   findView: (key: number) => boolean;
 }
 
-// export interface IHeaderProps {
-//   hideSearch: boolean;
-// }
-
 export interface ICardProps {
   character: ICharacter | errorResult;
   onCharacterCardClick?: (character: ICharacter) => void;
   setModalActive: React.Dispatch<React.SetStateAction<boolean>>;
-  canDraw: boolean | undefined;
 }
 
 export interface IModalProps {
@@ -99,10 +94,14 @@ export interface IModalFormPageProps {
 }
 
 export interface ICardsProps {
-  characters: ICharacter[] | ICharacter | errorResult;
   onCharacterCardClick?: (character: ICharacter) => void;
   setModalActive: React.Dispatch<React.SetStateAction<boolean>>;
-  canDraw: boolean | undefined;
+}
+
+export interface ICardsFormProps {
+  setModalActive: React.Dispatch<React.SetStateAction<boolean>>;
+  characters: ICharacter[];
+  onCharacterCardClick?: (character: ICharacter) => void;
 }
 
 export interface IFormFieldProps {

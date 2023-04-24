@@ -7,7 +7,7 @@ import StateViewRepository from '../models/StateViewRepository';
 import { useAppDispatch } from '../app/hooks';
 import { updateId } from '../features/CardSlice';
 
-function Card({ canDraw, character, setModalActive, onCharacterCardClick }: ICardProps) {
+function Card({ character, setModalActive, onCharacterCardClick }: ICardProps) {
   const [likes, setLikes] = useState(0);
   const [views, setViews] = useState(0);
   const [info, setInfo] = useState(false);
@@ -93,7 +93,7 @@ function Card({ canDraw, character, setModalActive, onCharacterCardClick }: ICar
 
   return (
     <>
-      {character && 'id' in character && canDraw && (
+      {character && 'id' in character && (
         <div className="card" data-testid="card" onClick={handleCardClick}>
           <div className="card-header-wrapper">
             <div>

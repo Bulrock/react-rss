@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "noImplicitAny": true,
+    "noFallthroughCasesInSwitch": true,
+    "useDefineForClassFields": true,
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "types": ["vite/client","vite-plugin-svgr/client", "vitest/globals", "cypress", "cypress-file-upload"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+  },
+  "include": ["./src", "vite.config.ts", "server.ts"],
+  "references": [{ "path": "./tsconfig.node.json" }],
+  "ts-node": { "esm": true, "experimentalSpecifierResolution": "node" }
+}

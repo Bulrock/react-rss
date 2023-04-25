@@ -19,11 +19,11 @@ Open [http://localhost:8000](http://localhost:8000) to view it in the browser.
 
 ### `npm run test`
 
-Launches the tests (both: unit and e2e) with coverage.\
+Launches the tests (both: unit and e2e) with coverage.
 
 ### `npm run test:vi`
 
-Launches the unit tests with coverage.\
+Launches the unit tests with coverage.
 ### `npm run test:cy`
 
-Launches the e2e tests with coverage.\
+Launches the e2e tests with coverage.

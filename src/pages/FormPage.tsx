@@ -20,7 +20,9 @@ function FormPage() {
   return (
     <>
       <div data-testid="form-page">
-        <Header />
+        <div className="form-header-wrapper">
+          <Header />
+        </div>
         <div className="main">
           <h1 data-testid="form-h1">Create new Character with form</h1>
           <CharacterForm />
